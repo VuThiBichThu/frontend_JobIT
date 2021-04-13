@@ -11,11 +11,12 @@ import { icons } from './assets/icons'
 
 import { Provider } from 'react-redux'
 import store from './store'
+import theStore from './redux/store/index'
 
 React.icons = icons
 
 ReactDOM.render(
-  <Provider store={store}>
+  <Provider store={theStore}>
     <App/>
   </Provider>,
   document.getElementById('root')
