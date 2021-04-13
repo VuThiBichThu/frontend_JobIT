@@ -13,6 +13,7 @@ export function listModerator(data, resolve = () => {}) {
         "Content-Type": "application/json",
         Accept: "application/json",
         Authorization: "Bearer " + getAuth().token,
+        // "Access-Control-Allow-Origin": "*"
       },
       body: JSON.stringify(data),
     }
@@ -20,6 +21,7 @@ export function listModerator(data, resolve = () => {}) {
     .then((response) => response.json())
     .then((data) => {
       resolve(data);
+      console.log(data);
       store.dispatch({
         payload: data,
         type: types.ADMIN_GET_LIST_MOD_SUCCEED,
