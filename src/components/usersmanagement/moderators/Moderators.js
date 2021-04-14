@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { listModerator } from "../../../redux/actions/listModerator";
 
-import { useHistory, useLocation } from 'react-router-dom'
+import { useHistory, useLocation } from "react-router-dom";
 import {
   CCard,
   CCardBody,
@@ -22,9 +22,10 @@ import {
   CInputGroup,
   CInputGroupText,
   CInput,
-  CInputGroupPrepend
-} from '@coreui/react'
+  CInputGroupPrepend,
+} from "@coreui/react";
 import CIcon from "@coreui/icons-react";
+import { addMod } from "../../../redux/actions/addMod";
 
 const Moderators = () => {
   const [moderators, setModerators] = useState([]);
@@ -37,24 +38,50 @@ const Moderators = () => {
     if (!storeListModerator.data.data) {
       return;
     }
-     setModerators(storeListModerator.data.data.result);
-     
+    setModerators(storeListModerator.data.data.result);
   }, [storeListModerator]);
 
-  const history = useHistory()
-  const queryPage = useLocation().search.match(/page=([0-9]+)/, '')
-  const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1)
-  const [page, setPage] = useState(currentPage)
+  const history = useHistory();
+  const queryPage = useLocation().search.match(/page=([0-9]+)/, "");
+  const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1);
+  const [page, setPage] = useState(currentPage);
 
-  const pageChange = newPage => {
-    currentPage !== newPage && history.push(`/usersmanagement/moderators?page=${newPage}`)
-  }
+  const pageChange = (newPage) => {
+    currentPage !== newPage &&
+      history.push(`/usersmanagement/moderators?page=${newPage}`);
+  };
 
   useEffect(() => {
-    currentPage !== page && setPage(currentPage)
-  }, [currentPage, page])
+    currentPage !== page && setPage(currentPage);
+  }, [currentPage, page]);
 
   const [primary, setPrimary] = useState(false);
+
+  const loading = useSelector((store) => store.addMod.loading);
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // const errorState = validate();
+    // if (Object.keys(errorState).length > 0) {
+    //   return setError(errorState);
+    // }
+    const mod = {
+      userName,
+      password,
+    };
+    addMod(mod, (data) => {
+      if (data.status === 200) {
+        setPrimary(!primary);
+        setUserName("");
+        setPassword("");
+        alert(data.msg);
+      } else {
+        alert(data.msg);
+      }
+    });
+    setPrimary(!primary);
+  };
   return (
     <CRow>
       <CCol xl={6}>
@@ -88,10 +115,11 @@ const Moderators = () => {
                         </CInputGroupText>
                       </CInputGroupPrepend>
                       <CInput
-                        id="username1"
-                        name="username1"
+                        id="username"
+                        name="username"
                         placeholder="Username"
                         autoComplete="name"
+                        onChange={(event) => setUserName(event.target.value)}
                       />
                     </CInputGroup>
                   </CFormGroup>
@@ -107,7 +135,8 @@ const Moderators = () => {
                         id="password"
                         name="password"
                         placeholder="Password"
-                        autoComplete="current-password"
+                        autoComplete="password"
+                        onChange={(event) => setPassword(event.target.value)}
                       />
                     </CInputGroup>
                   </CFormGroup>
@@ -130,7 +159,11 @@ const Moderators = () => {
                 </CForm>
               </CModalBody>
               <CModalFooter>
-                <CButton color="primary" onClick={() => setPrimary(!primary)}>
+                <CButton
+                  color="primary"
+                  disabled={loading}
+                  onClick={handleSubmit}
+                >
                   Create
                 </CButton>{" "}
                 <CButton color="secondary" onClick={() => setPrimary(!primary)}>
@@ -140,37 +173,36 @@ const Moderators = () => {
             </CModal>
           </CCardHeader>
           <CCardBody>
-          <CDataTable
-            items={moderators}
-            fields={[
-              { key: '_id', _classes: 'font-weight-bold' },
-              'userName', 'createdAt','Actions'
-            ]}
-
-            hover
-            striped
-            itemsPerPage={5}
-            activePage={page}
-            clickableRows
-           // onRowClick={(item) => history.push(`/users/${item._id}`)}
-            scopedSlots = {{
-              'Actions':
-                (buttons)=>(
+            <CDataTable
+              items={moderators}
+              fields={[
+                { key: "_id", _classes: "font-weight-bold" },
+                "userName",
+                "createdAt",
+                "Actions",
+              ]}
+              hover
+              striped
+              itemsPerPage={5}
+              activePage={page}
+              clickableRows
+              // onRowClick={(item) => history.push(`/users/${item._id}`)}
+              scopedSlots={{
+                Actions: (buttons) => (
                   <td>
-                   <CButton color="danger">Delete </CButton>
-                   {" "}
-                   <CButton color="success">Permissions </CButton>
+                    <CButton color="danger">Delete </CButton>{" "}
+                    <CButton color="success">Permissions </CButton>
                   </td>
-                )
-            }}
-          />
-          <CPagination
-            activePage={page}
-            onActivePageChange={pageChange}
-            pages={5}
-            doubleArrows={false} 
-            align="center"
-          />
+                ),
+              }}
+            />
+            <CPagination
+              activePage={page}
+              onActivePageChange={pageChange}
+              pages={5}
+              doubleArrows={false}
+              align="center"
+            />
           </CCardBody>
         </CCard>
       </CCol>
