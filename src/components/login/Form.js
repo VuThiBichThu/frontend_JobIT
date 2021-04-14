@@ -57,7 +57,7 @@ const Form = ({ handleSubmit }) => {
           <FormBox
             propsInput={{
               name: "userName",
-              placeholder: "User Name",
+              placeholder: "username",
               onChange: handleChange,
               onFocus: handleFocus,
               value: form.userName,
@@ -70,7 +70,7 @@ const Form = ({ handleSubmit }) => {
             propsInput={{
               type: "password",
               name: "password",
-              placeholder: "Password",
+              placeholder: "password",
               onChange: handleChange,
               onFocus: handleFocus,
               value: form.password,
@@ -78,20 +78,21 @@ const Form = ({ handleSubmit }) => {
             }}
             error={error.password}
           />
+          
+          <div className="flex space-between align-item">
           <button className="button button--secondary">
             Login
           </button>
-          <div className="flex space-between">
             <div>
               <Link to="/forgot-password" className="primary">
                 Forgot Password?
               </Link>
             </div>
-            <div>
+            {/* <div>
               <Link to="/register" className="primary">
                 Register
               </Link>
-            </div>
+            </div> */}
           </div>
         </ReForm>
       </div>

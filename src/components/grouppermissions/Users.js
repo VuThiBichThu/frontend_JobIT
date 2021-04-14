@@ -57,7 +57,7 @@ const Users = () => {
             itemsPerPage={5}
             activePage={page}
             clickableRows
-            onRowClick={(item) => history.push(`/users/${item.id}`)}
+            onRowClick={(item) => history.push(`/grouppermissions/${item.id}`)}
             scopedSlots = {{
               'status':
                 (item)=>(
