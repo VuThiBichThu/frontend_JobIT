@@ -186,7 +186,6 @@ const Moderators = () => {
               striped
               itemsPerPage={5}
               activePage={page}
-              
               scopedSlots={{
                 Actions: (item) => (
                   <td>
@@ -202,7 +201,9 @@ const Moderators = () => {
                       });
                     }}
                     >Delete</CButton>{" "}
-                    <CButton color="success">Permissions </CButton>
+                    <CButton color="success"
+                      onClick={() => history.push(`/usersmanagement/moderators/${item._id}/${item.userName}`)}
+                    >Permissions </CButton>
                   </td>
                 ),
               }}
