@@ -186,8 +186,7 @@ const Moderators = () => {
               striped
               itemsPerPage={5}
               activePage={page}
-              clickableRows
-              // onRowClick={(item) => history.push(`/users/${item._id}`)}
+              
               scopedSlots={{
                 Actions: (item) => (
                   <td>
