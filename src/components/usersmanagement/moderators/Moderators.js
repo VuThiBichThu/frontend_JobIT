@@ -26,6 +26,7 @@ import {
 } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
 import { addMod } from "../../../redux/actions/addMod";
+import { deleteMod } from "../../../redux/actions/deleteMod";
 
 const Moderators = () => {
   const [moderators, setModerators] = useState([]);
@@ -188,9 +189,20 @@ const Moderators = () => {
               clickableRows
               // onRowClick={(item) => history.push(`/users/${item._id}`)}
               scopedSlots={{
-                Actions: (buttons) => (
+                Actions: (item) => (
                   <td>
-                    <CButton color="danger">Delete </CButton>{" "}
+                    <CButton color="danger"
+                    // disabled={item.status}
+                    onClick={() => {
+                      deleteMod(item._id, (data) => {
+                        if (data.status === 200) {
+                          alert("Delete succeed!");
+                        } else {
+                          alert("Delete failed, " + data.msg);
+                        }
+                      });
+                    }}
+                    >Delete</CButton>{" "}
                     <CButton color="success">Permissions </CButton>
                   </td>
                 ),
