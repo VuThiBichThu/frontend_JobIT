@@ -16,19 +16,13 @@ const Moderator = ({ match }) => {
   const [modPermissions, setModPermissions] = useState([]);
   // const [updatedPermissions,setUpdatedPermissions] = useState([]);
 
-  const storeModPermissions = useSelector((store) => store.listModPermissions);
-  // const storeUpdatedPermissions = useSelector((store) => store.updateModPermissions);
+  useEffect(() => {
+    listModPermissions(match.params.id, (result) => {
+      setModPermissions(result.permissions);
+   
+    });
+  }, [match.params.id]);
 
-  useEffect(() => {
-    listModPermissions(match.params.id);
-  }, []);
-  useEffect(() => {
-    if (!storeModPermissions.data.permissions) {
-      return;
-    }
-    setModPermissions(storeModPermissions.data.permissions);
-  }, [storeModPermissions]);
-  console.log(modPermissions);
   return (
     <CRow>
       <CCol>
@@ -47,7 +41,8 @@ const Moderator = ({ match }) => {
                 </tr>
               </thead>
               <tbody>
-                {modPermissions.map((permission) => {
+                
+                {modPermissions && modPermissions.map((permission) => {
                   return (
                     <tr key={permission._id}>
                       <td>{permission.perName}</td>

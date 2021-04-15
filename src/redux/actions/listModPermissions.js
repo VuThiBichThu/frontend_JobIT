@@ -21,7 +21,6 @@ export function listModPermissions(id, resolve = () => {}) {
     .then((response) => response.json())
     .then((data) => {
       resolve(data);
-      console.log(data);
       store.dispatch({
         payload: data,
         type: types.ADMIN_GET_MOD_PERMISSIONS_SUCCEED,

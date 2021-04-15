@@ -30,17 +30,15 @@ import { deleteMod } from "../../../redux/actions/deleteMod";
 
 const Moderators = () => {
   const [moderators, setModerators] = useState([]);
+
   const storeListModerator = useSelector((store) => store.listModerator);
+  const loadingList = storeListModerator.loading;
 
   useEffect(() => {
-    listModerator();
+    listModerator((item) => {
+      setModerators(item.data.result);
+    });
   }, []);
-  useEffect(() => {
-    if (!storeListModerator.data.data) {
-      return;
-    }
-    setModerators(storeListModerator.data.data.result);
-  }, [storeListModerator]);
 
   const history = useHistory();
   const queryPage = useLocation().search.match(/page=([0-9]+)/, "");
@@ -62,6 +60,7 @@ const Moderators = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const handleSubmit = (event) => {
+
     event.preventDefault();
     // const errorState = validate();
     // if (Object.keys(errorState).length > 0) {
@@ -71,16 +70,17 @@ const Moderators = () => {
       userName,
       password,
     };
+
     addMod(mod, (data) => {
       if (data.status === 200) {
         setPrimary(!primary);
-        setUserName("");
-        setPassword("");
         alert(data.msg);
       } else {
         alert(data.msg);
       }
     });
+      setUserName("");
+      setPassword("");
     setPrimary(!primary);
   };
   return (
@@ -183,27 +183,43 @@ const Moderators = () => {
                 "Actions",
               ]}
               hover
+              loading={loadingList}
               striped
               itemsPerPage={5}
               activePage={page}
               scopedSlots={{
                 Actions: (item) => (
                   <td>
-                    <CButton color="danger"
-                    // disabled={item.status}
-                    onClick={() => {
-                      deleteMod(item._id, (data) => {
-                        if (data.status === 200) {
-                          alert("Delete succeed!");
-                        } else {
-                          alert("Delete failed, " + data.msg);
-                        }
-                      });
-                    }}
-                    >Delete</CButton>{" "}
-                    <CButton color="success"
-                      onClick={() => history.push(`/usersmanagement/moderators/${item._id}/${item.userName}`)}
-                    >Permissions </CButton>
+                    <CButton
+                      color="danger"
+                      // disabled={item.status}
+                      onClick={() => {
+                        setModerators(
+                          moderators.filter(
+                            (itemMod) => itemMod._id !== item._id
+                          )
+                        );
+                        deleteMod(item._id, (data) => {
+                          if (data.status === 200) {
+                            alert("Delete succeed!");
+                          } else {
+                            alert("Delete failed, " + data.msg);
+                          }
+                        });
+                      }}
+                    >
+                      Delete
+                    </CButton>{" "}
+                    <CButton
+                      color="success"
+                      onClick={() =>
+                        history.push(
+                          `/usersmanagement/moderators/${item._id}/${item.userName}`
+                        )
+                      }
+                    >
+                      Permissions{" "}
+                    </CButton>
                   </td>
                 ),
               }}

@@ -1,7 +1,7 @@
 import { getAuth } from "../../utils/helpers";
 import * as types from "../constants";
 import store from "../store";
-export function listModerator(data, resolve = () => {}) {
+export function listModerator(resolve = () => {}) {
   store.dispatch({
     type: types.ADMIN_GET_LIST_MOD,
   });
@@ -15,7 +15,7 @@ export function listModerator(data, resolve = () => {}) {
         Authorization: "Bearer " + getAuth().token,
         // "Access-Control-Allow-Origin": "*"
       },
-      body: JSON.stringify(data),
+    //  body: JSON.stringify(data),
     }
   )
     .then((response) => response.json())
