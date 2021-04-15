@@ -9,7 +9,6 @@ import {
   CInputRadio,
   CLabel,
 } from "@coreui/react";
-import { useSelector } from "react-redux";
 import { listModPermissions } from "../../../redux/actions/listModPermissions";
 
 const Moderator = ({ match }) => {
