@@ -30,7 +30,6 @@ import { deleteMod } from "../../../redux/actions/deleteMod";
 
 const Moderators = () => {
   const [moderators, setModerators] = useState([]);
-
   const storeListModerator = useSelector((store) => store.listModerator);
   const loadingList = storeListModerator.loading;
 
@@ -57,10 +56,11 @@ const Moderators = () => {
   const [primary, setPrimary] = useState(false);
 
   const loading = useSelector((store) => store.addMod.loading);
+
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  const handleSubmit = (event) => {
 
+  const handleSubmit = (event) => {
     event.preventDefault();
     // const errorState = validate();
     // if (Object.keys(errorState).length > 0) {
@@ -79,10 +79,11 @@ const Moderators = () => {
         alert(data.msg);
       }
     });
-      setUserName("");
-      setPassword("");
+    setUserName("");
+    setPassword("");
     setPrimary(!primary);
   };
+
   return (
     <CRow>
       <CCol xl={6}>

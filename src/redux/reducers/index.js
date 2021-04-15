@@ -6,7 +6,7 @@ import deleteMod from "./deleteMod";
 import listModPermissions from "./listModPermissions";
 import getRolePermissions from "./getRolePermissions";
 import updateRolePermissions from "./updateRolePermissions";
-
+import updateModPermissions from "./updateModPermissions";
 
 export default combineReducers({
   loginAdmin,
@@ -15,5 +15,6 @@ export default combineReducers({
   deleteMod,
   listModPermissions,
   getRolePermissions,
-  updateRolePermissions
+  updateRolePermissions,
+  updateModPermissions
 });

@@ -34,23 +34,23 @@ const Moderator = () => {
       role: role,
       permissions: [
         {
-          check: false,
+          check: true,
           _id: "6062ad1e5f74e6051434fc71",
         },
         {
-          check: false,
+          check: true,
           _id: "6062ad1e5f74e6051434fc72",
         },
         {
-          check: false,
+          check: true,
           _id: "6062ad1e5f74e6051434fc73",
         },
         {
-          check: false,
+          check: true,
           _id: "6062ad1e5f74e6051434fc74",
         },
         {
-          check: false,
+          check: true,
           _id: "6062ad1e5f74e6051434fc75",
         },
       ],
