@@ -1,20 +1,21 @@
 import { getAuth } from "../../utils/helpers";
 import * as types from "../constants";
 import store from "../store";
-export function updateModPermissions(id, data, resolve = () => {}) {
+export function deleteCompany(id, resolve = () => {}) {
   store.dispatch({
-    type: types.ADMIN_UPDATE_MOD_PERMISSIONS,
+    type: types.DELETE_COMPANY_API,
   });
+  console.log(id);
   return fetch(
-    `https://job-it-cnpmp.herokuapp.com/api/v1/users/${id}/permissions`,
+    `https://job-it-cnpmp.herokuapp.com/api/v1/companys/${id}`,
     {
-      method: "PUT",
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
         Authorization: "Bearer " + getAuth().token
       },
-      body: JSON.stringify(data),
+      // body: JSON.stringify(data),
     }
   )
     .then((response) => response.json())
@@ -22,13 +23,13 @@ export function updateModPermissions(id, data, resolve = () => {}) {
       resolve(data);
       store.dispatch({
         payload: data,
-        type: types.ADMIN_UPDATE_MOD_PERMISSIONS_SUCCEED,
+        type: types.DELETE_COMPANY_API_SUCCEED,
       });
     })
     .catch((error) => {
       store.dispatch({
         payload: error,
-        type: types.ADMIN_UPDATE_MOD_PERMISSIONS_FAILED,
+        type: types.DELETE_COMPANY_API_FAILED,
       });
     });
 }

@@ -8,7 +8,7 @@ import {
   CFormGroup,
   CInputRadio,
   CLabel,
-  CButton
+  CButton,
 } from "@coreui/react";
 import { listModPermissions } from "../../../redux/actions/listModPermissions";
 import { updateModPermissions } from "../../../redux/actions/updateModPermissions";
@@ -22,11 +22,11 @@ const Moderator = ({ match }) => {
     });
   }, [match.params.id]);
 
-  let updatedPermissions = [...modPermissions];
+  const updatedPermissions = JSON.parse(JSON.stringify(modPermissions));
   const data = {
-    permissions: updatedPermissions
-  }
-console.log(updatedPermissions);
+    permissions: updatedPermissions,
+  };
+
   const updateModPermissionsHandler = (event) => {
     event.preventDefault();
     setModPermissions(updatedPermissions);
@@ -39,22 +39,22 @@ console.log(updatedPermissions);
     });
   };
 
-  // const cancelUpdatedPermissionsHandler = () => {
-  //   setModPermissions([...modPermissions]);
-  // }
+  const [isCancel,setCancelHandler] = useState([false]);
+
+  const cancelUpdatedPermissionsHandler = () => {
+    setCancelHandler(true);
+    setModPermissions(modPermissions);
+  }
 
   const changePermissions = (event) => {
     const id = event.target.value.slice(0, -1);
-    const value = event.target.value.substr(event.target.value.length - 1);
- 
-    const checkedValue = (value === "n" ? false : true);
-    console.log(checkedValue);
-    console.log(event.target.defaultChecked);
+
+    const value = event.target.value.slice(-1);
+    const checkedValue = value === "n" ? false : true;
 
     updatedPermissions.map(
       (item) => (item.check = item._id === id ? checkedValue : item.check)
     );
-    console.log("update:", updatedPermissions);
   };
 
   return (
@@ -62,9 +62,8 @@ console.log(updatedPermissions);
       <CCol>
         <CCard>
           <CCardHeader>
-            User ID: {match.params.id}
-            <br></br>
-            Username: {match.params.name}
+            <p>User ID: {match.params.id}</p>
+            <p>Username: {match.params.name}</p>
           </CCardHeader>
           <CCardBody>
             <table className="table table-striped table-hover">
@@ -75,11 +74,11 @@ console.log(updatedPermissions);
                 </tr>
               </thead>
               <tbody>
-                {modPermissions &&
+                {isCancel && modPermissions &&
                   modPermissions.map((permission) => {
                     return (
                       <tr key={permission._id}>
-                        <td>{permission.actionCode}</td>
+                        <td>{permission.perName}</td>
                         <td>
                           <CFormGroup variant="custom-radio" inline>
                             <CInputRadio
@@ -119,21 +118,24 @@ console.log(updatedPermissions);
                   })}
               </tbody>
             </table>
+           
           </CCardBody>
-          <CButton
-          color="primary"
-          className="mr-1 right-btn mb-2"
-          onClick={updateModPermissionsHandler}
-        >
-          Save
-        </CButton>
-        <CButton
-          color="primary"
-          className="mr-1 right-btn"
-         // onClick={cancelUpdatedPermissionsHandler}
-        >
-          Cancel
-        </CButton>
+          <div className="flex flex-end">
+            <CButton
+              color="primary"
+              className="mr-1 right-btn"
+              onClick={updateModPermissionsHandler}
+            >
+              Save
+            </CButton>
+            <CButton
+              color="warning"
+              className="mr-1 right-btn"
+              onClick={cancelUpdatedPermissionsHandler}
+            >
+              Cancel
+            </CButton>
+          </div>
         </CCard>
       </CCol>
     </CRow>
