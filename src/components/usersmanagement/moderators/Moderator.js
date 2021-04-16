@@ -22,16 +22,15 @@ const Moderator = ({ match }) => {
     });
   }, [match.params.id]);
 
-  let updatedPermissions = modPermissions.map((item) => ({
-    _id: item._id,
-    check: item.check,
-    actionCode: item.actionCode,
-  }));
-
+  let updatedPermissions = [...modPermissions];
+  const data = {
+    permissions: updatedPermissions
+  }
+console.log(updatedPermissions);
   const updateModPermissionsHandler = (event) => {
     event.preventDefault();
-    //setModPermissions(updatedPermissions);
-    updateModPermissions(match.params.id, updatedPermissions, (data) => {
+    setModPermissions(updatedPermissions);
+    updateModPermissions(match.params.id, data, (data) => {
       if (data.status === 200) {
         alert(data.msg);
       } else {
@@ -120,7 +119,7 @@ const Moderator = ({ match }) => {
           </CCardBody>
           <CButton
           color="primary"
-          className="mr-1 right-btn"
+          className="mr-1 right-btn mb-2"
           onClick={updateModPermissionsHandler}
         >
           Save

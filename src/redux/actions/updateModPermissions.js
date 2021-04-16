@@ -1,10 +1,11 @@
 import { getAuth } from "../../utils/helpers";
 import * as types from "../constants";
 import store from "../store";
-export function updateModPermissions(id,data, resolve = () => {}) {
+export function updateModPermissions(id, data, resolve = () => {}) {
   store.dispatch({
     type: types.ADMIN_UPDATE_MOD_PERMISSIONS,
   });
+  console.log("1", data[0]);
   return fetch(
     `https://job-it-cnpmp.herokuapp.com/api/v1/users/${id}/permissions`,
     {
