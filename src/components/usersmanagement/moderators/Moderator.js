@@ -8,19 +8,52 @@ import {
   CFormGroup,
   CInputRadio,
   CLabel,
+  CButton
 } from "@coreui/react";
 import { listModPermissions } from "../../../redux/actions/listModPermissions";
+import { updateModPermissions } from "../../../redux/actions/updateModPermissions";
 
 const Moderator = ({ match }) => {
   const [modPermissions, setModPermissions] = useState([]);
-  // const [updatedPermissions,setUpdatedPermissions] = useState([]);
 
   useEffect(() => {
     listModPermissions(match.params.id, (result) => {
       setModPermissions(result.permissions);
-   
     });
   }, [match.params.id]);
+
+  let updatedPermissions = modPermissions.map((item) => ({
+    _id: item._id,
+    check: item.check,
+    actionCode: item.actionCode,
+  }));
+
+  const updateModPermissionsHandler = (event) => {
+    event.preventDefault();
+    //setModPermissions(updatedPermissions);
+    updateModPermissions(match.params.id, updatedPermissions, (data) => {
+      if (data.status === 200) {
+        alert(data.msg);
+      } else {
+        alert(data.msg);
+      }
+    });
+  };
+
+  // const cancelUpdatedPermissionsHandler = () => {
+  //   setModPermissions([...modPermissions]);
+  // }
+
+  const changePermissions = (event) => {
+    const id = event.target.value.slice(0, -1);
+
+    updatedPermissions.map(
+      (item) =>
+        (item.check =
+          item._id === id ? event.target.defaultChecked : item.check)
+    );
+    console.log("update:", updatedPermissions);
+  };
 
   return (
     <CRow>
@@ -40,49 +73,65 @@ const Moderator = ({ match }) => {
                 </tr>
               </thead>
               <tbody>
-                
-                {modPermissions && modPermissions.map((permission) => {
-                  return (
-                    <tr key={permission._id}>
-                      <td>{permission.perName}</td>
-                      <td>
-                        <CFormGroup variant="custom-radio" inline>
-                          <CInputRadio
-                            custom
-                            id={permission._id + "y"}
-                            name={permission._id + "name"}
-                            value={permission._id + "y"}
-                            defaultChecked={permission.check}
-                          />
-                          <CLabel
-                            variant="custom-checkbox"
-                            htmlFor={permission._id + "y"}
-                          >
-                            Yes
-                          </CLabel>
-                        </CFormGroup>
-                        <CFormGroup variant="custom-radio" inline>
-                          <CInputRadio
-                            custom
-                            id={permission._id + "n"}
-                            name={permission._id + "name"}
-                            value={permission._id + "n"}
-                            defaultChecked={!permission.check}
-                          />
-                          <CLabel
-                            variant="custom-checkbox"
-                            htmlFor={permission._id + "n"}
-                          >
-                            No
-                          </CLabel>
-                        </CFormGroup>
-                      </td>
-                    </tr>
-                  );
-                })}
+                {modPermissions &&
+                  modPermissions.map((permission) => {
+                    return (
+                      <tr key={permission._id}>
+                        <td>{permission.actionCode}</td>
+                        <td>
+                          <CFormGroup variant="custom-radio" inline>
+                            <CInputRadio
+                              custom
+                              id={permission._id + "y"}
+                              name={permission._id + "name"}
+                              value={permission._id + "y"}
+                              defaultChecked={permission.check}
+                              onChange={changePermissions}
+                            />
+                            <CLabel
+                              variant="custom-checkbox"
+                              htmlFor={permission._id + "y"}
+                            >
+                              Yes
+                            </CLabel>
+                          </CFormGroup>
+                          <CFormGroup variant="custom-radio" inline>
+                            <CInputRadio
+                              custom
+                              id={permission._id + "n"}
+                              name={permission._id + "name"}
+                              value={permission._id + "n"}
+                              defaultChecked={!permission.check}
+                              onChange={changePermissions}
+                            />
+                            <CLabel
+                              variant="custom-checkbox"
+                              htmlFor={permission._id + "n"}
+                            >
+                              No
+                            </CLabel>
+                          </CFormGroup>
+                        </td>
+                      </tr>
+                    );
+                  })}
               </tbody>
             </table>
           </CCardBody>
+          <CButton
+          color="primary"
+          className="mr-1 right-btn"
+          onClick={updateModPermissionsHandler}
+        >
+          Save
+        </CButton>
+        <CButton
+          color="primary"
+          className="mr-1 right-btn"
+         // onClick={cancelUpdatedPermissionsHandler}
+        >
+          Cancel
+        </CButton>
         </CCard>
       </CCol>
     </CRow>
