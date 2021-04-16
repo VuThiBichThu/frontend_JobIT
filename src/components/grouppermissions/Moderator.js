@@ -24,11 +24,11 @@ const Moderator = () => {
       setPermissions(result.permissions);
     });
   }, [role]);
-  
+
   const updatedPermissions = [...permissions];
   const updateModPermissions = (event) => {
     event.preventDefault();
-
+    setPermissions(updatedPermissions);
     const data = {
       role: role,
       permissions: updatedPermissions,
@@ -45,11 +45,14 @@ const Moderator = () => {
 
   const changePermissions = (event) => {
     const id = event.target.value.slice(0, -1);
+    const value = event.target.value.substr(event.target.value.length - 1);
+ 
+    const checkedValue = (value === "n" ? false : true);
+    console.log(checkedValue);
+    console.log(event.target.defaultChecked);
 
     updatedPermissions.map(
-      (item) =>
-        (item.check =
-          item._id === id ? event.target.defaultChecked : item.check)
+      (item) => (item.check = item._id === id ? checkedValue : item.check)
     );
     console.log("update:", updatedPermissions);
   };
