@@ -1,12 +1,14 @@
 import { getAuth } from "../../utils/helpers";
 import * as types from "../constants";
 import store from "../store";
-export function listModerator(resolve = () => {}) {
+export function listModerator(newPage, resolve = () => {}) {
+  console.log("current page api");
+  console.log(newPage);
   store.dispatch({
     type: types.ADMIN_GET_LIST_MOD,
   });
   return fetch(
-    "https://job-it-cnpmp.herokuapp.com/api/v1/moderators",
+    `https://job-it-cnpmp.herokuapp.com/api/v1/moderators?page=${newPage}`,
     {
       method: "GET",
       headers: {
@@ -21,7 +23,6 @@ export function listModerator(resolve = () => {}) {
     .then((response) => response.json())
     .then((data) => {
       resolve(data);
-      console.log(data);
       store.dispatch({
         payload: data,
         type: types.ADMIN_GET_LIST_MOD_SUCCEED,

@@ -32,27 +32,39 @@ const Moderators = () => {
   const [moderators, setModerators] = useState([]);
   const storeListModerator = useSelector((store) => store.listModerator);
   const loadingList = storeListModerator.loading;
-
-  useEffect(() => {
-    listModerator((item) => {
-      setModerators(item.data.result);
-    });
-  }, []);
-
   const history = useHistory();
+
   const queryPage = useLocation().search.match(/page=([0-9]+)/, "");
   const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1);
   const [page, setPage] = useState(currentPage);
+  const [numPages, setNumPages] = useState(1);
+  const take = 10; // rows in table
 
-  const pageChange = (newPage) => {
-    currentPage !== newPage &&
-      history.push(`/usersmanagement/moderators?page=${newPage}`);
-  };
+  useEffect(() => {
+    console.log("Start");
+    listModerator(page, (item) => {
+      setModerators(item.data.result);
+      setNumPages(item.data.numPages);
+      console.log("first mods", moderators);
+    });
+    
+  }, []);
 
   useEffect(() => {
     currentPage !== page && setPage(currentPage);
   }, [currentPage, page]);
 
+  const pageChange = (newPage) => {
+     listModerator(newPage, (data) => {
+      console.log("data of current page", data);
+      setModerators(data.result);
+      setNumPages(data.numPages);
+    });
+    console.log("current page");
+    console.log(newPage);
+    currentPage !== newPage &&
+      history.push(`/usersmanagement/moderators?page=${newPage}`);
+  };
   const [primary, setPrimary] = useState(false);
 
   const loading = useSelector((store) => store.addMod.loading);
@@ -185,7 +197,7 @@ const Moderators = () => {
               hover
               loading={loadingList}
               striped
-              itemsPerPage={5}
+              itemsPerPage={take}
               activePage={page}
               scopedSlots={{
                 Actions: (item) => (
@@ -227,7 +239,7 @@ const Moderators = () => {
             <CPagination
               activePage={page}
               onActivePageChange={pageChange}
-              pages={5}
+              pages={numPages}
               doubleArrows={false}
               align="center"
             />
