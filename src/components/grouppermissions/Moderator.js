@@ -19,44 +19,22 @@ const Moderator = () => {
   const role = "moderator";
   const [permissions, setPermissions] = useState([]);
 
-  // const storePermissions = useSelector((store) => store.getRolePermissions);
-
   useEffect(() => {
     getRolePermissions(role, (result) => {
       setPermissions(result.permissions);
     });
   }, [role]);
-
+  
+  const updatedPermissions = [...permissions];
   const updateModPermissions = (event) => {
     event.preventDefault();
 
-    const updatedPermissions = {
+    const data = {
       role: role,
-      permissions: [
-        {
-          check: true,
-          _id: "6062ad1e5f74e6051434fc71",
-        },
-        {
-          check: true,
-          _id: "6062ad1e5f74e6051434fc72",
-        },
-        {
-          check: true,
-          _id: "6062ad1e5f74e6051434fc73",
-        },
-        {
-          check: true,
-          _id: "6062ad1e5f74e6051434fc74",
-        },
-        {
-          check: true,
-          _id: "6062ad1e5f74e6051434fc75",
-        },
-      ],
+      permissions: updatedPermissions,
     };
 
-    updateRolePermissions(updatedPermissions, (data) => {
+    updateRolePermissions(data, (data) => {
       if (data.status === 200) {
         alert(data.msg);
       } else {
@@ -65,9 +43,17 @@ const Moderator = () => {
     });
   };
 
-  const changePermission = (event) => {
-    console.log(event.target.value);
+  const changePermissions = (event) => {
+    const id = event.target.value.slice(0, -1);
+
+    updatedPermissions.map(
+      (item) =>
+        (item.check =
+          item._id === id ? event.target.defaultChecked : item.check)
+    );
+    console.log("update:", updatedPermissions);
   };
+
   return (
     <StyledTabs>
       <table className="table table-striped table-hover">
@@ -91,7 +77,7 @@ const Moderator = () => {
                         name={permission._id + "name"}
                         value={permission._id + "y"}
                         defaultChecked={permission.check}
-                        onChange={changePermission}
+                        onChange={changePermissions}
                       />
                       <CLabel
                         variant="custom-checkbox"
@@ -107,7 +93,7 @@ const Moderator = () => {
                         name={permission._id + "name"}
                         value={permission._id + "n"}
                         defaultChecked={!permission.check}
-                        onChange={changePermission}
+                        onChange={changePermissions}
                       />
                       <CLabel
                         variant="custom-checkbox"

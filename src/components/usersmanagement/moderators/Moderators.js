@@ -89,8 +89,7 @@ const Moderators = () => {
       <CCol xl={6}>
         <CCard>
           <CCardHeader>
-            Users
-            <small className="text-muted"> example</small>
+            Moderators
             <CButton
               style={{ float: "right" }}
               color="primary"
