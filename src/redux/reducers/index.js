@@ -6,7 +6,10 @@ import deleteMod from "./deleteMod";
 import listModPermissions from "./listModPermissions";
 import getRolePermissions from "./getRolePermissions";
 import updateRolePermissions from "./updateRolePermissions";
-
+import getPosts from "./getPosts";
+import getUnacceptedPosts from "./getUnacceptedPosts";
+import deletePost from "./deletePost";
+import approvePost from "./approvePost";
 
 export default combineReducers({
   loginAdmin,
@@ -15,5 +18,9 @@ export default combineReducers({
   deleteMod,
   listModPermissions,
   getRolePermissions,
-  updateRolePermissions
+  updateRolePermissions,
+  getPosts,
+  getUnacceptedPosts,
+  deletePost,
+  approvePost
 });
