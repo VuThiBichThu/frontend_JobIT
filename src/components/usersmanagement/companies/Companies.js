@@ -98,7 +98,7 @@ const Companies = () => {
                       color="success"
                       onClick={() =>
                         history.push(
-                          `/usersmanagement/companies/${item._id}/${item.userName}`
+                          `/usersmanagement/users/${item._id}/${item.companyName}`
                         )
                       }
                     >

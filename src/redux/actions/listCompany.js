@@ -8,7 +8,7 @@ export function listCompany(newPage, resolve = () => {}) {
     type: types.ADMIN_GET_LIST_COMPANY,
   });
   return fetch(
-    `https://job-it-cnpmp.herokuapp.com/api/v1/companys?page=${newPage}`,
+    `https://job-it-cnpmp.herokuapp.com/api/v1/companies?page=${newPage}`,
     {
       method: "GET",
       headers: {

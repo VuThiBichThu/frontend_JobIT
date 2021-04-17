@@ -1,7 +1,7 @@
 import Dashboard from "./components/dashboard/Dashboard";
 
 import Moderators from "./components/usersmanagement/moderators/Moderators";
-import Moderator from "./components/usersmanagement/moderators/Moderator";
+import UserPermissions from "./components/usersmanagement/UserPermissions";
 
 import Companies from "./components/usersmanagement/companies/Companies";
 import ITers from "./components/usersmanagement/ITers/ITers";
@@ -16,9 +16,11 @@ const routes = [
 
   { path: '/usersmanagement', name: 'Users Management', component: GroupPermissions, exact: true },
   { path: '/usersmanagement/moderators', name: 'Moderators', component: Moderators, exact: true},
-  { path: '/usersmanagement/moderators/:id/:name', name: 'Moderator Permissions', component: Moderator, exact: true},
+  { path: '/usersmanagement/users/:id/:name', name: 'Moderator Permissions', component: UserPermissions, exact: true},
   { path: '/usersmanagement/companies', name: 'Companies', component: Companies  },
+  { path: '/usersmanagement/users/:id/:name', name: 'Company Permissions', component: UserPermissions, exact: true},
   { path: '/usersmanagement/ITers', name: 'ITers', component: ITers },
+  { path: '/usersmanagement/users/:id/:name', name: 'ITer Permissions', component: UserPermissions, exact: true},
 
   { path: '/postsmanagement', name: 'Posts Management', component: PostsApproval, exact: true },
   { path: '/postsmanagement/posts-approval', name: 'Posts Approval', component: PostsApproval },

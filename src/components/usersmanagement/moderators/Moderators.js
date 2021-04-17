@@ -226,7 +226,7 @@ const Moderators = () => {
                       color="success"
                       onClick={() =>
                         history.push(
-                          `/usersmanagement/moderators/${item._id}/${item.userName}`
+                          `/usersmanagement/users/${item._id}/${item.userName}`
                         )
                       }
                     >

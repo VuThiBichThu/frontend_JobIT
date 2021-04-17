@@ -10,27 +10,28 @@ import {
   CLabel,
   CButton,
 } from "@coreui/react";
-import { listModPermissions } from "../../../redux/actions/listModPermissions";
-import { updateModPermissions } from "../../../redux/actions/updateModPermissions";
+import { listUserPermissions } from "../../redux/actions/listUserPermissions";
+import { updateUserPermissions } from "../../redux/actions/updateUserPermissions";
 
-const Moderator = ({ match }) => {
-  const [modPermissions, setModPermissions] = useState([]);
+const UserPermissions = ({ match }) => {
+  console.log(match.params.id," ",match.params.name);
+  const [userPermissions, setUserPermissions] = useState([]);
 
   useEffect(() => {
-    listModPermissions(match.params.id, (result) => {
-      setModPermissions(result.permissions);
+    listUserPermissions(match.params.id, (result) => {
+      setUserPermissions(result.permissions);
     });
   }, [match.params.id]);
 
-  const updatedPermissions = JSON.parse(JSON.stringify(modPermissions));
+  const updatedPermissions = JSON.parse(JSON.stringify(userPermissions));
   const data = {
     permissions: updatedPermissions,
   };
 
-  const updateModPermissionsHandler = (event) => {
+  const updateUserPermissionsHandler = (event) => {
     event.preventDefault();
-    setModPermissions(updatedPermissions);
-    updateModPermissions(match.params.id, data, (data) => {
+    setUserPermissions(updatedPermissions);
+    updateUserPermissions(match.params.id, data, (data) => {
       if (data.status === 200) {
         alert(data.msg);
       } else {
@@ -43,7 +44,7 @@ const Moderator = ({ match }) => {
 
   const cancelUpdatedPermissionsHandler = () => {
     setCancelHandler(true);
-    setModPermissions(modPermissions);
+    setUserPermissions(userPermissions);
   }
 
   const changePermissions = (event) => {
@@ -74,8 +75,8 @@ const Moderator = ({ match }) => {
                 </tr>
               </thead>
               <tbody>
-                {isCancel && modPermissions &&
-                  modPermissions.map((permission) => {
+                {isCancel && userPermissions &&
+                  userPermissions.map((permission) => {
                     return (
                       <tr key={permission._id}>
                         <td>{permission.perName}</td>
@@ -124,7 +125,7 @@ const Moderator = ({ match }) => {
             <CButton
               color="primary"
               className="mr-1 right-btn"
-              onClick={updateModPermissionsHandler}
+              onClick={updateUserPermissionsHandler}
             >
               Save
             </CButton>
@@ -142,4 +143,4 @@ const Moderator = ({ match }) => {
   );
 };
 
-export default Moderator;
+export default UserPermissions;

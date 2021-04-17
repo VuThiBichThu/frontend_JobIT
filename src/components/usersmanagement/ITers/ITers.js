@@ -16,8 +16,8 @@ import {
 
  import { deleteITer } from "../../../redux/actions/deleteITer";
 
-const Companies = () => {
-  const [companies, setCompanies] = useState([]);
+const ITers = () => {
+  const [iters, setITers] = useState([]);
   const storeListCompany = useSelector((store) => store.listCompany);
   const loadingList = storeListCompany.loading;
   const history = useHistory();
@@ -31,9 +31,9 @@ const Companies = () => {
   useEffect(() => {
     console.log("Start");
     listITer(page, (item) => {
-      setCompanies(item.data.result);
+      setITers(item.data.result);
       setNumPages(item.data.numPages);
-      console.log("first mods", Companies);
+      console.log("first mods", iters);
     });
   }, []);
 
@@ -44,25 +44,23 @@ const Companies = () => {
   const pageChange = (newPage) => {
     listITer(newPage, (data) => {
       console.log("data of current page", data);
-      setCompanies(data.result);
+      setITers(data.result);
       setNumPages(data.numPages);
     });
     console.log("current page");
     console.log(newPage);
     currentPage !== newPage &&
-      history.push(`/usersmanagement/companies?page=${newPage}`);
+      history.push(`/usersmanagement/iters?page=${newPage}`);
   };
-
-  const loading = useSelector((store) => store.addMod.loading);
 
   return (
     <CRow>
       <CCol xl={6}>
         <CCard>
-          <CCardHeader>COMPANIES</CCardHeader>
+          <CCardHeader>iters</CCardHeader>
           <CCardBody>
             <CDataTable
-              items={companies}
+              items={iters}
               fields={[
                 { key: "_id", _classes: "font-weight-bold" },
                 "fullName",
@@ -80,8 +78,8 @@ const Companies = () => {
                     <CButton
                       color="danger"
                       onClick={() => {
-                        setCompanies(
-                          companies.filter(
+                        setITers(
+                          iters.filter(
                             (itemCom) => itemCom._id !== item._id
                           )
                         );
@@ -100,7 +98,7 @@ const Companies = () => {
                       color="success"
                       onClick={() =>
                         history.push(
-                          `/usersmanagement/companies/${item._id}/${item.userName}`
+                          `/usersmanagement/users/${item._id}/${item.fullName}`
                         )
                       }
                     >
@@ -124,4 +122,4 @@ const Companies = () => {
   );
 };
 
-export default Companies;
+export default ITers;

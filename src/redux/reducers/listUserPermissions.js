@@ -8,19 +8,19 @@ const initialState = {
 
 export default function reducer(state = initialState, actions) {
   switch (actions.type) {
-    case types.ADMIN_GET_MOD_PERMISSIONS:
+    case types.ADMIN_GET_USER_PERMISSIONS:
       return {
         ...state,
         loading: true,
         error: {},
       };
-    case types.ADMIN_GET_MOD_PERMISSIONS_SUCCEED:
+    case types.ADMIN_GET_USER_PERMISSIONS_SUCCEED:
       return {
         ...state,
         data: actions.payload,
         loading: false,
       };
-    case types.ADMIN_GET_MOD_PERMISSIONS_FAILED:
+    case types.ADMIN_GET_USER_PERMISSIONS_FAILED:
       return {
         ...state,
         error: actions.payload,
