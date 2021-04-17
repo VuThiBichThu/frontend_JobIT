@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { listModerator } from "../../../redux/actions/listModerator";
 
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import {
   CCard,
   CCardBody,
@@ -34,36 +34,27 @@ const Moderators = () => {
   const loadingList = storeListModerator.loading;
   const history = useHistory();
 
-  const queryPage = useLocation().search.match(/page=([0-9]+)/, "");
-  const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1);
-  const [page, setPage] = useState(currentPage);
+  const [page, setPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
+
   const [numPages, setNumPages] = useState(1);
   const take = 10; // rows in table
 
   useEffect(() => {
-    console.log("Start");
     listModerator(page, (item) => {
       setModerators(item.data.result);
       setNumPages(item.data.numPages);
-      console.log("first mods", moderators);
+      setPage(item.data.page);
     });
-    
-  }, []);
-
-  useEffect(() => {
-    currentPage !== page && setPage(currentPage);
-  }, [currentPage, page]);
+  }, [page]);
 
   const pageChange = (newPage) => {
      listModerator(newPage, (data) => {
-      console.log("data of current page", data);
-      setModerators(data.result);
-      setNumPages(data.numPages);
+      setModerators(data.data.result);
+      setNumPages(data.data.numPages);
+      setCurrentPage(data.data.page);
     });
-    console.log("current page");
-    console.log(newPage);
-    currentPage !== newPage &&
-      history.push(`/usersmanagement/moderators?page=${newPage}`);
+
   };
   const [primary, setPrimary] = useState(false);
 
@@ -237,7 +228,7 @@ const Moderators = () => {
               }}
             />
             <CPagination
-              activePage={page}
+              activePage={currentPage}
               onActivePageChange={pageChange}
               pages={numPages}
               doubleArrows={false}
