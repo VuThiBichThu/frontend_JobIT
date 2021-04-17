@@ -6,10 +6,11 @@ import UserPermissions from "./components/usersmanagement/UserPermissions";
 import Companies from "./components/usersmanagement/companies/Companies";
 import ITers from "./components/usersmanagement/ITers/ITers";
 
-import PostsApproval from "./components/postsmanagement/posts-approval/PostsApproval";
 import PostsStatistic from "./components/postsmanagement/posts-statistic/PostsStatistic";
 
-import GroupPermissions from "./containers/admin/GroupPermissions"
+import GroupPermissions from "./containers/admin/GroupPermissions";
+import PostManagement from "./containers/admin/PostManagement";
+
 
 const routes = [
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
@@ -22,8 +23,8 @@ const routes = [
   { path: '/usersmanagement/ITers', name: 'ITers', component: ITers },
   { path: '/usersmanagement/users/:id/:name', name: 'ITer Permissions', component: UserPermissions, exact: true},
 
-  { path: '/postsmanagement', name: 'Posts Management', component: PostsApproval, exact: true },
-  { path: '/postsmanagement/posts-approval', name: 'Posts Approval', component: PostsApproval },
+  { path: '/postsmanagement', name: 'Posts Management', component: PostManagement, exact: true },
+  { path: '/postsmanagement/posts-approval', name: 'Posts Approval', component: PostManagement },
   { path: '/postsmanagement/posts-statistic', name: 'Posts Statistic', component: PostsStatistic },
 
   { path: '/grouppermissions', exact: true, name: 'Group permissions', component: GroupPermissions },

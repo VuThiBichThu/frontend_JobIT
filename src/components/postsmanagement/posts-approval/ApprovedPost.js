@@ -1,26 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { listITer } from "../../../redux/actions/listITer";
 
-import { useHistory } from "react-router-dom";
+import { getPosts } from "../../../redux/actions/getPosts";
+import { deletePost } from "../../../redux/actions/deletePost";
 import {
   CCard,
   CCardBody,
-  CCardHeader,
   CCol,
   CDataTable,
   CRow,
   CPagination,
   CButton,
 } from "@coreui/react";
-
-import { deleteITer } from "../../../redux/actions/deleteITer";
-
-const ITers = () => {
-  const [iters, setITers] = useState([]);
-  const storeListITer = useSelector((store) => store.listITer);
-  const loadingList = storeListITer.loading;
-  const history = useHistory();
+const ApprovedPost = () => {
+  const [posts, setPosts] = useState([]);
+  const storeGetPosts = useSelector((store) => store.getPosts);
+  const loadingList = storeGetPosts.loading;
 
   const [page, setPage] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
@@ -29,18 +24,19 @@ const ITers = () => {
   const take = 10; // rows in table
 
   useEffect(() => {
-    listITer(page, (item) => {
-      setITers(item.data.result);
+    getPosts(page, (item) => {
+      setPosts(item.data.posts);
+      console.log(item.data.posts);
       setNumPages(item.data.numPages);
-      setPage(item.data.page);
+      setPage(item.data.currentPage);
     });
   }, [page]);
 
   const pageChange = (newPage) => {
-    listITer(newPage, (data) => {
-      setITers(data.data.result);
+    getPosts(newPage, (data) => {
+      setPosts(data.data.posts);
       setNumPages(data.data.numPages);
-      setCurrentPage(data.data.page);
+      setCurrentPage(data.data.currentPage);
     });
   };
 
@@ -48,14 +44,13 @@ const ITers = () => {
     <CRow>
       <CCol xl={6}>
         <CCard>
-          <CCardHeader>iters</CCardHeader>
           <CCardBody>
             <CDataTable
-              items={iters}
+              items={posts}
               fields={[
                 { key: "_id", _classes: "font-weight-bold" },
-                "fullName",
-                "createdAt",
+                "companyName",
+                "salary",
                 "Actions",
               ]}
               hover
@@ -69,10 +64,10 @@ const ITers = () => {
                     <CButton
                       color="danger"
                       onClick={() => {
-                        setITers(
-                          iters.filter((itemCom) => itemCom._id !== item._id)
+                        setPosts(
+                          posts.filter((itemCom) => itemCom._id !== item._id)
                         );
-                        deleteITer(item._id, (data) => {
+                        deletePost(item._id, (data) => {
                           if (data.status === 200) {
                             alert("Delete succeed!");
                           } else {
@@ -83,16 +78,6 @@ const ITers = () => {
                     >
                       Delete
                     </CButton>{" "}
-                    <CButton
-                      color="success"
-                      onClick={() =>
-                        history.push(
-                          `/usersmanagement/users/${item._id}/${item.fullName}`
-                        )
-                      }
-                    >
-                      Permissions{" "}
-                    </CButton>
                   </td>
                 ),
               }}
@@ -111,4 +96,4 @@ const ITers = () => {
   );
 };
 
-export default ITers;
+export default ApprovedPost;
