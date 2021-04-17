@@ -1,20 +1,22 @@
 import { getAuth } from "../../utils/helpers";
 import * as types from "../constants";
 import store from "../store";
-export function updateModPermissions(id, data, resolve = () => {}) {
+export function listUserPermissions(id, resolve = () => {}) {
   store.dispatch({
-    type: types.ADMIN_UPDATE_MOD_PERMISSIONS,
+    type: types.ADMIN_GET_USER_PERMISSIONS,
   });
+  console.log(getAuth().token);
   return fetch(
     `https://job-it-cnpmp.herokuapp.com/api/v1/users/${id}/permissions`,
     {
-      method: "PUT",
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
-        Authorization: "Bearer " + getAuth().token
+        Authorization: "Bearer " + getAuth().token,
+        // "Access-Control-Allow-Origin": "*"
       },
-      body: JSON.stringify(data),
+      // body: JSON.stringify(data),
     }
   )
     .then((response) => response.json())
@@ -22,13 +24,13 @@ export function updateModPermissions(id, data, resolve = () => {}) {
       resolve(data);
       store.dispatch({
         payload: data,
-        type: types.ADMIN_UPDATE_MOD_PERMISSIONS_SUCCEED,
+        type: types.ADMIN_GET_USER_PERMISSIONS_SUCCEED,
       });
     })
     .catch((error) => {
       store.dispatch({
         payload: error,
-        type: types.ADMIN_UPDATE_MOD_PERMISSIONS_FAILED,
+        type: types.ADMIN_GET_USER_PERMISSIONS_FAILED,
       });
     });
 }

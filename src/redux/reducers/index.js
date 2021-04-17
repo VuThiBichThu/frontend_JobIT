@@ -7,14 +7,14 @@ import addMod from "./addMod";
 import deleteMod from "./deleteMod";
 import deleteCompany from "./deleteCompany";
 import deleteITer from "./deleteITer";
-import listModPermissions from "./listModPermissions";
+import listUserPermissions from "./listUserPermissions";
 import getRolePermissions from "./getRolePermissions";
 import updateRolePermissions from "./updateRolePermissions";
 import getPosts from "./getPosts";
 import getUnacceptedPosts from "./getUnacceptedPosts";
 import deletePost from "./deletePost";
 import approvePost from "./approvePost";
-import updateModPermissions from "./updateModPermissions";
+import updateUserPermissions from "./updateUserPermissions";
 
 
 export default combineReducers({
@@ -26,12 +26,12 @@ export default combineReducers({
   deleteMod,
   deleteCompany,
   deleteITer,
-  listModPermissions,
+  listUserPermissions,
   getRolePermissions,
   updateRolePermissions,
   getPosts,
   getUnacceptedPosts,
   deletePost,
   approvePost,
-  updateModPermissions
+  updateUserPermissions
 });

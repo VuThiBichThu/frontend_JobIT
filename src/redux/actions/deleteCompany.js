@@ -7,7 +7,7 @@ export function deleteCompany(id, resolve = () => {}) {
   });
   console.log(id);
   return fetch(
-    `https://job-it-cnpmp.herokuapp.com/api/v1/companys/${id}`,
+    `https://job-it-cnpmp.herokuapp.com/api/v1/companies/${id}`,
     {
       method: "DELETE",
       headers: {

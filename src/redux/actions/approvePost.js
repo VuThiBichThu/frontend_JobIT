@@ -3,7 +3,7 @@ import * as types from "../constants";
 import store from "../store";
 export function approvePost(id, resolve = () => {}) {
   store.dispatch({
-    type: types.ADMIN_GET_MOD_PERMISSIONS,
+    type: types.APPROVE_POST_API,
   });
   return fetch(
     `https://job-it-cnpmp.herokuapp.com/api/v1/posts/${id}/accept-post`,
@@ -23,13 +23,13 @@ export function approvePost(id, resolve = () => {}) {
       resolve(data);
       store.dispatch({
         payload: data,
-        type: types.ADMIN_GET_MOD_PERMISSIONS_SUCCEED,
+        type: types.APPROVE_POST_API_SUCCEED,
       });
     })
     .catch((error) => {
       store.dispatch({
         payload: error,
-        type: types.ADMIN_GET_MOD_PERMISSIONS_FAILED,
+        type: types.APPROVE_POST_API_FAILED,
       });
     });
 }
