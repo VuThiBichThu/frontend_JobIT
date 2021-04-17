@@ -17,6 +17,7 @@ const StyledTabs = styled.section`
 
 const Moderator = () => {
   const role = "moderator";
+  let apply = false;
   const [permissions, setPermissions] = useState([]);
 
   useEffect(() => {
@@ -25,18 +26,27 @@ const Moderator = () => {
     });
   }, [role]);
 
-  const updatedPermissions = [...permissions];
+  const updatedPermissions = JSON.parse(JSON.stringify(permissions));
+
+  const updateModPermissionsWithApply = (event) => {
+     apply = true;
+     updateModPermissions(event);
+  }
   const updateModPermissions = (event) => {
     event.preventDefault();
+    
     setPermissions(updatedPermissions);
+
     const data = {
       role: role,
+      apply: apply,
       permissions: updatedPermissions,
     };
 
     updateRolePermissions(data, (data) => {
       if (data.status === 200) {
         alert(data.msg);
+        apply = false;
       } else {
         alert(data.msg);
       }
@@ -45,16 +55,13 @@ const Moderator = () => {
 
   const changePermissions = (event) => {
     const id = event.target.value.slice(0, -1);
-    const value = event.target.value.substr(event.target.value.length - 1);
- 
-    const checkedValue = (value === "n" ? false : true);
-    console.log(checkedValue);
-    console.log(event.target.defaultChecked);
+
+    const value = event.target.value.slice(-1);
+    const checkedValue = value === "n" ? false : true;
 
     updatedPermissions.map(
       (item) => (item.check = item._id === id ? checkedValue : item.check)
     );
-    console.log("update:", updatedPermissions);
   };
 
   return (
@@ -110,15 +117,23 @@ const Moderator = () => {
               );
             })}
         </tbody>
-        <br></br>
-        <CButton
-          color="primary"
-          className="mr-1 right-btn"
-          onClick={updateModPermissions}
-        >
-          Save changes
-        </CButton>
       </table>
+      <div className="flex flex-end">
+          <CButton
+            color="primary"
+            className="mr-1 right-btn"
+            onClick={updateModPermissions}
+          >
+            Save
+          </CButton>
+          <CButton
+            color="warning"
+            className="mr-1 right-btn"
+            onClick={updateModPermissionsWithApply}
+          >
+            Save and Apply
+          </CButton>
+        </div>
     </StyledTabs>
   );
 };
