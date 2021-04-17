@@ -1,12 +1,12 @@
 import { getAuth } from "../../utils/helpers";
 import * as types from "../constants";
 import store from "../store";
-export function getPosts(resolve = () => {}) {
+export function getPosts(newPage, resolve = () => {}) {
   store.dispatch({
     type: types.GET_POSTS,
   });
   return fetch(
-    "https://job-it-cnpmp.herokuapp.com/api/v1/posts",
+    `https://job-it-cnpmp.herokuapp.com/api/v1/posts?page=${newPage}`,
     {
       method: "GET",
       headers: {

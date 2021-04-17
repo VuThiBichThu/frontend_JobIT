@@ -1,3 +1,3 @@
 import GroupPermissions from "./GroupPermissions";
-
-export { GroupPermissions };
+import PostManagement from "./PostManagement";
+export { GroupPermissions, PostManagement };

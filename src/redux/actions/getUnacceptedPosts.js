@@ -1,12 +1,12 @@
 import { getAuth } from "../../utils/helpers";
 import * as types from "../constants";
 import store from "../store";
-export function getUnacceptedPosts(resolve = () => {}) {
+export function getUnacceptedPosts(newPage, resolve = () => {}) {
   store.dispatch({
     type: types.GET_UNACCEPTED_POST,
   });
   return fetch(
-    "https://job-it-cnpmp.herokuapp.com/api/v1/posts/need-accept",
+    `https://job-it-cnpmp.herokuapp.com/api/v1/posts/need-accept?page=${newPage}`,
     {
       method: "GET",
       headers: {
