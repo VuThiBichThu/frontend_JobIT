@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { listITer } from "../../../redux/actions/listITer";
 
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import {
   CCard,
   CCardBody,
@@ -14,7 +14,7 @@ import {
   CButton,
 } from "@coreui/react";
 
- import { deleteITer } from "../../../redux/actions/deleteITer";
+import { deleteITer } from "../../../redux/actions/deleteITer";
 
 const ITers = () => {
   const [iters, setITers] = useState([]);
@@ -22,35 +22,26 @@ const ITers = () => {
   const loadingList = storeListCompany.loading;
   const history = useHistory();
 
-  const queryPage = useLocation().search.match(/page=([0-9]+)/, "");
-  const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1);
-  const [page, setPage] = useState(currentPage);
+  const [page, setPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
+
   const [numPages, setNumPages] = useState(1);
   const take = 10; // rows in table
 
   useEffect(() => {
-    console.log("Start");
     listITer(page, (item) => {
       setITers(item.data.result);
       setNumPages(item.data.numPages);
-      console.log("first mods", iters);
+      setPage(item.data.page);
     });
-  }, []);
-
-  useEffect(() => {
-    currentPage !== page && setPage(currentPage);
-  }, [currentPage, page]);
+  }, [page]);
 
   const pageChange = (newPage) => {
     listITer(newPage, (data) => {
-      console.log("data of current page", data);
-      setITers(data.result);
-      setNumPages(data.numPages);
+      setITers(data.data.result);
+      setNumPages(data.data.numPages);
+      setCurrentPage(data.data.page);
     });
-    console.log("current page");
-    console.log(newPage);
-    currentPage !== newPage &&
-      history.push(`/usersmanagement/iters?page=${newPage}`);
   };
 
   return (
@@ -79,9 +70,7 @@ const ITers = () => {
                       color="danger"
                       onClick={() => {
                         setITers(
-                          iters.filter(
-                            (itemCom) => itemCom._id !== item._id
-                          )
+                          iters.filter((itemCom) => itemCom._id !== item._id)
                         );
                         deleteITer(item._id, (data) => {
                           if (data.status === 200) {
@@ -109,7 +98,7 @@ const ITers = () => {
               }}
             />
             <CPagination
-              activePage={page}
+              activePage={currentPage}
               onActivePageChange={pageChange}
               pages={numPages}
               doubleArrows={false}

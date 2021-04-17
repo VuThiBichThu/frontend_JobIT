@@ -2,8 +2,6 @@ import { getAuth } from "../../utils/helpers";
 import * as types from "../constants";
 import store from "../store";
 export function listCompany(newPage, resolve = () => {}) {
-  console.log("current page api");
-  console.log(newPage);
   store.dispatch({
     type: types.ADMIN_GET_LIST_COMPANY,
   });
