@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { getRolePermissions } from "../../redux/actions/getRolePermissions";
 import { CFormGroup, CInputRadio, CLabel, CButton } from "@coreui/react";
+import { toast } from "react-toastify";
 
 import { updateRolePermissions } from "../../redux/actions/updateRolePermissions";
 
@@ -29,12 +30,12 @@ const Moderator = () => {
   const updatedPermissions = JSON.parse(JSON.stringify(permissions));
 
   const updateModPermissionsWithApply = (event) => {
-     apply = true;
-     updateModPermissions(event);
-  }
+    apply = true;
+    updateModPermissions(event);
+  };
   const updateModPermissions = (event) => {
     event.preventDefault();
-    
+
     setPermissions(updatedPermissions);
 
     const data = {
@@ -44,11 +45,18 @@ const Moderator = () => {
     };
 
     updateRolePermissions(data, (data) => {
+      const noti = (!apply ? "Save" : "Save and Apply").concat(
+        "  updated permissions successfully"
+      );
       if (data.status === 200) {
-        alert(data.msg);
+        toast.success(noti, {
+          position: toast.POSITION.BOTTOM_LEFT,
+        });
         apply = false;
       } else {
-        alert(data.msg);
+        toast.error("Fail to update ! " + data.msg, {
+          position: toast.POSITION.BOTTOM_LEFT,
+        });
       }
     });
   };
@@ -119,21 +127,21 @@ const Moderator = () => {
         </tbody>
       </table>
       <div className="flex flex-end">
-          <CButton
-            color="primary"
-            className="mr-1 right-btn"
-            onClick={updateModPermissions}
-          >
-            Save
-          </CButton>
-          <CButton
-            color="warning"
-            className="mr-1 right-btn"
-            onClick={updateModPermissionsWithApply}
-          >
-            Save and Apply
-          </CButton>
-        </div>
+        <CButton
+          color="primary"
+          className="mr-1 right-btn"
+          onClick={updateModPermissions}
+        >
+          Save
+        </CButton>
+        <CButton
+          color="warning"
+          className="mr-1 right-btn"
+          onClick={updateModPermissionsWithApply}
+        >
+          Save and Apply
+        </CButton>
+      </div>
     </StyledTabs>
   );
 };

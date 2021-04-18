@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-
+import { toast } from "react-toastify";
 import { getPosts } from "../../../redux/actions/getPosts";
 import { deletePost } from "../../../redux/actions/deletePost";
 import {
@@ -69,10 +69,13 @@ const ApprovedPost = () => {
                         );
                         deletePost(item._id, (data) => {
                           if (data.status === 200) {
-                            alert("Delete succeed!");
-                            window.location.reload();
+                            toast.success("Delete post successfully !", {
+                              position: toast.POSITION.BOTTOM_LEFT,
+                            });
                           } else {
-                            alert("Delete failed, " + data.msg);
+                            toast.error("Fail to delete! " + data.msg, {
+                              position: toast.POSITION.BOTTOM_LEFT,
+                            });
                           }
                         });
                       }}

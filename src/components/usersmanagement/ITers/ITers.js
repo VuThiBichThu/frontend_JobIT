@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { listITer } from "../../../redux/actions/listITer";
-
+import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
 import {
   CCard,
@@ -48,7 +48,7 @@ const ITers = () => {
     <CRow>
       <CCol xl={6}>
         <CCard>
-          <CCardHeader>iters</CCardHeader>
+          <CCardHeader>ITers</CCardHeader>
           <CCardBody>
             <CDataTable
               items={iters}
@@ -70,13 +70,17 @@ const ITers = () => {
                       color="danger"
                       onClick={() => {
                         setITers(
-                          iters.filter((itemCom) => itemCom._id !== item._id)
+                          iters.filter((itemIT) => itemIT._id !== item._id)
                         );
                         deleteITer(item._id, (data) => {
                           if (data.status === 200) {
-                            alert("Delete succeed!");
+                            toast.success("Delete ITer Successfully !", {
+                              position: toast.POSITION.BOTTOM_LEFT,
+                            });
                           } else {
-                            alert("Delete failed, " + data.msg);
+                            toast.error("Fail to delete! " + data.msg, {
+                              position: toast.POSITION.BOTTOM_LEFT,
+                            });
                           }
                         });
                       }}
@@ -87,7 +91,7 @@ const ITers = () => {
                       color="success"
                       onClick={() =>
                         history.push(
-                          `/usersmanagement/users/${item._id}/${item.fullName}`
+                          `/usersmanagement/users/${item.accountId}/${item.fullName}`
                         )
                       }
                     >

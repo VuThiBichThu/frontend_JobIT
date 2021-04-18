@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { listCompany } from "../../../redux/actions/listCompany";
-
+import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
 import {
   CCard,
@@ -76,9 +76,13 @@ const Companies = () => {
                         );
                         deleteCompany(item._id, (data) => {
                           if (data.status === 200) {
-                            alert("Delete succeed!");
+                            toast.success("Delete Company Successfully !", {
+                              position: toast.POSITION.BOTTOM_LEFT,
+                            });
                           } else {
-                            alert("Delete failed, " + data.msg);
+                            toast.error("Fail to delete! " + data.msg, {
+                              position: toast.POSITION.BOTTOM_LEFT,
+                            });
                           }
                         });
                       }}
@@ -89,7 +93,7 @@ const Companies = () => {
                       color="success"
                       onClick={() =>
                         history.push(
-                          `/usersmanagement/users/${item._id}/${item.companyName}`
+                          `/usersmanagement/users/${item.accountId}/${item.companyName}`
                         )
                       }
                     >

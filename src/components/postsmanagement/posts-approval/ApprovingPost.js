@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 import { getUnacceptedPosts } from "../../../redux/actions/getUnacceptedPosts";
 import { deletePost } from "../../../redux/actions/deletePost";
@@ -12,6 +13,7 @@ import {
   CRow,
   CPagination,
   CButton,
+  CInputCheckbox,
 } from "@coreui/react";
 const ApprovingPost = () => {
   const [posts, setPosts] = useState([]);
@@ -53,6 +55,7 @@ const ApprovingPost = () => {
                 "companyName",
                 "salary",
                 "Actions",
+                "More",
               ]}
               hover
               loading={loadingList}
@@ -70,10 +73,13 @@ const ApprovingPost = () => {
                         );
                         deletePost(item._id, (data) => {
                           if (data.status === 200) {
-                            alert("Delete succeed!");
-                            window.location.reload();
+                            toast.success("Delete post successfully !", {
+                              position: toast.POSITION.BOTTOM_LEFT,
+                            });
                           } else {
-                            alert("Delete failed, " + data.msg);
+                            toast.error("Fail to delete! " + data.msg, {
+                              position: toast.POSITION.BOTTOM_LEFT,
+                            });
                           }
                         });
                       }}
@@ -88,10 +94,14 @@ const ApprovingPost = () => {
                         );
                         approvePost(item._id, (data) => {
                           if (data.status === 200) {
-                            alert("Approve succeed!");
+                            toast.success("Approve post successfully !", {
+                              position: toast.POSITION.BOTTOM_LEFT,
+                            });
                             window.location.reload();
                           } else {
-                            alert("Approve failed, " + data.msg);
+                            toast.error("Fail to approve ! " + data.msg, {
+                              position: toast.POSITION.BOTTOM_LEFT,
+                            });
                           }
                         });
                       }}
@@ -100,8 +110,24 @@ const ApprovingPost = () => {
                     </CButton>
                   </td>
                 ),
+                More: (item) => (
+                
+                  <td>
+                    <span style={{visibility:"hidden"}}>BOX</span>
+                    <CInputCheckbox
+                      id={item._id}
+                      checked="true"
+                    ></CInputCheckbox>
+                  </td>
+                ),
               }}
             />
+            <div className="flex flex-end">
+              <CButton color="secondary" className="mr-1">
+                Select All
+              </CButton>
+              <CButton color="success">Approve</CButton>
+            </div>
             <CPagination
               activePage={currentPage}
               onActivePageChange={pageChange}
