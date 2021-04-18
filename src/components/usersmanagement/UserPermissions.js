@@ -14,7 +14,7 @@ import { listUserPermissions } from "../../redux/actions/listUserPermissions";
 import { updateUserPermissions } from "../../redux/actions/updateUserPermissions";
 
 const UserPermissions = ({ match }) => {
-  console.log(match.params.id," ",match.params.name);
+  console.log(match.params.id, " ", match.params.name);
   const [userPermissions, setUserPermissions] = useState([]);
 
   useEffect(() => {
@@ -40,12 +40,13 @@ const UserPermissions = ({ match }) => {
     });
   };
 
-  const [isCancel,setCancelHandler] = useState([false]);
+  const [isCancel, setCancelHandler] = useState([false]);
 
   const cancelUpdatedPermissionsHandler = () => {
     setCancelHandler(true);
     setUserPermissions(userPermissions);
-  }
+    window.location.reload();
+  };
 
   const changePermissions = (event) => {
     const id = event.target.value.slice(0, -1);
@@ -75,7 +76,8 @@ const UserPermissions = ({ match }) => {
                 </tr>
               </thead>
               <tbody>
-                {isCancel && userPermissions &&
+                {isCancel &&
+                  userPermissions &&
                   userPermissions.map((permission) => {
                     return (
                       <tr key={permission._id}>
@@ -119,7 +121,6 @@ const UserPermissions = ({ match }) => {
                   })}
               </tbody>
             </table>
-           
           </CCardBody>
           <div className="flex flex-end">
             <CButton

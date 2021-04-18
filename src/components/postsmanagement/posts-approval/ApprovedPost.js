@@ -70,6 +70,7 @@ const ApprovedPost = () => {
                         deletePost(item._id, (data) => {
                           if (data.status === 200) {
                             alert("Delete succeed!");
+                            window.location.reload();
                           } else {
                             alert("Delete failed, " + data.msg);
                           }

@@ -49,12 +49,11 @@ const Moderators = () => {
   }, [page]);
 
   const pageChange = (newPage) => {
-     listModerator(newPage, (data) => {
+    listModerator(newPage, (data) => {
       setModerators(data.data.result);
       setNumPages(data.data.numPages);
       setCurrentPage(data.data.page);
     });
-
   };
   const [primary, setPrimary] = useState(false);
 
@@ -78,6 +77,7 @@ const Moderators = () => {
       if (data.status === 200) {
         setPrimary(!primary);
         alert(data.msg);
+        window.location.reload();
       } else {
         alert(data.msg);
       }
@@ -170,7 +170,13 @@ const Moderators = () => {
                 >
                   Create
                 </CButton>{" "}
-                <CButton color="secondary" onClick={() => setPrimary(!primary)}>
+                <CButton
+                  color="secondary"
+                  onClick={() => {
+                    setPrimary(!primary);
+                    window.location.reload();
+                  }}
+                >
                   Cancel
                 </CButton>
               </CModalFooter>
