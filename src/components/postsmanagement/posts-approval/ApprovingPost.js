@@ -28,16 +28,16 @@ const ApprovingPost = () => {
     getUnacceptedPosts(page, (item) => {
       setPosts(item.posts);
       console.log(item.posts);
-      setNumPages(item.data.numPages);
-      setPage(item.data.currentPage);
+      setNumPages(item.numPages);
+      setPage(item.currentPage);
     });
   }, [page]);
 
   const pageChange = (newPage) => {
     getUnacceptedPosts(newPage, (data) => {
       setPosts(data.posts);
-      setNumPages(data.data.numPages);
-      setCurrentPage(data.data.currentPage);
+      setNumPages(data.numPages);
+      setCurrentPage(data.currentPage);
     });
   };
 
@@ -71,6 +71,7 @@ const ApprovingPost = () => {
                         deletePost(item._id, (data) => {
                           if (data.status === 200) {
                             alert("Delete succeed!");
+                            window.location.reload();
                           } else {
                             alert("Delete failed, " + data.msg);
                           }
@@ -88,6 +89,7 @@ const ApprovingPost = () => {
                         approvePost(item._id, (data) => {
                           if (data.status === 200) {
                             alert("Approve succeed!");
+                            window.location.reload();
                           } else {
                             alert("Approve failed, " + data.msg);
                           }
