@@ -26,6 +26,7 @@ const ApprovingPost = () => {
   const [numPages, setNumPages] = useState(1);
   const take = 10; // rows in table
 
+  const [items, setItems] = useState([]);
   useEffect(() => {
     getUnacceptedPosts(page, (item) => {
       setPosts(item.posts);
@@ -43,6 +44,27 @@ const ApprovingPost = () => {
     });
   };
 
+  const selectItem = (event) => {
+    const id = event.target.value;
+    const checkedValue = event.target.checked;
+
+    if (checkedValue) {
+      setItems([...items, id]);
+    } else {
+      setItems(items.filter((i) => i !== id));
+    }
+  };
+
+  const selectAll = () => {
+    setItems(posts.map((i) => i._id));
+    items.forEach(
+      (item) => (document.getElementById(item).defaultChecked = "true")
+    );
+  };
+
+  const approveAll = () => {
+    console.log(items);
+  };
   return (
     <CRow>
       <CCol xl={6}>
@@ -111,22 +133,33 @@ const ApprovingPost = () => {
                   </td>
                 ),
                 More: (item) => (
-                
                   <td>
-                    <span style={{visibility:"hidden"}}>BOX</span>
+                    <span style={{ visibility: "hidden" }}>BOX</span>
                     <CInputCheckbox
                       id={item._id}
-                      checked="true"
+                      name={item._id}
+                      value={item._id}
+                      onClick={selectItem}
+                      defaultChecked={false}
                     ></CInputCheckbox>
                   </td>
                 ),
               }}
             />
             <div className="flex flex-end">
-              <CButton color="secondary" className="mr-1">
+              <CButton color="secondary" className="mr-1" onClick={selectAll}>
+                <CInputCheckbox
+                  style={{ visibility: "hidden" }}
+                  name="checkAll"
+                  value="checkAll"
+                  onClick={selectAll}
+                  defaultChecked={false}
+                ></CInputCheckbox>
                 Select All
               </CButton>
-              <CButton color="success">Approve</CButton>
+              <CButton color="success" onClick={approveAll}>
+                Approve
+              </CButton>
             </div>
             <CPagination
               activePage={currentPage}
