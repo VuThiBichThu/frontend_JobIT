@@ -4,6 +4,9 @@ import { TheLayout } from "./containers";
 import LogInAdmin from "./containers/LogInAdmin";
 import routes from "./routes";
 
+import { ToastContainer} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import "./scss/style.scss";
 import "./styles/_main.scss";
 // Containers
@@ -32,7 +35,9 @@ class App extends Component {
             )
           })}
         </Switch>
+        <ToastContainer/>
       </Router>
+      
     );
   }
 }

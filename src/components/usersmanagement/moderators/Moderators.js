@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
 import { listModerator } from "../../../redux/actions/listModerator";
 
@@ -76,14 +78,14 @@ const Moderators = () => {
     addMod(mod, (data) => {
       if (data.status === 200) {
         setPrimary(!primary);
-        alert(data.msg);
+        toast.success("Create Mod Successfully !", {
+          position: toast.POSITION.BOTTOM_LEFT,
+        });
         window.location.reload();
       } else {
         alert(data.msg);
       }
     });
-    setUserName("");
-    setPassword("");
     setPrimary(!primary);
   };
 
@@ -210,9 +212,13 @@ const Moderators = () => {
                         );
                         deleteMod(item._id, (data) => {
                           if (data.status === 200) {
-                            alert("Delete succeed!");
+                            toast.success("Delete Mod Successfully !", {
+                              position: toast.POSITION.BOTTOM_LEFT,
+                            });
                           } else {
-                            alert("Delete failed, " + data.msg);
+                            toast.error("Failed to delete," + data.msg, {
+                              position: toast.POSITION.BOTTOM_LEFT,
+                            });
                           }
                         });
                       }}

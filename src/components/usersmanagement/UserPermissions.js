@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 import {
   CCard,
   CCardBody,
@@ -33,18 +34,18 @@ const UserPermissions = ({ match }) => {
     setUserPermissions(updatedPermissions);
     updateUserPermissions(match.params.id, data, (data) => {
       if (data.status === 200) {
-        alert(data.msg);
+        toast.success("Update permissions successfully !", {
+          position: toast.POSITION.BOTTOM_LEFT,
+        });
       } else {
-        alert(data.msg);
+        toast.error("Fail to delete! " + data.msg, {
+          position: toast.POSITION.BOTTOM_LEFT,
+        });
       }
     });
   };
 
-  const [isCancel, setCancelHandler] = useState([false]);
-
   const cancelUpdatedPermissionsHandler = () => {
-    setCancelHandler(true);
-    setUserPermissions(userPermissions);
     window.location.reload();
   };
 
@@ -76,8 +77,7 @@ const UserPermissions = ({ match }) => {
                 </tr>
               </thead>
               <tbody>
-                {isCancel &&
-                  userPermissions &&
+                {userPermissions &&
                   userPermissions.map((permission) => {
                     return (
                       <tr key={permission._id}>
