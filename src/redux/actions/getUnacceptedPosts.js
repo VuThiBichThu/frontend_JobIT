@@ -6,7 +6,7 @@ export function getUnacceptedPosts(newPage, resolve = () => {}) {
     type: types.GET_UNACCEPTED_POST,
   });
   return fetch(
-    `https://job-it-cnpmp.herokuapp.com/api/v1/posts/need-accept?page=${newPage}`,
+    `${process.env.REACT_APP_API_URL}/posts/need-accept?page=${newPage}`,
     {
       method: "GET",
       headers: {

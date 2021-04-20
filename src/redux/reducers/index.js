@@ -16,6 +16,9 @@ import deletePost from "./deletePost";
 import approvePost from "./approvePost";
 import updateUserPermissions from "./updateUserPermissions";
 
+import login from "./login";
+import setShowSidebar from "./setShowSidebar"
+
 
 export default combineReducers({
   loginAdmin,
@@ -33,5 +36,8 @@ export default combineReducers({
   getUnacceptedPosts,
   deletePost,
   approvePost,
-  updateUserPermissions
+  updateUserPermissions,
+
+  login,
+  setShowSidebar
 });

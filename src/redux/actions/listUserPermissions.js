@@ -7,7 +7,7 @@ export function listUserPermissions(id, resolve = () => {}) {
   });
   console.log(getAuth().token);
   return fetch(
-    `https://job-it-cnpmp.herokuapp.com/api/v1/users/${id}/permissions`,
+    `${process.env.REACT_APP_API_URL}/users/${id}/permissions`,
     {
       method: "GET",
       headers: {

@@ -6,7 +6,7 @@ export function addMod(data, resolve = () => {}) {
     type: types.ADD_MOD_API,
   });
   return fetch(
-    "https://job-it-cnpmp.herokuapp.com/api/v1/moderators",
+    `${process.env.REACT_APP_API_URL}/v1/moderators`,
     {
       method: "POST",
       headers: {

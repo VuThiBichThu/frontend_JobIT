@@ -18,14 +18,14 @@ import {
   TheHeaderDropdown,
   TheHeaderDropdownNotif,
 }  from './index'
+import { setShowSidebar } from 'src/redux/actions/setShowSideBar'
 
 const TheHeader = () => {
   const dispatch = useDispatch()
-  const sidebarShow = useSelector(state => state.sidebarShow)
+  const sidebarShow = useSelector(state => state.setShowSidebar)
 
   const toggleSidebar = () => {
-    const val = [true, 'responsive'].includes(sidebarShow) ? false : 'responsive'
-    dispatch({type: 'set', sidebarShow: val})
+    setShowSidebar(!sidebarShow.status);
   }
 
   const toggleSidebarMobile = () => {

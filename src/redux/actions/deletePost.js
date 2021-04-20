@@ -7,7 +7,7 @@ export function deletePost(id, resolve = () => {}) {
   });
   console.log(id);
   return fetch(
-    `https://job-it-cnpmp.herokuapp.com/api/v1/posts/${id}`,
+    `${process.env.REACT_APP_API_URL}/posts/${id}`,
     {
       method: "DELETE",
       headers: {

@@ -6,7 +6,7 @@ export function getPosts(newPage, resolve = () => {}) {
     type: types.GET_POSTS,
   });
   return fetch(
-    `https://job-it-cnpmp.herokuapp.com/api/v1/posts?page=${newPage}`,
+    `${process.env.REACT_APP_API_URL}/posts?page=${newPage}`,
     {
       method: "GET",
       headers: {

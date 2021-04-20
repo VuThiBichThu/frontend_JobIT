@@ -6,7 +6,7 @@ export function getRolePermissions(role, resolve = () => {}) {
     type: types.GET_ROLE_PERMISSIONS,
   });
   return fetch(
-    `https://job-it-cnpmp.herokuapp.com/api/v1/permissions?role=${role}`,
+    `${process.env.REACT_APP_API_URL}/permissions?role=${role}`,
     {
       method: "GET",
       headers: {

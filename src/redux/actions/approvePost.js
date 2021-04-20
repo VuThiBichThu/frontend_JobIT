@@ -6,7 +6,7 @@ export function approvePost(id, resolve = () => {}) {
     type: types.APPROVE_POST_API,
   });
   return fetch(
-    `https://job-it-cnpmp.herokuapp.com/api/v1/posts/${id}/accept-post`,
+    `${process.env.REACT_APP_API_URL}/posts/${id}/accept-post`,
     {
       method: "PATCH",
       headers: {

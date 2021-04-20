@@ -6,7 +6,7 @@ export function updateUserPermissions(id, data, resolve = () => {}) {
     type: types.ADMIN_UPDATE_USER_PERMISSIONS,
   });
   return fetch(
-    `https://job-it-cnpmp.herokuapp.com/api/v1/users/${id}/permissions`,
+    `${process.env.REACT_APP_API_URL}/users/${id}/permissions`,
     {
       method: "PUT",
       headers: {

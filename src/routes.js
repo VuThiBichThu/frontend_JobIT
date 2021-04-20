@@ -18,7 +18,7 @@ const routes = [
   { path: '/usersmanagement', name: 'Users Management', component: GroupPermissions, exact: true },
   { path: '/usersmanagement/moderators', name: 'Moderators', component: Moderators, exact: true},
   { path: '/usersmanagement/users/:id/:name', name: 'Users Permissions', component: UserPermissions, exact: true},
-  { path: '/usersmanagement/companies', name: 'Companies', component: Companies  },
+  { path: '/usersmanagement/companies', name: 'Companies', component: Companies },
   { path: '/usersmanagement/users/:id/:name', name: 'Users Permissions', component: UserPermissions, exact: true},
   { path: '/usersmanagement/ITers', name: 'ITers', component: ITers },
   { path: '/usersmanagement/users/:id/:name', name: 'Users Permissions', component: UserPermissions, exact: true},
@@ -28,6 +28,8 @@ const routes = [
   { path: '/postsmanagement/posts-statistic', name: 'Posts Statistic', component: PostsStatistic },
 
   { path: '/grouppermissions', exact: true, name: 'Group permissions', component: GroupPermissions },
+
+  
 
 ];
 

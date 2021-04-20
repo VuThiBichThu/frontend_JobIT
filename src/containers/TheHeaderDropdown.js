@@ -8,7 +8,8 @@ import {
 } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
 import { useHistory } from "react-router-dom";
-import { ROUTER_ADMIN } from "src/utils/routes";
+import { ROUTER_ADMIN, ROUTER_HOMEPAGE } from "src/utils/routes";
+import { getAuth } from "src/utils/helpers";
 
 const TheHeaderDropdown = () => {
   const history = useHistory();
@@ -33,15 +34,27 @@ const TheHeaderDropdown = () => {
           Settings
         </CDropdownItem>
         <CDropdownItem divider />
-        <CDropdownItem
-          onClick={() => {
-            localStorage.clear();
-            history.push(ROUTER_ADMIN);
-          }}
-        >
-          <CIcon name="cil-lock-locked" className="mfe-2" />
-          Log Out
-        </CDropdownItem>
+        {getAuth().role === "admin" || getAuth().role === "moderator" ? (
+          <CDropdownItem
+            onClick={() => {
+              localStorage.clear();
+              history.push(ROUTER_ADMIN);
+            }}
+          >
+            <CIcon name="cil-lock-locked" className="mfe-2" />
+            Log Out
+          </CDropdownItem>
+        ) : (
+          <CDropdownItem
+            onClick={() => {
+              localStorage.clear();
+              history.push(ROUTER_HOMEPAGE);
+            }}
+          >
+            <CIcon name="cil-lock-locked" className="mfe-2" />
+            Log Out
+          </CDropdownItem>
+        )}
       </CDropdownMenu>
     </CDropdown>
   );

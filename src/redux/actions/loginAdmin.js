@@ -5,7 +5,7 @@ export function loginAdmin(data, resolve = () => { }) {
     type: types.LOGIN_API,
   });
   return fetch(
-    "https://job-it-cnpmp.herokuapp.com/api/v1/admin/login",
+    `${process.env.REACT_APP_API_URL}/admin/login`,
     {
       method: "POST",
       headers: {

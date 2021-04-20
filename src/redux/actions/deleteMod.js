@@ -7,7 +7,7 @@ export function deleteMod(id, resolve = () => {}) {
   });
   console.log(id);
   return fetch(
-    `https://job-it-cnpmp.herokuapp.com/api/v1/moderators/${id}`,
+    `${process.env.REACT_APP_API_URL}/moderators/${id}`,
     {
       method: "DELETE",
       headers: {

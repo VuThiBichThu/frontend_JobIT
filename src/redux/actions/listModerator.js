@@ -6,7 +6,7 @@ export function listModerator(newPage, resolve = () => {}) {
     type: types.ADMIN_GET_LIST_MOD,
   });
   return fetch(
-    `https://job-it-cnpmp.herokuapp.com/api/v1/moderators?page=${newPage}`,
+    `${process.env.REACT_APP_API_URL}/moderators?page=${newPage}`,
     {
       method: "GET",
       headers: {

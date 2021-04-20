@@ -6,7 +6,7 @@ export function listITer(newPage, resolve = () => {}) {
     type: types.ADMIN_GET_LIST_ITER,
   });
   return fetch(
-    `https://job-it-cnpmp.herokuapp.com/api/v1/iters?page=${newPage}`,
+    `${process.env.REACT_APP_API_URL}/iters?page=${newPage}`,
     {
       method: "GET",
       headers: {

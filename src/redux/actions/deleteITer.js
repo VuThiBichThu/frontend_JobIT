@@ -7,7 +7,7 @@ export function deleteITer(id, resolve = () => {}) {
   });
   console.log(id);
   return fetch(
-    `https://job-it-cnpmp.herokuapp.com/api/v1/iters/${id}`,
+    `${process.env.REACT_APP_API_URL}/iters/${id}`,
     {
       method: "DELETE",
       headers: {
