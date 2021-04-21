@@ -4,9 +4,6 @@ import { TheLayout } from "./containers";
 import LogInAdmin from "./containers/LogInAdmin";
 import HomeITer from "./containers/iter/HomeITer";
 
-import Login from "../src/components/login/Login";
-import Register from "../src/components/register/Register";
-
 import routes from "./routes";
 import { getAuth } from "../src/utils/helpers";
 import { ToastContainer } from "react-toastify";
@@ -16,6 +13,9 @@ import "./scss/style.scss";
 import "./styles/_main.scss";
 
 import { ROUTER_ADMIN } from "./utils/routes";
+import ForgotPassword from "./components/pages/ForgotPassword";
+import Register from "./components/pages/register/Register";
+import Login from "./components/pages/login/Login";
 // Containers
 // const TheLayout = React.lazy(() => import("./containers/TheLayout"));
 // const LogInAdmin = React.lazy(() => import("./containers/LogInAdmin"));
@@ -36,6 +36,7 @@ function App() {
         <Route path="/" exact component={TheLayout(HomeITer)} />
         <Route path="/login" exact component={Login} />
         <Route path="/register" exact component={Register} />
+        <Route path="/forgot-password" exact component={ForgotPassword} />
 
         <Route path={ROUTER_ADMIN} component={LogInAdmin} exact />
         {routes.map((route, idx) => {

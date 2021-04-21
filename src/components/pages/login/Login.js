@@ -1,5 +1,5 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React from "react";
+import { Link } from "react-router-dom";
 import {
   CButton,
   CCard,
@@ -12,11 +12,42 @@ import {
   CInputGroup,
   CInputGroupPrepend,
   CInputGroupText,
-  CRow
-} from '@coreui/react'
-import CIcon from '@coreui/icons-react'
+  CRow,
+} from "@coreui/react";
+import CIcon from "@coreui/icons-react";
+import { useHistory } from "react-router-dom";
+import { login } from "../../../redux/actions/login";
+import { ROUTER_HOMEPAGE } from "../../../utils/routes";
+import { setAuth } from "../../../utils/helpers";
 
 const Login = () => {
+  const history = useHistory();
+  const [form, setForm] = React.useState({ email: "", password: "" });
+  const handleChange = (event) => {
+    setForm({ ...form, [event.target.name]: event.target.value.trim() });
+  };
+  const handleLogin = (event) => {
+    event.preventDefault();
+    // const errorState = validate();
+    // if (Object.keys(errorState).length > 0) {
+    //   return setError(errorState);
+    // }
+
+    const formData = {
+      email: form.email,
+      password: form.password,
+    };
+    console.log(formData);
+    login(formData, (data) => {
+      if (data.status === 200) {
+        setAuth(data);
+        history.push(ROUTER_HOMEPAGE);
+      } else {
+        alert(data.msg);
+      }
+    });
+  };
+
   return (
     <div className="c-app c-default-layout flex-row align-items-center">
       <CContainer>
@@ -25,16 +56,24 @@ const Login = () => {
             <CCardGroup>
               <CCard className="p-4">
                 <CCardBody>
-                  <CForm>
-                    <h1>Login</h1>
+                  <CForm onSubmit={handleLogin}>
+                    <h1 style={{ fontSize: "50px" }}>Login</h1>
+                    <br />
                     <p className="text-muted">Sign In to your account</p>
                     <CInputGroup className="mb-3">
                       <CInputGroupPrepend>
                         <CInputGroupText>
-                          <CIcon name="cil-user" />
+                          <CIcon name="cil-envelope-closed" />
                         </CInputGroupText>
                       </CInputGroupPrepend>
-                      <CInput type="text" placeholder="Username" autoComplete="username" />
+                      <CInput
+                        name="email"
+                        type="email"
+                        placeholder="Email"
+                        autoComplete="email"
+                        value={form.email}
+                        onChange={handleChange}
+                      />
                     </CInputGroup>
                     <CInputGroup className="mb-4">
                       <CInputGroupPrepend>
@@ -42,25 +81,55 @@ const Login = () => {
                           <CIcon name="cil-lock-locked" />
                         </CInputGroupText>
                       </CInputGroupPrepend>
-                      <CInput type="password" placeholder="Password" autoComplete="current-password" />
+                      <CInput
+                        name="password"
+                        type="password"
+                        placeholder="Password"
+                        autoComplete="current-password"
+                        value={form.password}
+                        onChange={handleChange}
+                      />
                     </CInputGroup>
                     <CRow>
                       <CCol xs="6">
-                        <CButton color="primary" className="px-4">Login</CButton>
+                        <CButton
+                          color="primary"
+                          className="px-4"
+                          onClick={handleLogin}
+                        >
+                          Login
+                        </CButton>
                       </CCol>
                       <CCol xs="6" className="text-right">
-                        <CButton color="link" className="px-0">Forgot password?</CButton>
+                        <Link to="/forgot-password">
+                          <CButton color="link" className="px-0">
+                            Forgot password?
+                          </CButton>
+                        </Link>
                       </CCol>
                     </CRow>
                   </CForm>
                 </CCardBody>
               </CCard>
-              <CCard className="text-white bg-primary py-5 d-md-down-none" style={{ width: '44%' }}>
-                <CCardBody className="text-center">
-                  <div>
-                    <h2>Sign up</h2>
+              <CCard
+                className="text-white bg-primary py-5 d-md-down-none"
+                style={{ width: "44%" }}
+              >
+                <CCardBody className="text-center mt-4">
+                  <div className="mt-5">
+                    <p style={{ paddingBottom: "12px" }}>
+                      Sign up now to access your account on ITJobs for applying
+                      faster!
+                    </p>
                     <Link to="/register">
-                      <CButton color="primary" className="mt-3" active tabIndex={-1}>Register Now!</CButton>
+                      <CButton
+                        style={{ backgroundColor: "white", color: "#321fdb" }}
+                        className="mt-4"
+                        active
+                        tabIndex={-1}
+                      >
+                        Register Now!
+                      </CButton>
                     </Link>
                   </div>
                 </CCardBody>
@@ -70,7 +139,7 @@ const Login = () => {
         </CRow>
       </CContainer>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

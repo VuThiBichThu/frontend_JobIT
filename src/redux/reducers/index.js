@@ -17,6 +17,9 @@ import approvePost from "./approvePost";
 import updateUserPermissions from "./updateUserPermissions";
 
 import login from "./login";
+import register from "./register";
+import forgotPassword from "./forgotPassword";
+
 import setShowSidebar from "./setShowSidebar"
 
 
@@ -39,5 +42,7 @@ export default combineReducers({
   updateUserPermissions,
 
   login,
-  setShowSidebar
+  setShowSidebar,
+  register,
+  forgotPassword
 });
