@@ -26,7 +26,7 @@ export function forgotPassword(data, resolve = () => {}) {
     .catch((error) => {
       store.dispatch({
         payload: error,
-        type: types.FORGOT_PASSWORD_API_FAIL,
+        type: types.FORGOT_PASSWORD_API_FAILED,
       });
     });
 }

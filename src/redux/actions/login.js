@@ -26,7 +26,7 @@ export function login(data, resolve = () => {}) {
     .catch((error) => {
       store.dispatch({
         payload: error,
-        type: types.LOGIN_API_FAIL,
+        type: types.LOGIN_API_FAILED,
       });
     });
 }

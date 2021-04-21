@@ -10,8 +10,9 @@ import { Link } from "react-router-dom";
 
 // routes config
 
-import { TheHeaderDropdown, TheHeaderDropdownNotif } from "./index";
+import { TheHeaderDropdown } from "./index";
 import { getAuth } from "../utils/helpers";
+
 const TheHeaderUser = () => {
   return (
     <CHeader withSubheader>
@@ -25,7 +26,7 @@ const TheHeaderUser = () => {
       </CHeaderNav>
       {getAuth().role ? (
         <CHeaderNav className="px-3">
-          <TheHeaderDropdownNotif />
+          <p>Name</p>
           <TheHeaderDropdown />
         </CHeaderNav>
       ) : (

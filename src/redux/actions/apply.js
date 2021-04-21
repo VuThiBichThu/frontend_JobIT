@@ -1,18 +1,20 @@
+import { getAuth } from "../../utils/helpers";
 import * as types from "../constants";
 import store from "../store";
-export function loginAdmin(data, resolve = () => { }) {
+export function apply(id, data, resolve = () => {}) {
   store.dispatch({
-    type: types.LOGIN_API,
+    type: types.APPLY_API,
   });
   return fetch(
-    `${process.env.REACT_APP_API_URL}/admin/login`,
+    `${process.env.REACT_APP_API_URL}/posts/${id}/apply`,
     {
-      method: "POST",
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
+        Authorization: "Bearer " + getAuth().token
       },
-      body: JSON.stringify(data),
+      // body: JSON.stringify(data),
     }
   )
     .then((response) => response.json())
@@ -20,13 +22,13 @@ export function loginAdmin(data, resolve = () => { }) {
       resolve(data);
       store.dispatch({
         payload: data,
-        type: types.LOGIN_API_SUCCEED,
+        type: types.APPLY_API_SUCCEED,
       });
     })
     .catch((error) => {
       store.dispatch({
         payload: error,
-        type: types.LOGIN_API_FAILED,
+        type: types.APPLY_API_FAILED,
       });
     });
 }

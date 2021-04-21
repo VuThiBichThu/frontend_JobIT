@@ -19,9 +19,9 @@ import updateUserPermissions from "./updateUserPermissions";
 import login from "./login";
 import register from "./register";
 import forgotPassword from "./forgotPassword";
+import apply from "./register";
 
-import setShowSidebar from "./setShowSidebar"
-
+import setShowSidebar from "./setShowSidebar";
 
 export default combineReducers({
   loginAdmin,
@@ -44,5 +44,6 @@ export default combineReducers({
   login,
   setShowSidebar,
   register,
-  forgotPassword
+  forgotPassword,
+  apply,
 });

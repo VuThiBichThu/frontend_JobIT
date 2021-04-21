@@ -26,7 +26,7 @@ export function register(data, role, resolve = () => {}) {
     .catch((error) => {
       store.dispatch({
         payload: error,
-        type: types.REGISTER_API_FAIL,
+        type: types.REGISTER_API_FAILED,
       });
     });
 }

@@ -21,7 +21,7 @@ export default function reducer(state = initialState, actions) {
         data: actions.payload,
         loading: false,
       };
-    case types.REGISTER_API_FAIL:
+    case types.REGISTER_API_FAILED:
       return {
         ...state,
         error: actions.payload,
