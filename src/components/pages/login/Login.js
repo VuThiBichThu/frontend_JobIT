@@ -116,7 +116,7 @@ const Login = () => {
                 style={{ width: "44%" }}
               >
                 <CCardBody className="text-center mt-4">
-                  <div className="mt-5">
+                  <div>
                     <p style={{ paddingBottom: "12px" }}>
                       Sign up now to access your account on ITJobs for applying
                       faster!
@@ -124,12 +124,21 @@ const Login = () => {
                     <Link to="/register">
                       <CButton
                         style={{ backgroundColor: "white", color: "#321fdb" }}
-                        className="mt-4"
+                        className="mt-2 mb-3"
                         active
                         tabIndex={-1}
                       >
                         Register Now!
                       </CButton>
+                    </Link>
+                  </div>
+                  <div>
+                    <span>______________or______________</span>
+
+                    <Link to="/register-company">
+                      <p style={{ paddingBottom: "12px", color: "white" }}>
+                        Sign up for recruitment!
+                      </p>
                     </Link>
                   </div>
                 </CCardBody>

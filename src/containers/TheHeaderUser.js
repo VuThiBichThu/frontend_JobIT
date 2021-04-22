@@ -7,15 +7,40 @@ import {
   CButton,
 } from "@coreui/react";
 import { Link } from "react-router-dom";
+import { getAuth } from "src/utils/helpers";
 
 // routes config
 
 import { TheHeaderDropdown } from "./index";
-import { getAuth } from "../utils/helpers";
 
 const TheHeaderUser = () => {
-  return (
-    <CHeader withSubheader>
+  return getAuth().token && getAuth().role === "company" ? (
+    <CHeader>
+      <CHeaderNav className="d-md-down-none mr-auto">
+        <CHeaderNavItem className="px-3">
+          <CHeaderNavLink to="/post-management">Post management</CHeaderNavLink>
+        </CHeaderNavItem>
+        <CHeaderNavItem className="px-3">
+          <CHeaderNavLink to="/it-Companies">IT Companies</CHeaderNavLink>
+        </CHeaderNavItem>
+      </CHeaderNav>
+      {getAuth().role ? (
+        <CHeaderNav className="px-3">
+          <p>Name</p>
+          <TheHeaderDropdown />
+        </CHeaderNav>
+      ) : (
+        <CHeaderNav className="px-3">
+          <Link to="/login">
+            <CButton color="primary" className="px-4">
+              Login
+            </CButton>
+          </Link>
+        </CHeaderNav>
+      )}
+    </CHeader>
+  ) : (
+    <CHeader>
       <CHeaderNav className="d-md-down-none mr-auto">
         <CHeaderNavItem className="px-3">
           <CHeaderNavLink to="/all-jobs">All jobs</CHeaderNavLink>

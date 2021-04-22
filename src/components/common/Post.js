@@ -41,25 +41,25 @@ function Post({
           </div>
           <div>
             <div>
-              <image src="" alt="" />
+              <img src="" alt="" />
             </div>
             <p>{address}</p>
           </div>
           <div>
             <div>
-              <image src="" alt="" />
+              <img src="" alt="" />
             </div>
             <p>{salary}</p>
           </div>
           <div>
             <div>
-              <image src="" alt="" />
+              <img src="" alt="" />
             </div>
             <p>{skill}</p>
           </div>
           <div>
             <div>
-              <image src="" alt="" />
+              <img src="" alt="" />
             </div>
             <p>{endTime}</p>
           </div>

@@ -10,6 +10,7 @@ import PostsStatistic from "./components/postsmanagement/posts-statistic/PostsSt
 
 import GroupPermissions from "./containers/admin/GroupPermissions";
 import PostManagement from "./containers/admin/PostManagement";
+import PostComp from "./components/comp/PostComp";
 
 
 const routes = [
@@ -29,8 +30,8 @@ const routes = [
 
   { path: '/grouppermissions', exact: true, name: 'Group permissions', component: GroupPermissions },
 
-  
-
+  // comp
+  { path: '/post-management', component: PostComp, exact: true },
 ];
 
 export default routes;

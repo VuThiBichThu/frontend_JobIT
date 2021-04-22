@@ -19,7 +19,11 @@ import updateUserPermissions from "./updateUserPermissions";
 import login from "./login";
 import register from "./register";
 import forgotPassword from "./forgotPassword";
-import apply from "./register";
+import apply from "./apply";
+import getPostsComp from "./getPostsComp";
+import getAppliers from "./getAppliers";
+import addPost from "./addPost";
+
 
 import setShowSidebar from "./setShowSidebar";
 
@@ -46,4 +50,8 @@ export default combineReducers({
   register,
   forgotPassword,
   apply,
+  getPostsComp,
+  getAppliers,
+  addPost,
+
 });

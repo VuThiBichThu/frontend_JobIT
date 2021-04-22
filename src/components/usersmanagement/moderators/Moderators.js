@@ -24,7 +24,7 @@ import {
   CInputGroup,
   CInputGroupText,
   CInput,
-  CInputGroupPrepend,
+  CInputGroupPrepend
 } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
 import { addMod } from "../../../redux/actions/addMod";
