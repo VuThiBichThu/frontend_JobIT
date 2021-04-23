@@ -23,8 +23,9 @@ import apply from "./apply";
 import getPostsComp from "./getPostsComp";
 import getAppliers from "./getAppliers";
 import addPost from "./addPost";
-
-
+import getProfile from "./getProfile";
+import getCV from "./getCV";
+import getITerCV from "./getITerCV";
 import setShowSidebar from "./setShowSidebar";
 
 export default combineReducers({
@@ -53,5 +54,8 @@ export default combineReducers({
   getPostsComp,
   getAppliers,
   addPost,
+  getProfile,
+  getCV,
+  getITerCV
 
 });

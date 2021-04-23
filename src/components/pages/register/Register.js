@@ -27,7 +27,7 @@ const Register = () => {
     fullName: "",
   });
   const handleChange = (event) => {
-    setForm({ ...form, [event.target.name]: event.target.value.trim() });
+    setForm({ ...form, [event.target.name]: event.target.value });
   };
   const handleRegister = (event) => {
     event.preventDefault();

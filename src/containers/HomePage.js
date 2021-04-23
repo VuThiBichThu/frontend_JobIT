@@ -6,6 +6,7 @@ import { getPosts } from "src/redux/actions/getPosts";
 import { CRow, CCol, CPagination } from "@coreui/react";
 import { getAuth } from "src/utils/helpers";
 import Post from "src/components/common/Post";
+
 // import ReactLoading from "react-loading";
 const HomePage = () => {
   const [posts, setPosts] = useState([]);
