@@ -27,7 +27,7 @@ const ITers = () => {
 
   const [numPages, setNumPages] = useState(1);
   const take = 10; // rows in table
-
+  const role = "iter";
   useEffect(() => {
     listITer(page, (item) => {
       setITers(item.data.result);
@@ -85,17 +85,17 @@ const ITers = () => {
                         });
                       }}
                     >
-                      <i class="cil-trash"></i>
+                      <i className="cil-trash"></i>
                     </CButton>{" "}
                     <CButton
                       color="success"
                       onClick={() =>
                         history.push(
-                          `/usersmanagement/users/${item.accountId}/${item.fullName}`
+                          `/usersmanagement/${role}/${item.accountId}/${item.fullName}`
                         )
                       }
                     >
-                      <i class="cil-cog"></i>
+                      <i className="cil-cog"></i>
                     </CButton>
                   </td>
                 ),

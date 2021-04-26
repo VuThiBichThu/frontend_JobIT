@@ -28,6 +28,7 @@ const Companies = () => {
   const [numPages, setNumPages] = useState(1);
   const take = 10; // rows in table
 
+  const role = "company";
   useEffect(() => {
     listCompany(page, (item) => {
       setCompanies(item.data.result);
@@ -87,17 +88,17 @@ const Companies = () => {
                         });
                       }}
                     >
-                      <i class="cil-trash"></i>
+                      <i className="cil-trash"></i>
                     </CButton>{" "}
                     <CButton
                       color="success"
                       onClick={() =>
                         history.push(
-                          `/usersmanagement/users/${item.accountId}/${item.companyName}`
+                          `/usersmanagement/${role}/${item.accountId}/${item.companyName}`
                         )
                       }
                     >
-                      <i class="cil-cog"></i>
+                      <i className="cil-cog"></i>
                     </CButton>
                   </td>
                 ),

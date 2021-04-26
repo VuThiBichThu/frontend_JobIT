@@ -10,9 +10,11 @@ import { CCard, CCardBody, CCardHeader, CLink } from "@coreui/react";
 const StyledPost = styled.section`
   .card {
     width: 530px;
+    margin: 10px;
   }
   .align {
     margin: 10px;
+    margin-top: 5px;
   }
   .margin-top {
     margin-top: 1px;
@@ -21,6 +23,7 @@ const StyledPost = styled.section`
     width: 30%;
   }
   .info {
+    margin: 0px 10px;
     width: 100%;
   }
   .button {
@@ -46,33 +49,33 @@ function Post({
 
   return (
     <StyledPost>
-      <CCard accentColor="primary" className="card align">
+      <CCard accentColor="primary" className="card">
         <CCardHeader>{title}</CCardHeader>
         <CCardBody className="flex space-between">
           <img src={image} className="image" alt="avatar" />
-          <div class="align info">
+          <div className="info">
             <div className="flex space-between align-item">
               <h4 className="text-primary">{compName}</h4>
               <p>
-                <i class="cil-location-pin"></i>
+                <i className="cil-location-pin"></i>
                 {address}
               </p>
             </div>
 
             <p>
-              <i class="cil-money"></i>
+              <i className="cil-money"></i>
               {" " + salary}
             </p>
             <p>
-              <i class="cil-code"></i>
+              <i className="cil-code"></i>
               {" " + skill}
             </p>
             <p>
-              <i class="cil-monitor"></i>
+              <i className="cil-monitor"></i>
               {" " + position}
             </p>
 
-            <div className="flex space-between">
+            <div className="flex space-between margin-top">
               <CLink
                 className="text-success"
                 onClick={() => {
@@ -100,7 +103,7 @@ function Post({
                 See More
               </CLink>
               <p>
-                <i class="cil-history"></i>
+                <i className="cil-history"></i>
                 {" " + endTime}
               </p>
             </div>

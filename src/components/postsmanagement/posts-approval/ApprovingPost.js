@@ -106,7 +106,7 @@ const ApprovingPost = () => {
                         });
                       }}
                     >
-                      <i class="cil-trash"></i>
+                      <i className="cil-trash"></i>
                     </CButton>{" "}
                     <CButton
                       color="success"
@@ -128,7 +128,7 @@ const ApprovingPost = () => {
                         });
                       }}
                     >
-                      <i class="cil-check"></i>
+                      <i className="cil-check"></i>
                     </CButton>
                   </td>
                 ),
@@ -156,12 +156,12 @@ const ApprovingPost = () => {
                   defaultChecked={false}
                 ></CInputCheckbox>
 
-                All <i class="cil-task"></i>
+                All <i className="cil-task"></i>
 
               </CButton>
               <CButton color="success" onClick={approveAll}>
 
-              <i class="cil-check"></i>
+              <i className="cil-check"></i>
 
               </CButton>
             </div>
