@@ -3,11 +3,24 @@ import { useSelector } from "react-redux";
 import { getPosts } from "src/redux/actions/getPosts";
 // import { toast } from "react-toastify";
 // import LoadingOverlay from "react-loading-overlay";
-import { CRow, CCol, CPagination,CContainer } from "@coreui/react";
+// import ReactLoading from "react-loading";
+
+import {
+  CRow,
+  CCol,
+  CPagination,
+  CInputGroup,
+  CInputGroupAppend,
+  CInputGroupPrepend,
+  CInputGroupText,
+  CInput,
+  CButton,
+  CContainer,
+} from "@coreui/react";
+import CIcon from "@coreui/icons-react";
 import { getAuth } from "src/utils/helpers";
 import Post from "src/components/common/Post";
 
-// import ReactLoading from "react-loading";
 const HomePage = () => {
   const [posts, setPosts] = useState([]);
   const storeGetPosts = useSelector((store) => store.getPosts);
@@ -37,18 +50,36 @@ const HomePage = () => {
   };
   return (
     // <LoadingOverlay active={loadingList} spinner text="Loading...">
-    <CContainer >
-
+    <CContainer>
+      <CRow style={{ justifyContent: "center" }}>
+        <CCol md="6">
+          <CInputGroup className="input-prepend">
+            <CInputGroupPrepend>
+              <CInputGroupText>
+                <CIcon name="cil-magnifying-glass" />
+              </CInputGroupText>
+            </CInputGroupPrepend>
+            <CInput
+              size="16"
+              type="text"
+              placeholder="Keyword ( Skill, Company, Position ...)"
+            />
+            <CInputGroupAppend>
+              <CButton color="info">Search</CButton>
+            </CInputGroupAppend>
+          </CInputGroup>
+        </CCol>
+      </CRow>
       {/* {loadingList && <ReactLoading type="spinningBubbles" color="#321fdb" />} */}
-      <div className="flex flex-wrap">
-      {posts &&
+      <div className="flex flex-wrap space-between">
+        {posts &&
           posts.map((item, index) => {
             return (
               <Post
                 key={index}
                 compName={item.companyName}
                 title={item.title}
-                position = {item.position.join(" ,")}
+                position={item.position.join(" ,")}
                 address={item.address}
                 skill={item.skill.join(" ,")}
                 endTime={item.endTime}
@@ -61,17 +92,17 @@ const HomePage = () => {
             );
           })}
       </div>
-       
-        <CPagination
-          className="mb-2"
-          activePage={currentPage}
-          onActivePageChange={pageChange}
-          pages={numPages}
-          doubleArrows={false}
-          align="center"
-        />
+
+      <CPagination
+        className="mb-2"
+        activePage={currentPage}
+        onActivePageChange={pageChange}
+        pages={numPages}
+        doubleArrows={false}
+        align="center"
+      />
     </CContainer>
-    
+    // </LoadingOverlay>
   );
 };
 

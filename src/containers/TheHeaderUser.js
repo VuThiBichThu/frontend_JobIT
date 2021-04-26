@@ -14,6 +14,7 @@ import { getAuth } from "src/utils/helpers";
 import { TheHeaderDropdown } from "./index";
 
 const TheHeaderUser = () => {
+  console.log(getAuth().name);
   return getAuth().token && getAuth().role === "company" ? (
     <CHeader>
       <CHeaderNav className="d-md-down-none mr-auto">
@@ -26,7 +27,7 @@ const TheHeaderUser = () => {
       </CHeaderNav>
       {getAuth().role ? (
         <CHeaderNav className="px-3">
-          <p>Name</p>
+          <p>{getAuth().name}</p>
           <TheHeaderDropdown />
         </CHeaderNav>
       ) : (
@@ -51,7 +52,7 @@ const TheHeaderUser = () => {
       </CHeaderNav>
       {getAuth().role ? (
         <CHeaderNav className="px-3">
-          <p>Name</p>
+           <p>{getAuth().name}</p>
           <TheHeaderDropdown />
         </CHeaderNav>
       ) : (

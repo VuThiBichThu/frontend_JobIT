@@ -66,7 +66,10 @@ const UserPermissions = ({ match }) => {
         <CCard>
           <CCardHeader>
             <p>User ID: {match.params.id}</p>
-            <p>Username: {match.params.name}</p>
+            {match.params.role === "moderator" && <label>Username:</label>}
+            {match.params.role === "iter" && <label>Full name: </label>}
+            {match.params.role === "company" && <label>Company name:</label>}
+            <span> {match.params.name}</span>
           </CCardHeader>
           <CCardBody>
             <table className="table table-striped table-hover">

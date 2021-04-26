@@ -17,12 +17,11 @@ const routes = [
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
 
   { path: '/usersmanagement', name: 'Users Management', component: GroupPermissions, exact: true },
+  { path: '/usersmanagement/:role/:id/:name', name: 'Users Permissions', component: UserPermissions, exact: true},
+
   { path: '/usersmanagement/moderators', name: 'Moderators', component: Moderators, exact: true},
-  { path: '/usersmanagement/users/:id/:name', name: 'Users Permissions', component: UserPermissions, exact: true},
   { path: '/usersmanagement/companies', name: 'Companies', component: Companies },
-  { path: '/usersmanagement/users/:id/:name', name: 'Users Permissions', component: UserPermissions, exact: true},
   { path: '/usersmanagement/ITers', name: 'ITers', component: ITers },
-  { path: '/usersmanagement/users/:id/:name', name: 'Users Permissions', component: UserPermissions, exact: true},
 
   { path: '/postsmanagement', name: 'Posts Management', component: PostManagement, exact: true },
   { path: '/postsmanagement/posts-approval', name: 'Posts Approval', component: PostManagement },

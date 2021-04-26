@@ -42,6 +42,7 @@ const Moderators = () => {
   const [numPages, setNumPages] = useState(1);
   const take = 10; // rows in table
 
+  const role = "moderator";
   useEffect(() => {
     listModerator(page, (item) => {
       setModerators(item.data.result);
@@ -101,7 +102,7 @@ const Moderators = () => {
               className="mr-1 right-btn"
               onClick={() => setPrimary(!primary)}
             >
-              <i class="cil-user-plus"></i> New Moderator
+              <i className="cil-user-plus"></i> New Moderator
             </CButton>
             <CModal
               show={primary}
@@ -223,17 +224,17 @@ const Moderators = () => {
                         });
                       }}
                     >
-                      <i class="cil-trash"></i>
+                      <i className="cil-trash"></i>
                     </CButton>{" "}
                     <CButton
                       color="success"
                       onClick={() =>
                         history.push(
-                          `/usersmanagement/users/${item._id}/${item.userName}`
+                          `/usersmanagement/${role}/${item._id}/${item.userName}`
                         )
                       }
                     >
-                      <i class="cil-cog"></i>
+                      <i className="cil-cog"></i>
                     </CButton>
                   </td>
                 ),
