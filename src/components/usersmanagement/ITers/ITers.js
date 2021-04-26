@@ -85,7 +85,7 @@ const ITers = () => {
                         });
                       }}
                     >
-                      Delete
+                      <i class="cil-trash"></i>
                     </CButton>{" "}
                     <CButton
                       color="success"
@@ -95,7 +95,7 @@ const ITers = () => {
                         )
                       }
                     >
-                      Permissions{" "}
+                      <i class="cil-cog"></i>
                     </CButton>
                   </td>
                 ),

@@ -24,7 +24,7 @@ import {
   CInputGroup,
   CInputGroupText,
   CInput,
-  CInputGroupPrepend
+  CInputGroupPrepend,
 } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
 import { addMod } from "../../../redux/actions/addMod";
@@ -94,14 +94,14 @@ const Moderators = () => {
       <CCol xl={6}>
         <CCard>
           <CCardHeader>
-            Moderators
+            MODERATORS
             <CButton
               style={{ float: "right" }}
               color="primary"
               className="mr-1 right-btn"
               onClick={() => setPrimary(!primary)}
             >
-              Create new moderator
+              <i class="cil-user-plus"></i> New Moderator
             </CButton>
             <CModal
               show={primary}
@@ -223,7 +223,7 @@ const Moderators = () => {
                         });
                       }}
                     >
-                      Delete
+                      <i class="cil-trash"></i>
                     </CButton>{" "}
                     <CButton
                       color="success"
@@ -233,7 +233,7 @@ const Moderators = () => {
                         )
                       }
                     >
-                      Permissions{" "}
+                      <i class="cil-cog"></i>
                     </CButton>
                   </td>
                 ),
