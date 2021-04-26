@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { getPosts } from "src/redux/actions/getPosts";
 // import { toast } from "react-toastify";
 // import LoadingOverlay from "react-loading-overlay";
-import { CRow, CCol, CPagination } from "@coreui/react";
+import { CRow, CCol, CPagination,CContainer } from "@coreui/react";
 import { getAuth } from "src/utils/helpers";
 import Post from "src/components/common/Post";
 
@@ -37,18 +37,20 @@ const HomePage = () => {
   };
   return (
     // <LoadingOverlay active={loadingList} spinner text="Loading...">
-    <CRow>
+    <CContainer >
+
       {/* {loadingList && <ReactLoading type="spinningBubbles" color="#321fdb" />} */}
-      <CCol>
-        {posts &&
+      <div className="flex flex-wrap">
+      {posts &&
           posts.map((item, index) => {
             return (
               <Post
                 key={index}
                 compName={item.companyName}
-                position={item.position}
+                title={item.title}
+                position = {item.position.join(" ,")}
                 address={item.address}
-                skill={item.skill}
+                skill={item.skill.join(" ,")}
                 endTime={item.endTime}
                 salary={item.salary}
                 image="https://via.placeholder.com/50"
@@ -58,6 +60,8 @@ const HomePage = () => {
               />
             );
           })}
+      </div>
+       
         <CPagination
           className="mb-2"
           activePage={currentPage}
@@ -66,9 +70,8 @@ const HomePage = () => {
           doubleArrows={false}
           align="center"
         />
-      </CCol>
-    </CRow>
-    // </LoadingOverlay>
+    </CContainer>
+    
   );
 };
 

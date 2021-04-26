@@ -87,7 +87,7 @@ const Companies = () => {
                         });
                       }}
                     >
-                      Delete
+                      <i class="cil-trash"></i>
                     </CButton>{" "}
                     <CButton
                       color="success"
@@ -97,7 +97,7 @@ const Companies = () => {
                         )
                       }
                     >
-                      Permissions{" "}
+                      <i class="cil-cog"></i>
                     </CButton>
                   </td>
                 ),

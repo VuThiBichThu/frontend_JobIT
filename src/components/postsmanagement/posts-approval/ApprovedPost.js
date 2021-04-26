@@ -80,7 +80,7 @@ const ApprovedPost = () => {
                         });
                       }}
                     >
-                      Delete
+                      <i class="cil-trash"></i>
                     </CButton>{" "}
                   </td>
                 ),
