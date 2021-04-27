@@ -1,7 +1,7 @@
 import { getAuth } from "../../utils/helpers";
 import * as types from "../constants";
 import store from "../store";
-export function apply(id, data, resolve = () => {}) {
+export function apply(id, resolve = () => {}) {
   store.dispatch({
     type: types.APPLY_API,
   });

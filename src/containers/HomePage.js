@@ -35,7 +35,7 @@ const HomePage = () => {
   useEffect(() => {
     getPosts(page, (item) => {
       setPosts(item.data.posts);
-      console.log(item.data.posts);
+   
       setNumPages(item.data.numPages);
       setPage(item.data.currentPage);
     });
@@ -87,6 +87,7 @@ const HomePage = () => {
                 auth={getAuth}
                 postId={item._id}
                 compId={item.companyId}
+                description={item.description}
               />
             );
           })}

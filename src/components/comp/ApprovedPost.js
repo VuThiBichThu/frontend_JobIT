@@ -22,6 +22,7 @@ const ApprovedPost = () => {
       setPosts(item.posts.filter((post) => post.accept === true));
       console.log(posts);
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
