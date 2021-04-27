@@ -43,6 +43,7 @@ const ApprovedPost = () => {
                     <CButton color="success" onClick={() => {}}>
                       <i className="cil-pen"></i>
                     </CButton>
+                    {" "}
                     <CButton
                       color="danger"
                       onClick={() => {
