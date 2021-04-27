@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+//import { useSelector } from "react-redux";
 import { getPosts } from "src/redux/actions/getPosts";
 // import { toast } from "react-toastify";
 // import LoadingOverlay from "react-loading-overlay";
@@ -23,8 +23,8 @@ import Post from "src/components/common/Post";
 
 const HomePage = () => {
   const [posts, setPosts] = useState([]);
-  const storeGetPosts = useSelector((store) => store.getPosts);
-  const loadingList = storeGetPosts.loading;
+ // const storeGetPosts = useSelector((store) => store.getPosts);
+ // const loadingList = storeGetPosts.loading;
 
   const [page, setPage] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
