@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { getPostsComp } from "src/redux/actions/getPostsComp";
 // import { toast } from "react-toastify";
 // import LoadingOverlay from "react-loading-overlay";
+import { ApprovingPost, ApprovedPost } from "./index";
+
 import {
   CRow,
   CCol,
@@ -17,41 +18,42 @@ import {
   CInput,
   CTextarea,
   CLabel,
+  CNav,
+  CNavItem,
+  CNavLink,
+  CTabContent,
+  CTabPane,
+  CCard,
+  CCardBody,
+  CTabs,
 } from "@coreui/react";
 import { toast } from "react-toastify";
-import { getAuth } from "src/utils/helpers";
-import Post from "src/components/common/Post";
 import { addPost } from "../../redux/actions/addPost";
 // import ReactLoading from "react-loading";
 const PostComp = () => {
-  const [posts, setPosts] = useState([]);
-  const storeGetPosts = useSelector((store) => store.getPostsComp);
-  const loadingList = storeGetPosts.loading;
   const [isOpen, setOpen] = useState(false);
   const loading = useSelector((store) => store.addPost.loading);
+  const [endTime, setEndTime] = useState("");
+  const [skill, setSkill] = useState([]);
   const [form, setForm] = React.useState({
-    position: [],
-    skills: [],
+    title: "",
     salary: "",
-    endTime: "",
     address: "",
     description: "",
   });
 
-  useEffect(() => {
-    getPostsComp((item) => {
-      setPosts(item.posts);
-      console.log(item.posts);
-    });
-  }, []);
-
   const handleChange = (event) => {
-    var date = new Date("2021-04-16");
-    if (!isNaN(date.getTime())) {
-      // Months use 0 index.
-      console.log(
+    let date;
+    if (event.target.name === "endTime") {
+      date = new Date(event.target.value);
+      console.log(date);
+      setEndTime(
         date.getMonth() + 1 + "/" + date.getDate() + "/" + date.getFullYear()
       );
+      console.log(endTime);
+    }
+    if (event.target.name === "skill") {
+      setSkill(event.target.value.split(","));
     }
     console.log(event.target.value.trim());
     setForm({ ...form, [event.target.name]: event.target.value.trim() });
@@ -65,21 +67,12 @@ const PostComp = () => {
     // if (Object.keys(errorState).length > 0) {
     //   return setError(errorState);
     // }
-    console.log(event);
     const post = {
-      // address: form.address,
-      // description: form.description,
-      // endTime: form.endTime,
-      // position: form.position,
-      // salary: form.salary,
-      // skill: form.skills,
-      address: "DN",
-      description: "10 năm kn",
-      endTime: "01-01-2021",
-      position: ["QC", "QA"],
-      salary: "1000$",
-      skill: ["test"],
+      ...form,
+      endTime,
+      skill,
     };
+    console.log(post);
 
     addPost(post, (data) => {
       if (data.status === 200) {
@@ -87,7 +80,7 @@ const PostComp = () => {
         toast.success("Create Post Successfully !", {
           position: toast.POSITION.BOTTOM_LEFT,
         });
-        // window.location.reload();
+        window.location.reload();
       } else {
         alert(data.msg);
       }
@@ -97,14 +90,6 @@ const PostComp = () => {
   return (
     <>
       <CRow>
-        <CButton
-          style={{ float: "right" }}
-          color="primary"
-          className="mr-1 right-btn"
-          onClick={() => setOpen(!isOpen)}
-        >
-          Create new post
-        </CButton>
         <CModal show={isOpen} onClose={() => setOpen(!isOpen)} color="primary">
           <CModalHeader closeButton>
             <CModalTitle>New post</CModalTitle>
@@ -113,16 +98,15 @@ const PostComp = () => {
             <CForm action="" method="post" className="form-horizontal">
               <CFormGroup row>
                 <CCol md="3">
-                  <CLabel>Position</CLabel>
+                  <CLabel>Title</CLabel>
                 </CCol>
                 <CCol xs="12" md="9">
                   <CInput
-                    id="position"
-                    name="position"
+                    id="title"
+                    name="title"
                     placeholder=""
                     onChange={handleChange}
                   />
-                  {/* <CFormText></CFormText> */}
                 </CCol>
               </CFormGroup>
               <CFormGroup row>
@@ -149,7 +133,6 @@ const PostComp = () => {
                     placeholder=""
                     onChange={handleChange}
                   />
-                  {/* <CFormText></CFormText> */}
                 </CCol>
               </CFormGroup>
               <CFormGroup row>
@@ -163,7 +146,6 @@ const PostComp = () => {
                     placeholder=""
                     onChange={handleChange}
                   />
-                  {/* <CFormText></CFormText> */}
                 </CCol>
               </CFormGroup>
               <CFormGroup row>
@@ -216,31 +198,44 @@ const PostComp = () => {
         </CModal>
         {/*  */}
       </CRow>
-      {/* <LoadingOverlay active={loadingList} spinner text="Loading..."> */}
       <CRow>
-        {/* {loadingList && <ReactLoading type="spinningBubbles" color="#321fdb" />} */}
-        <CCol>
-          {posts &&
-            posts.map((item, index) => {
-              return (
-                <Post
-                  key={index}
-                  compName={item.companyName}
-                  position={item.position}
-                  address={item.address}
-                  skill={item.skill}
-                  endTime={item.endTime}
-                  salary={item.salary}
-                  image="https://via.placeholder.com/50"
-                  auth={getAuth}
-                  postId={item._id}
-                  compId={item.companyId}
-                />
-              );
-            })}
+        <CCol xs="12" className="mb-4">
+          <CCard>
+            <CCardBody>
+              <CTabs>
+                <div style={{ display: "flex" }}>
+                  {" "}
+                  <CNav variant="tabs" style={{ width: "90%" }}>
+                    <CNavItem>
+                      <CNavLink>Approving Posts</CNavLink>
+                    </CNavItem>
+                    <CNavItem>
+                      <CNavLink>Approved Posts</CNavLink>
+                    </CNavItem>
+                  </CNav>
+                  <CButton
+                    style={{ marginBottom: "5px" }}
+                    color="primary"
+                    className="mr-1 right-btn"
+                    onClick={() => setOpen(!isOpen)}
+                  >
+                    Create new post
+                  </CButton>
+                </div>
+
+                <CTabContent>
+                  <CTabPane>
+                    <ApprovingPost />
+                  </CTabPane>
+                  <CTabPane>
+                    <ApprovedPost />
+                  </CTabPane>
+                </CTabContent>
+              </CTabs>
+            </CCardBody>
+          </CCard>
         </CCol>
       </CRow>
-      {/* </LoadingOverlay> */}
     </>
   );
 };
