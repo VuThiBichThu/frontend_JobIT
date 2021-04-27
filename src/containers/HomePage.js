@@ -79,7 +79,6 @@ const HomePage = () => {
                 key={index}
                 compName={item.companyName}
                 title={item.title}
-                position={item.position.join(" ,")}
                 address={item.address}
                 skill={item.skill.join(" ,")}
                 endTime={item.endTime}

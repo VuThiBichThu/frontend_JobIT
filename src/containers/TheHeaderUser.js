@@ -14,7 +14,6 @@ import { getAuth } from "src/utils/helpers";
 import { TheHeaderDropdown } from "./index";
 
 const TheHeaderUser = () => {
-  console.log(getAuth().name);
   return getAuth().token && getAuth().role === "company" ? (
     <CHeader>
       <CHeaderNav className="d-md-down-none mr-auto">

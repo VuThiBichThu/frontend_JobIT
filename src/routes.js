@@ -11,6 +11,7 @@ import PostsStatistic from "./components/postsmanagement/posts-statistic/PostsSt
 import GroupPermissions from "./containers/admin/GroupPermissions";
 import PostManagement from "./containers/admin/PostManagement";
 import PostComp from "./components/comp/PostComp";
+import Applier from "./components/comp/Applier";
 
 
 const routes = [
@@ -31,6 +32,8 @@ const routes = [
 
   // comp
   { path: '/post-management', component: PostComp, exact: true },
+  { path: '/post/appliers/:id', component: Applier, exact: true },
+
 ];
 
 export default routes;

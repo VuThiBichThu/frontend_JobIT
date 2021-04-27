@@ -4,7 +4,6 @@ import { TheLayout } from "./containers";
 import LogInAdmin from "./containers/LogInAdmin";
 
 import routes from "./routes";
-import { getAuth } from "../src/utils/helpers";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -27,10 +26,6 @@ import RegisterComp from "./components/pages/register/RegisterComp";
 // const Page500 = React.lazy(() => import('./views/pages/page500/Page500'));
 
 function App() {
-  //   const storeLogin = useSelector((store) => store.login);
-  // console.log(storeLogin);
-  const auth = getAuth();
-  console.log(auth.role);
   return (
     <Router>
       <Switch>
