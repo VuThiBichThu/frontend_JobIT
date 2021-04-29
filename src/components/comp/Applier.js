@@ -25,7 +25,7 @@ import { getCV } from "../../redux/actions/getCV";
 const ITer = ({ match }) => {
   const [appliers, setAppliers] = useState([]);
   const [cv, setCV] = useState({});
-  // const [title, setTitle] = useState("");
+  const [title, setTitle] = useState("");
   const [isOpen, setOpen] = useState(false);
 
   const id = match.params.id;
@@ -33,7 +33,7 @@ const ITer = ({ match }) => {
   useEffect(() => {
     getAppliers(id, (result) => {
       setAppliers(result.applies);
-      // setTitle(result.title);
+      setTitle(result.title);
     });
   }, [id]);
 
@@ -45,7 +45,7 @@ const ITer = ({ match }) => {
       if (data.status === 200) {
         setOpen(!isOpen);
 
-        setCV(data.cv);    
+        setCV(data.cv);
         cv.skill.join(" ,");
       } else {
         alert(data.msg);
@@ -60,7 +60,7 @@ const ITer = ({ match }) => {
           <CCardHeader>
             <p>Post ID: {match.params.id}</p>
 
-            {/* <span>Post title: {title}</span> */}
+            <span>Post title: {title}</span>
           </CCardHeader>
           <CCardBody>
             <div>
@@ -159,15 +159,12 @@ const ITer = ({ match }) => {
                         <CLabel>Experience</CLabel>
                       </CCol>
                       <CCol xs="12" md="9">
-                        <CInput
-                          defaultValue={cv.experience}
-                          disabled={true}
-                        />
+                        <CInput defaultValue={cv.experience} disabled={true} />
                       </CCol>
                     </CFormGroup>
                     <CFormGroup row>
                       <CCol md="3">
-                        <CLabel htmlFor="text-input">Skills</CLabel>
+                        <CLabel htmlFor="text-input">Technical skills</CLabel>
                       </CCol>
                       <CCol xs="12" md="9">
                         <CInput defaultValue={cv.skill} disabled={true} />
@@ -175,7 +172,7 @@ const ITer = ({ match }) => {
                     </CFormGroup>
                     <CFormGroup row>
                       <CCol md="3">
-                        <CLabel>Personal Skill</CLabel>
+                        <CLabel>Soft skills</CLabel>
                       </CCol>
                       <CCol xs="12" md="9">
                         <CTextarea
