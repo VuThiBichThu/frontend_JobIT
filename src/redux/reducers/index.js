@@ -24,9 +24,11 @@ import getPostsComp from "./getPostsComp";
 import getAppliers from "./getAppliers";
 import addPost from "./addPost";
 import getProfile from "./getProfile";
+import updateProfile from "./updateProfile";
 import getCV from "./getCV";
 import getITerCV from "./getITerCV";
 import setShowSidebar from "./setShowSidebar";
+import createCV from "./createCV";
 
 export default combineReducers({
   loginAdmin,
@@ -55,7 +57,9 @@ export default combineReducers({
   getAppliers,
   addPost,
   getProfile,
+  updateProfile,
   getCV,
-  getITerCV
+  getITerCV,
+  createCV
 
 });
