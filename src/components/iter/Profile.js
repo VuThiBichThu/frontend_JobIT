@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
 // import { toast } from "react-toastify";
 // import LoadingOverlay from "react-loading-overlay";
 
@@ -23,24 +22,29 @@ const Profile = () => {
   // const loading = useSelector((store) => store.getProfile.loading);
   const [avatar, setAvatar] = useState("/avatars/avatar.png");
   const [email, setEmail] = useState("");
-  const [fullName, setFullName] = useState("");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
 
-  const role = "iters";
   useEffect(() => {
-    getProfile(role, (result) => {
+    getProfile((result) => {
       console.log(result);
       setEmail(result.user.email);
-      setFullName(result.user.fullName);
+      setName(result.user.name);
+      setPhone(result.user.phone);
+      setAddress(result.user.address);
+
       if (result.user.image) {
         console.log(result.user.image);
         setAvatar(result.user.image);
-        console.log(avatar);
       }
     });
-  }, [role]);
+  }, []);
 
   const handleChange = (event) => {
-    setFullName(event.target.value);
+    if (event.target.name === "name") setName(event.target.value);
+    if (event.target.name === "phone") setPhone(event.target.value);
+    if (event.target.name === "address") setAddress(event.target.value);
   };
 
   const saveChanges = (event) => {
@@ -49,12 +53,24 @@ const Profile = () => {
     // if (Object.keys(errorState).length > 0) {
     //   return setError(errorState);
     // }
-    const data = {
-      fullName,
-    };
-    updateProfile(data, role, (data) => {
+    let data = {};
+    if (name !== "") {
+      data = { ...data, name };
+    }
+    if (phone !== "") {
+      data = { ...data, phone };
+    }
+    if (address !== "") {
+      data = { ...data, address };
+    }
+    if (avatar !== "") {
+      data = { ...data, avatar };
+    }
+    console.log(data);
+    updateProfile(data, (data) => {
       if (data.status === 200) {
         setOpen(!isOpen);
+        // setAuth(data.user);
         toast.success("Update successfully !", {
           position: toast.POSITION.BOTTOM_LEFT,
         });
@@ -96,10 +112,38 @@ const Profile = () => {
                   </CCol>
                   <CCol xs="12" md="9">
                     <CInput
-                      id="fullName"
-                      name="fullName"
+                      id="name"
+                      name="name"
                       placeholder=""
-                      value={fullName}
+                      value={name}
+                      onChange={handleChange}
+                    />
+                  </CCol>
+                </CFormGroup>
+                <CFormGroup row>
+                  <CCol md="3">
+                    <CLabel>Phone number</CLabel>
+                  </CCol>
+                  <CCol xs="12" md="9">
+                    <CInput
+                      id="phone"
+                      name="phone"
+                      placeholder=""
+                      value={phone}
+                      onChange={handleChange}
+                    />
+                  </CCol>
+                </CFormGroup>
+                <CFormGroup row>
+                  <CCol md="3">
+                    <CLabel>Address</CLabel>
+                  </CCol>
+                  <CCol xs="12" md="9">
+                    <CInput
+                      id="address"
+                      name="address"
+                      placeholder=""
+                      value={address}
                       onChange={handleChange}
                     />
                   </CCol>

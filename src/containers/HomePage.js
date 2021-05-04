@@ -23,8 +23,8 @@ import Post from "src/components/common/Post";
 
 const HomePage = () => {
   const [posts, setPosts] = useState([]);
- // const storeGetPosts = useSelector((store) => store.getPosts);
- // const loadingList = storeGetPosts.loading;
+  // const storeGetPosts = useSelector((store) => store.getPosts);
+  // const loadingList = storeGetPosts.loading;
 
   const [page, setPage] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
@@ -35,7 +35,7 @@ const HomePage = () => {
   useEffect(() => {
     getPosts(page, (item) => {
       setPosts(item.data.posts);
-   
+
       setNumPages(item.data.numPages);
       setPage(item.data.currentPage);
     });
@@ -77,7 +77,7 @@ const HomePage = () => {
             return (
               <Post
                 key={index}
-                compName={item.companyName}
+                compName={item.company[0].name}
                 title={item.title}
                 address={item.address}
                 skill={item.skill.join(" ,")}

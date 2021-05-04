@@ -1,12 +1,12 @@
 import { getAuth } from "../../utils/helpers";
 import * as types from "../constants";
 import store from "../store";
-export function updateProfile(data, role, resolve = () => {}) {
+export function updateProfile(data, resolve = () => {}) {
   store.dispatch({
     type: types.UPDATE_PROFILE,
   });
-  return fetch(`${process.env.REACT_APP_API_URL}/${role}/profile`, {
-    method: "POST",
+  return fetch(`${process.env.REACT_APP_API_URL}/auth/profile`, {
+    method: "PATCH",
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
