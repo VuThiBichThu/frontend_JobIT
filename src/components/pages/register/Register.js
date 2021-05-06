@@ -24,7 +24,7 @@ const Register = () => {
   const [form, setForm] = React.useState({
     email: "",
     password: "",
-    fullName: "",
+    name: "",
   });
   const handleChange = (event) => {
     setForm({ ...form, [event.target.name]: event.target.value });
@@ -39,7 +39,7 @@ const Register = () => {
     const formData = {
       email: form.email,
       password: form.password,
-      fullName: form.fullName,
+      name: form.name,
     };
     console.log(formData);
     register(formData, role, (data) => {
@@ -68,12 +68,13 @@ const Register = () => {
                       </CInputGroupText>
                     </CInputGroupPrepend>
                     <CInput
-                      name="fullName"
+                      name="name"
                       type="text"
                       placeholder="Full name"
                       autoComplete="full-name"
-                      value={form.fullName}
+                      value={form.name}
                       onChange={handleChange}
+                      s
                     />
                   </CInputGroup>
                   <CInputGroup className="mb-3">

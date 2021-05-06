@@ -25,13 +25,22 @@ import {
 import { toast } from "react-toastify";
 import { getITerCV } from "src/redux/actions/getITerCV";
 import { createCV } from "src/redux/actions/createCV";
-import { getAuth } from "src/utils/helpers";
+import axios from "axios";
+import { getSignature } from "src/redux/actions/getSignature";
+import { updateCV } from "src/redux/actions/updateCV";
+import { getProfile } from "src/redux/actions/getProfile";
 
-const StyledCV = styled.section``;
+const StyledCV = styled.div`
+  .layout-cv {
+  }
+`;
+
 const CV = () => {
   const [isOpen, setOpen] = useState(false);
+  const [isUpdate, setUpdate] = useState(false);
   const [isCV, setIsCV] = useState(false);
   const loading = useSelector((store) => store.getITerCV.loading);
+  const [cv, setCV] = useState({});
   const [form, setForm] = React.useState({
     name: "",
     birthday: "",
@@ -40,19 +49,23 @@ const CV = () => {
     skill: "",
     softSkill: "",
     description: "",
-    image: "",
   });
+
   useEffect(() => {
     getITerCV((result) => {
       console.log(result);
       if (result.cv) {
         setIsCV(true);
+        setCV(result.cv);
+        setAvatar(result.cv.image);
       }
+    });
+    getProfile((result) => {
+      setForm({ ...form, email: result.user.email, name: result.user.name });
     });
   }, []);
 
   const handleChange = (event) => {
-    console.log(event.target.value.trim());
     setForm({ ...form, [event.target.name]: event.target.value.trim() });
     console.log(form);
   };
@@ -66,9 +79,10 @@ const CV = () => {
     // }
     const cv = {
       ...form,
+      image,
     };
     console.log(cv);
-
+    console.log(image);
     createCV(cv, (data) => {
       if (data.status === 200) {
         setOpen(!isOpen);
@@ -82,27 +96,237 @@ const CV = () => {
     });
     setOpen(!isOpen);
   };
+
+  // upload image
+
+  const [avatar, setAvatar] = useState("/avatars/avatar.png");
+
+  const [image, setImage] = useState("");
+
+  const [file, setFile] = useState(null);
+
+  const [object, setObject] = useState({ signature: "", timestamp: "" });
+
+  useEffect(() => {
+    if (object.signature === "" && object.timestamp === "") return;
+    if (!file) return;
+    const formData = new FormData();
+    // Update the formData object
+    formData.append("file", file, file.name);
+
+    axios
+      .post(
+        `https://api.cloudinary.com/v1_1/do-an-cnpm/image/upload?api_key=484176915684615&timestamp=${object.timestamp}&signature=${object.signature}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      )
+      .then((response) => {
+        setImage(response.data.url);
+      });
+  }, [object, file]);
+
+  const hiddenFileInput = React.useRef(null);
+  const handleClick = () => {
+    hiddenFileInput.current.click();
+    getSignature((data) => {
+      if (data.status === 200) {
+        setObject({
+          ...object,
+          signature: data.payload.signature,
+          timestamp: data.payload.timestamp,
+        });
+      } else {
+        alert(data.msg);
+      }
+    });
+  };
+
+  const handleFile = (event) => {
+    setAvatar(URL.createObjectURL(event.target.files[0]));
+    setFile(event.target.files[0]);
+  };
+
+  // update
+  const handleUpdate = (event) => {
+    console.log("update cv");
+    event.preventDefault();
+    // const errorState = validate();
+    // if (Object.keys(errorState).length > 0) {
+    //   return setError(errorState);
+    // }
+    const cv = {
+      ...form,
+      image,
+    };
+    console.log(cv);
+    console.log(image);
+    updateCV(cv, (data) => {
+      if (data.status === 200) {
+        toast.success("Update CV Successfully !", {
+          position: toast.POSITION.BOTTOM_LEFT,
+        });
+
+        window.location.reload();
+      } else {
+        alert(data.msg);
+      }
+    });
+    setUpdate(!isUpdate);
+  };
   return (
     <StyledCV>
       {isCV ? (
-        <CRow>
-          <CCol xs="12" className="mb-4">
+        <CRow className="mt-4" style={{ alignItems: "center" }}>
+          <CCol md="2"></CCol>
+          <CCol xs="12" className="mb-4" md="8">
             <CCard>
               <CCardBody>
-                <div>CV here</div>
-                <CButton
-                  color="primary"
-                  disabled={loading}
-                  onClick={() => setOpen(!isOpen)}
-                >
-                  Update CV
-                </CButton>{" "}
+                <div className="layout-cv">
+                  <CForm action="" method="cv" className="form-horizontal">
+                    <CRow xs="12" md="12" style={{ alignItems: "center" }}>
+                      <CCol md="3">
+                        <img
+                          src={cv.image}
+                          alt="avatar"
+                          width=" 200px"
+                          height="200px"
+                          style={{ border: "1px solid black" }}
+                        ></img>
+                      </CCol>
+                      <CCol md="9">
+                        <CFormGroup row>
+                          <CCol md="3">
+                            <CLabel>Name</CLabel>
+                          </CCol>
+                          <CCol xs="12" md="9">
+                            {/* <CInput
+                              name="name"
+                              defaultValue={cv.iterName}
+                              onChange={handleChange}
+                            /> */}
+                            <span>{cv.iterName}</span>
+                          </CCol>
+                        </CFormGroup>
+                        <hr></hr>
+
+                        <CFormGroup row>
+                          <CCol md="3">
+                            <CLabel>Birthday</CLabel>
+                          </CCol>
+                          <CCol xs="12" md="9">
+                            {/* <CInput
+                              name="birthday"
+                              type="date"
+                              defaultValue={cv.birthday}
+                              onChange={handleChange}
+                            /> */}
+                            <span>{cv.birthday}</span>
+                          </CCol>
+                        </CFormGroup>
+                        <hr></hr>
+
+                        <CFormGroup row>
+                          <CCol md="3">
+                            <CLabel htmlFor="date-input">Email</CLabel>
+                          </CCol>
+                          <CCol xs="12" md="9">
+                            {/* <CInput
+                              name="email"
+                              type="text"
+                              defaultValue={cv.email}
+                              onChange={handleChange}
+                            /> */}
+                            <span>{cv.email}</span>
+                          </CCol>
+                        </CFormGroup>
+                        <hr></hr>
+                      </CCol>
+                    </CRow>
+                    <hr></hr>
+
+                    <CFormGroup row>
+                      <CCol md="3">
+                        <CLabel>Experience</CLabel>
+                      </CCol>
+                      <CCol xs="12" md="9">
+                        {/* <CInput
+                          name="experience"
+                          defaultValue={cv.experience}
+                          onChange={handleChange}
+                        /> */}
+                        <span>{cv.experience}</span>
+                      </CCol>
+                    </CFormGroup>
+                    <hr></hr>
+
+                    <CFormGroup row>
+                      <CCol md="3">
+                        <CLabel htmlFor="text-input">Technical skills</CLabel>
+                      </CCol>
+                      <CCol xs="12" md="9">
+                        {/* <CInput
+                          name="skill"
+                          defaultValue={cv.skill}
+                          onChange={handleChange}
+                        /> */}
+                        <span>{cv.skill}</span>
+                      </CCol>
+                    </CFormGroup>
+                    <hr></hr>
+                    <CFormGroup row>
+                      <CCol md="3">
+                        <CLabel>Soft skills</CLabel>
+                      </CCol>
+                      <CCol xs="12" md="9">
+                        {/* <CTextarea
+                          name="softSkill"
+                          rows="5"
+                          defaultValue={cv.softSkill}
+                          onChange={handleChange}
+                        /> */}
+                        <span>{cv.softSkill}</span>
+                      </CCol>
+                    </CFormGroup>
+                    <hr></hr>
+
+                    <CFormGroup row>
+                      <CCol md="3">
+                        <CLabel htmlFor="textarea-input">Description</CLabel>
+                      </CCol>
+                      <CCol xs="12" md="9">
+                        {/* <CTextarea
+                          name="description"
+                          rows="5"
+                          placeholder=""
+                          defaultValue={cv.description}
+                          onChange={handleChange}
+                        /> */}
+                        <span>{cv.description}</span>
+                      </CCol>
+                    </CFormGroup>
+                    <hr></hr>
+                  </CForm>
+                </div>
               </CCardBody>
             </CCard>
+            <div style={{ textAlign: "center" }}>
+              <CButton
+                color="primary"
+                disabled={loading}
+                onClick={() => setUpdate(!isUpdate)}
+              >
+                Update CV
+              </CButton>{" "}
+            </div>
           </CCol>
+          <CCol md="2"></CCol>
         </CRow>
       ) : (
-        <CRow>
+        <CRow style={{ alignItems: "center" }}>
           <CCol xs="12" className="mb-4">
             <CCard>
               <CCardBody>
@@ -126,22 +350,32 @@ const CV = () => {
         </CModalHeader>
         <CModalBody>
           <CForm action="" method="cv" className="form-horizontal">
-            <CRow>
-              <CCol md="3">
+            <CRow xs="12" md="12">
+              <CCol md="4">
                 <img
-                  src={getAuth().image}
-                  alt="this is avatar"
-                  width=" 100px"
+                  src={avatar}
+                  alt="avatar"
+                  width=" 150px"
+                  height="150px"
+                  style={{ border: "1px solid black" }}
                 ></img>
+                <input
+                  className="file-upload"
+                  type="file"
+                  onChange={handleFile}
+                  style={{ display: "none" }}
+                  ref={hiddenFileInput}
+                />
               </CCol>
-              <CCol>
+              <CCol md="8">
                 <CFormGroup row>
                   <CCol md="3">
                     <CLabel>Name</CLabel>
                   </CCol>
                   <CCol xs="12" md="9">
                     <CInput
-                      defaultValue={getAuth().name}
+                      name="name"
+                      defaultValue={form.name}
                       onChange={handleChange}
                     />
                   </CCol>
@@ -152,8 +386,9 @@ const CV = () => {
                   </CCol>
                   <CCol xs="12" md="9">
                     <CInput
+                      name="birthday"
                       type="date"
-                      defaultValue=""
+                      defaultValue={form.birthday}
                       onChange={handleChange}
                     />
                   </CCol>
@@ -164,20 +399,37 @@ const CV = () => {
                   </CCol>
                   <CCol xs="12" md="9">
                     <CInput
+                      name="email"
                       type="text"
-                      defaultValue=""
+                      defaultValue={form.email}
                       onChange={handleChange}
                     />
                   </CCol>
                 </CFormGroup>
               </CCol>
             </CRow>
+            <CRow xs="12" md="12" className="mb-2">
+              <CCol md="4" style={{ textAlign: "center" }}>
+                <CButton
+                  style={{ textAlign: "center", marginLeft: "15px" }}
+                  color="primary"
+                  onClick={handleClick}
+                >
+                  Choose avatar
+                </CButton>
+              </CCol>
+              <CCol md="8"></CCol>
+            </CRow>
             <CFormGroup row>
               <CCol md="3">
                 <CLabel>Experience</CLabel>
               </CCol>
               <CCol xs="12" md="9">
-                <CInput defaultValue="" onChange={handleChange} />
+                <CInput
+                  name="experience"
+                  defaultValue={form.experience}
+                  onChange={handleChange}
+                />
               </CCol>
             </CFormGroup>
             <CFormGroup row>
@@ -185,7 +437,11 @@ const CV = () => {
                 <CLabel htmlFor="text-input">Technical skills</CLabel>
               </CCol>
               <CCol xs="12" md="9">
-                <CInput defaultValue="" onChange={handleChange} />
+                <CInput
+                  name="skill"
+                  defaultValue={form.skill}
+                  onChange={handleChange}
+                />
               </CCol>
             </CFormGroup>
             <CFormGroup row>
@@ -193,7 +449,12 @@ const CV = () => {
                 <CLabel>Soft skills</CLabel>
               </CCol>
               <CCol xs="12" md="9">
-                <CTextarea rows="5" defaultValue="" onChange={handleChange} />
+                <CTextarea
+                  name="softSkill"
+                  rows="5"
+                  defaultValue={form.softSkill}
+                  onChange={handleChange}
+                />
               </CCol>
             </CFormGroup>
 
@@ -202,7 +463,13 @@ const CV = () => {
                 <CLabel htmlFor="textarea-input">Description</CLabel>
               </CCol>
               <CCol xs="12" md="9">
-                <CTextarea rows="5" placeholder="" onChange={handleChange} />
+                <CTextarea
+                  name="description"
+                  rows="5"
+                  placeholder=""
+                  defaultValue={form.description}
+                  onChange={handleChange}
+                />
               </CCol>
             </CFormGroup>
           </CForm>
@@ -215,6 +482,155 @@ const CV = () => {
             color="secondary"
             onClick={() => {
               setOpen(!isOpen);
+            }}
+          >
+            Cancel
+          </CButton>
+        </CModalFooter>
+      </CModal>
+
+      <CModal
+        show={isUpdate}
+        onClose={() => setUpdate(!isUpdate)}
+        color="primary"
+      >
+        <CModalHeader closeButton>
+          <CModalTitle>Your CV</CModalTitle>
+        </CModalHeader>
+        <CModalBody>
+          <CForm action="" method="cv" className="form-horizontal">
+            <CRow xs="12" md="12">
+              <CCol md="4">
+                <img
+                  src={avatar}
+                  alt="avatar"
+                  width=" 150px"
+                  height="150px"
+                  style={{ border: "1px solid black" }}
+                ></img>
+                <input
+                  className="file-upload"
+                  type="file"
+                  onChange={handleFile}
+                  style={{ display: "none" }}
+                  ref={hiddenFileInput}
+                />
+              </CCol>
+              <CCol md="8">
+                <CFormGroup row>
+                  <CCol md="3">
+                    <CLabel>Name</CLabel>
+                  </CCol>
+                  <CCol xs="12" md="9">
+                    <CInput
+                      name="name"
+                      defaultValue={cv.iterName}
+                      onChange={handleChange}
+                    />
+                  </CCol>
+                </CFormGroup>
+                <CFormGroup row>
+                  <CCol md="3">
+                    <CLabel>Birthday</CLabel>
+                  </CCol>
+                  <CCol xs="12" md="9">
+                    <CInput
+                      name="birthday"
+                      type="date"
+                      defaultValue={cv.birthday}
+                      onChange={handleChange}
+                    />
+                  </CCol>
+                </CFormGroup>
+                <CFormGroup row>
+                  <CCol md="3">
+                    <CLabel htmlFor="date-input">Email</CLabel>
+                  </CCol>
+                  <CCol xs="12" md="9">
+                    <CInput
+                      name="email"
+                      type="text"
+                      defaultValue={cv.email}
+                      onChange={handleChange}
+                    />
+                  </CCol>
+                </CFormGroup>
+              </CCol>
+            </CRow>
+            <CRow xs="12" md="12" className="mb-2">
+              <CCol md="4" style={{ textAlign: "center" }}>
+                <CButton
+                  style={{ textAlign: "center", marginLeft: "15px" }}
+                  color="primary"
+                  onClick={handleClick}
+                >
+                  Choose image
+                </CButton>
+              </CCol>
+              <CCol md="8"></CCol>
+            </CRow>
+            <CFormGroup row>
+              <CCol md="3">
+                <CLabel>Experience</CLabel>
+              </CCol>
+              <CCol xs="12" md="9">
+                <CInput
+                  name="experience"
+                  defaultValue={cv.experience}
+                  onChange={handleChange}
+                />
+              </CCol>
+            </CFormGroup>
+            <CFormGroup row>
+              <CCol md="3">
+                <CLabel htmlFor="text-input">Technical skills</CLabel>
+              </CCol>
+              <CCol xs="12" md="9">
+                <CInput
+                  name="skill"
+                  defaultValue={cv.skill}
+                  onChange={handleChange}
+                />
+              </CCol>
+            </CFormGroup>
+            <CFormGroup row>
+              <CCol md="3">
+                <CLabel>Soft skills</CLabel>
+              </CCol>
+              <CCol xs="12" md="9">
+                <CTextarea
+                  name="softSkill"
+                  rows="5"
+                  defaultValue={cv.softSkill}
+                  onChange={handleChange}
+                />
+              </CCol>
+            </CFormGroup>
+
+            <CFormGroup row>
+              <CCol md="3">
+                <CLabel htmlFor="textarea-input">Description</CLabel>
+              </CCol>
+              <CCol xs="12" md="9">
+                <CTextarea
+                  name="description"
+                  rows="5"
+                  placeholder=""
+                  defaultValue={cv.description}
+                  onChange={handleChange}
+                />
+              </CCol>
+            </CFormGroup>
+          </CForm>
+        </CModalBody>
+        <CModalFooter>
+          <CButton color="success" onClick={handleUpdate}>
+            Update
+          </CButton>{" "}
+          <CButton
+            color="secondary"
+            onClick={() => {
+              setUpdate(!isUpdate);
             }}
           >
             Cancel
