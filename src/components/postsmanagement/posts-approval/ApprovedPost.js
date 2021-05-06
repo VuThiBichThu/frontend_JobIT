@@ -26,7 +26,6 @@ const ApprovedPost = () => {
   useEffect(() => {
     getPosts(page, (item) => {
       setPosts(item.data.posts);
-      console.log(item.data.posts);
       setNumPages(item.data.numPages);
       setPage(item.data.currentPage);
     });
@@ -59,6 +58,9 @@ const ApprovedPost = () => {
               itemsPerPage={take}
               activePage={page}
               scopedSlots={{
+                companyName: (item) => (
+                  <td>{item.company[0].name}</td>
+                ),
                 Actions: (item) => (
                   <td>
                     <CButton

@@ -30,11 +30,13 @@ const ApprovingPost = () => {
   useEffect(() => {
     getUnacceptedPosts(page, (item) => {
       setPosts(item.posts);
-      console.log(item.posts);
       setNumPages(item.numPages);
       setPage(item.currentPage);
     });
   }, [page]);
+
+//  console.log(posts);
+//  posts.map((item) => item.companyName = item.company[0].name)
 
   const pageChange = (newPage) => {
     getUnacceptedPosts(newPage, (data) => {
@@ -85,6 +87,9 @@ const ApprovingPost = () => {
               itemsPerPage={take}
               activePage={page}
               scopedSlots={{
+                companyName: (item) => (
+                  <td>{item.company[0].name}</td>
+                ),
                 Actions: (item) => (
                   <td>
                     <CButton
@@ -155,14 +160,10 @@ const ApprovingPost = () => {
                   onClick={selectAll}
                   defaultChecked={false}
                 ></CInputCheckbox>
-
                 All <i className="cil-task"></i>
-
               </CButton>
               <CButton color="success" onClick={approveAll}>
-
-              <i className="cil-check"></i>
-
+                <i className="cil-check"></i>
               </CButton>
             </div>
             <CPagination

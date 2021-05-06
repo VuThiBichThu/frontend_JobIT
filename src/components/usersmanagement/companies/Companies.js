@@ -55,7 +55,7 @@ const Companies = () => {
               items={companies}
               fields={[
                 { key: "_id", _classes: "font-weight-bold" },
-                "companyName",
+                "name",
                 "createdAt",
                 "Actions",
               ]}
