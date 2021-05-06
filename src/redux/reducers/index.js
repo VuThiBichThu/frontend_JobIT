@@ -29,6 +29,9 @@ import getCV from "./getCV";
 import getITerCV from "./getITerCV";
 import setShowSidebar from "./setShowSidebar";
 import createCV from "./createCV";
+import getSignature from "./getSignature";
+import uploadImage from "./uploadImage";
+import updateCV from "./updateCV";
 
 export default combineReducers({
   loginAdmin,
@@ -60,6 +63,8 @@ export default combineReducers({
   updateProfile,
   getCV,
   getITerCV,
-  createCV
-
+  createCV,
+  getSignature,
+  uploadImage,
+  updateCV,
 });
