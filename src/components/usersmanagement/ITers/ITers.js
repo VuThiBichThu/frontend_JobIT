@@ -54,7 +54,7 @@ const ITers = () => {
               items={iters}
               fields={[
                 { key: "_id", _classes: "font-weight-bold" },
-                "fullName",
+                "name",
                 "createdAt",
                 "Actions",
               ]}

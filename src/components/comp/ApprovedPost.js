@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { getPostsComp } from "../../../src/redux/actions/getPostsComp";
 import { deletePost } from "../../../src/redux/actions/deletePost";
+import { getAuth } from "src/utils/helpers";
+import { updatePost } from "../../redux/actions/updatePost";
 import {
   CCard,
   CCardBody,
@@ -11,19 +14,68 @@ import {
   CRow,
   CButton,
   CLink,
+  CFormGroup,
+  CModal,
+  CModalHeader,
+  CModalTitle,
+  CModalBody,
+  CForm,
+  CLabel,
+  CInput,
+  CTextarea,
+  CModalFooter,
 } from "@coreui/react";
+
 const ApprovedPost = () => {
   const [posts, setPosts] = useState([]);
   const storeGetPosts = useSelector((store) => store.getPosts);
   const loadingList = storeGetPosts.loading;
+  const [isOpen, setOpen] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
     getPostsComp((item) => {
       setPosts(item.posts.filter((post) => post.accept === true));
-      console.log(posts);
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  
+  posts.map((item) => {
+    const getTime = item.endTime.split("/");
+    if (getTime[0] < 10) getTime[0] = "0" + getTime[0];
+    if (getTime[1] < 10) getTime[1] = "0" + getTime[1];
+    item.endTime = getTime.reverse().join("-");
+    console.log(item.endTime);
+  });
+
+  const [updatedPost, setUpdatedPost] = useState({});
+
+  const handleChange = (event) => {
+    if (event.target.name === "title") updatedPost.title = event.target.value;
+
+    if (event.target.name === "skill")
+      updatedPost.skill = event.target.value.split(",");
+
+    if (event.target.name === "salary") updatedPost.salary = event.target.value;
+
+    if (event.target.name === "address")
+      updatedPost.address = event.target.value;
+
+    if (event.target.name === "description")
+      updatedPost.description = event.target.value;
+
+    if (event.target.name === "endTime") {
+      const date = new Date(event.target.value);
+      updatedPost.endTime =
+        ("0" + date.getDate()).slice(-2) +
+        "/" +
+        ("0" + (date.getMonth() + 1)).slice(-2) +
+        "/" +
+        date.getFullYear();
+    }
+
+    console.log(updatedPost);
+  };
 
   return (
     <CRow>
@@ -40,10 +92,24 @@ const ApprovedPost = () => {
               scopedSlots={{
                 Actions: (item) => (
                   <td>
-                    <CButton color="success" onClick={() => {}}>
+                    <CButton
+                      color="success"
+                      onClick={() => {
+                        const currentPost = {
+                          title: item.title,
+                          skill: item.skill,
+                          salary: item.salary,
+                          address: item.address,
+                          endTime: item.endTime,
+                          description: item.description,
+                        };
+
+                        setUpdatedPost(currentPost);
+                        setOpen(!isOpen);
+                      }}
+                    >
                       <i className="cil-pen"></i>
-                    </CButton>
-                    {" "}
+                    </CButton>{" "}
                     <CButton
                       color="danger"
                       onClick={() => {
@@ -65,6 +131,149 @@ const ApprovedPost = () => {
                     >
                       <i className="cil-trash"></i>
                     </CButton>{" "}
+                    <CModal
+                      show={isOpen}
+                      onClose={() => setOpen(!isOpen)}
+                      color="primary"
+                    >
+                      <CModalHeader closeButton>
+                        <CModalTitle>{item.title}</CModalTitle>
+                      </CModalHeader>
+                      <CModalBody>
+                        <CForm
+                          action=""
+                          method="post"
+                          className="form-horizontal"
+                        >
+                          <CFormGroup row>
+                            <CCol md="3">
+                              <CLabel htmlFor="text-input">Title</CLabel>
+                            </CCol>
+                            <CCol xs="12" md="9">
+                              <CInput
+                                name="title"
+                                defaultValue={item.title}
+                                //disabled="true"
+                                onChange={handleChange}
+                              />
+                            </CCol>
+                          </CFormGroup>
+                          <CFormGroup row>
+                            <CCol md="3">
+                              <CLabel htmlFor="text-input">Skills</CLabel>
+                            </CCol>
+                            <CCol xs="12" md="9">
+                              <CInput
+                                name="skill"
+                                defaultValue={item.skill}
+                                //disabled="true"
+                                onChange={handleChange}
+                              />
+                            </CCol>
+                          </CFormGroup>
+                          <CFormGroup row>
+                            <CCol md="3">
+                              <CLabel>Salary</CLabel>
+                            </CCol>
+                            <CCol xs="12" md="9">
+                              <CInput
+                                name="salary"
+                                defaultValue={item.salary}
+                                // disabled="true"
+                                onChange={handleChange}
+                              />
+                              {/* <CFormText></CFormText> */}
+                            </CCol>
+                          </CFormGroup>
+                          <CFormGroup row>
+                            <CCol md="3">
+                              <CLabel>Address</CLabel>
+                            </CCol>
+                            <CCol xs="12" md="9">
+                              <CInput
+                                name="address"
+                                defaultValue={item.address}
+                                //disabled="true"
+                                onChange={handleChange}
+                              />
+                              {/* <CFormText></CFormText> */}
+                            </CCol>
+                          </CFormGroup>
+                          <CFormGroup row>
+                            <CCol md="3">
+                              <CLabel htmlFor="date-input">End time</CLabel>
+                            </CCol>
+                            <CCol xs="12" md="9">
+                              <CInput
+                                name="endTime"
+                                type="date"
+                                defaultValue={item.endTime}
+                                //   disabled="true"
+                                onChange={handleChange}
+                              />
+                            </CCol>
+                          </CFormGroup>
+
+                          <CFormGroup row>
+                            <CCol md="3">
+                              <CLabel htmlFor="textarea-input">
+                                Description
+                              </CLabel>
+                            </CCol>
+                            <CCol xs="12" md="9">
+                              <CTextarea
+                                rows="5"
+                                name="description"
+                                defaultValue={item.description}
+                                onChange={handleChange}
+                                //   disabled="true"
+                              />
+                            </CCol>
+                          </CFormGroup>
+                        </CForm>
+                      </CModalBody>
+                      <CModalFooter>
+                        <CButton
+                          color="success"
+                          onClick={() => {
+                            if (!getAuth().token) {
+                              history.push("/login");
+                            } else {
+                              if (getAuth().role === "company") {
+                                updatePost(item._id, updatedPost, (data) => {
+                                  if (data.status === 200) {
+                                    toast.success(
+                                      "Update post successfully !",
+                                      {
+                                        position: toast.POSITION.BOTTOM_LEFT,
+                                      }
+                                    );
+                                  } else {
+                                    toast.error(
+                                      "Fail to update post! " + data.msg,
+                                      {
+                                        position: toast.POSITION.BOTTOM_LEFT,
+                                      }
+                                    );
+                                  }
+                                  setOpen(!isOpen);
+                                });
+                              }
+                            }
+                          }}
+                        >
+                          Update
+                        </CButton>{" "}
+                        <CButton
+                          color="secondary"
+                          onClick={() => {
+                            setOpen(!isOpen);
+                          }}
+                        >
+                          Cancel
+                        </CButton>
+                      </CModalFooter>
+                    </CModal>
                   </td>
                 ),
                 ListApplications: (item) => (
