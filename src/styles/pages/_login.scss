@@ -12,7 +12,7 @@
     margin: 0 auto;
     &__form {
       width: 600px;
-      background: #778899;
+      background: white;
       padding: 20px 60px 40px;
       text-align: center;
       box-shadow: 0px 5px 25px rgba(98, 84, 232, 0.2);
@@ -29,7 +29,7 @@
           line-height: 18px;
           margin: 25px 0 40px;
           font-family: "GT-Walsheim-Bold";
-          color: white;
+          color: #321fdb;
         }
       }
       .form-box {
@@ -47,13 +47,13 @@
       button {
         width: 30%;
         height: 40px;
-        background-color: #303d54;
+        background-color: #321fdb;
         border-radius: 5px;
       }
       a {
         font-size: 14px;
         line-height: 17px;
-        color: white;
+        color: #321fdb;
       }
     }
   }

@@ -219,7 +219,7 @@ const PostComp = () => {
                     className="mr-1 right-btn"
                     onClick={() => setOpen(!isOpen)}
                   >
-                    Create new post
+                   <i className="cil-note-add" ></i> New Post
                   </CButton>
                 </div>
 
