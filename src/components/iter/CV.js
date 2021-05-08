@@ -32,6 +32,26 @@ import { getProfile } from "src/redux/actions/getProfile";
 
 const StyledCV = styled.div`
   .layout-cv {
+    .cv-header {
+      align-items: center;
+      background: #5b9cd6;
+      padding: 20px 0px;
+      margin-bottom: 20px;
+    }
+    .cv-header-info {
+      padding: 10px 100px;
+      line-height: 30px;
+      color: white;
+    }
+    .label {
+      font-weight: bold;
+      font-size: 30px;
+      margin-top: 10px;
+    }
+    .ul-list {
+      list-style-type: circle;
+      padding-left: 30px;
+    }
   }
 `;
 
@@ -64,6 +84,10 @@ const CV = () => {
       setForm({ ...form, email: result.user.email, name: result.user.name });
     });
   }, []);
+
+  const techSkill = cv.skill ? cv.skill.split(",") : [];
+
+  const softSkill = cv.softSkill ? cv.softSkill.split(",") : [];
 
   const handleChange = (event) => {
     setForm({ ...form, [event.target.name]: event.target.value.trim() });
@@ -187,128 +211,82 @@ const CV = () => {
               <CCardBody>
                 <div className="layout-cv">
                   <CForm action="" method="cv" className="form-horizontal">
-                    <CRow xs="12" md="12" style={{ alignItems: "center" }}>
+                    <CRow xs="12" md="12" className="cv-header">
                       <CCol md="3">
                         <img
                           src={cv.image}
                           alt="avatar"
                           width=" 200px"
                           height="200px"
-                          style={{ border: "1px solid black" }}
+                          style={{ borderRadius: "50%" }}
                         ></img>
                       </CCol>
-                      <CCol md="9">
-                        <CFormGroup row>
-                          <CCol md="3">
-                            <CLabel>Name</CLabel>
-                          </CCol>
-                          <CCol xs="12" md="9">
-                            {/* <CInput
-                              name="name"
-                              defaultValue={cv.iterName}
-                              onChange={handleChange}
-                            /> */}
-                            <span>{cv.iterName}</span>
-                          </CCol>
-                        </CFormGroup>
-                        <hr></hr>
-
-                        <CFormGroup row>
-                          <CCol md="3">
-                            <CLabel>Birthday</CLabel>
-                          </CCol>
-                          <CCol xs="12" md="9">
-                            {/* <CInput
-                              name="birthday"
-                              type="date"
-                              defaultValue={cv.birthday}
-                              onChange={handleChange}
-                            /> */}
-                            <span>{cv.birthday}</span>
-                          </CCol>
-                        </CFormGroup>
-                        <hr></hr>
-
-                        <CFormGroup row>
-                          <CCol md="3">
-                            <CLabel htmlFor="date-input">Email</CLabel>
-                          </CCol>
-                          <CCol xs="12" md="9">
-                            {/* <CInput
-                              name="email"
-                              type="text"
-                              defaultValue={cv.email}
-                              onChange={handleChange}
-                            /> */}
-                            <span>{cv.email}</span>
-                          </CCol>
-                        </CFormGroup>
-                        <hr></hr>
+                      <CCol md="9" className="cv-header-info">
+                        <div style={{ fontSize: "50px" }}>{cv.iterName}</div>
+                        <br></br>
+                        Birthday:
+                        <div>{cv.birthday}</div>
+                        <CLabel htmlFor="date-input">Email:</CLabel>
+                        <div>{cv.email}</div>
                       </CCol>
                     </CRow>
-                    <hr></hr>
 
                     <CFormGroup row>
-                      <CCol md="3">
-                        <CLabel>Experience</CLabel>
+                      <CCol>
+                        <CLabel className="label">Experiences</CLabel>
                       </CCol>
-                      <CCol xs="12" md="9">
-                        {/* <CInput
-                          name="experience"
-                          defaultValue={cv.experience}
-                          onChange={handleChange}
-                        /> */}
+                    </CFormGroup>
+                    <hr></hr>
+                    <CFormGroup row>
+                      <CCol>
                         <span>{cv.experience}</span>
                       </CCol>
                     </CFormGroup>
-                    <hr></hr>
-
                     <CFormGroup row>
-                      <CCol md="3">
-                        <CLabel htmlFor="text-input">Technical skills</CLabel>
-                      </CCol>
-                      <CCol xs="12" md="9">
-                        {/* <CInput
-                          name="skill"
-                          defaultValue={cv.skill}
-                          onChange={handleChange}
-                        /> */}
-                        <span>{cv.skill}</span>
+                      <CCol>
+                        <CLabel className="label">Technical Skills</CLabel>
                       </CCol>
                     </CFormGroup>
                     <hr></hr>
                     <CFormGroup row>
-                      <CCol md="3">
-                        <CLabel>Soft skills</CLabel>
+                      <CCol>
+                        <ul className="ul-list">
+                          {techSkill.map((item) => (
+                            <li>{item}</li>
+                          ))}
+                        </ul>
                       </CCol>
-                      <CCol xs="12" md="9">
-                        {/* <CTextarea
-                          name="softSkill"
-                          rows="5"
-                          defaultValue={cv.softSkill}
-                          onChange={handleChange}
-                        /> */}
-                        <span>{cv.softSkill}</span>
+                    </CFormGroup>
+                    <CFormGroup row>
+                      <CCol>
+                        <CLabel className="label">Soft Skills</CLabel>
                       </CCol>
                     </CFormGroup>
                     <hr></hr>
-
                     <CFormGroup row>
-                      <CCol md="3">
-                        <CLabel htmlFor="textarea-input">Description</CLabel>
+                      <CCol>
+                        <ul className="ul-list">
+                          {softSkill.map((item) => (
+                            <li>{item}</li>
+                          ))}
+                        </ul>
                       </CCol>
-                      <CCol xs="12" md="9">
-                        {/* <CTextarea
-                          name="description"
-                          rows="5"
-                          placeholder=""
-                          defaultValue={cv.description}
-                          onChange={handleChange}
-                        /> */}
+                    </CFormGroup>
+                    <CFormGroup row>
+                      <CCol>
+                        <CLabel className="label">Descriptions</CLabel>
+                      </CCol>
+                      <hr></hr>
+                    </CFormGroup>
+                    <CFormGroup row>
+                      <CCol>
                         <span>{cv.description}</span>
                       </CCol>
                     </CFormGroup>
-                    <hr></hr>
+                    <CFormGroup
+                      row
+                      style={{ background: "#5B9CD6", height: "30px" }}
+                    ></CFormGroup>
                   </CForm>
                 </div>
               </CCardBody>
@@ -422,10 +400,11 @@ const CV = () => {
             </CRow>
             <CFormGroup row>
               <CCol md="3">
-                <CLabel>Experience</CLabel>
+                <CLabel>Experiences</CLabel>
               </CCol>
               <CCol xs="12" md="9">
-                <CInput
+                <CTextarea
+                  rows="5"
                   name="experience"
                   defaultValue={form.experience}
                   onChange={handleChange}
@@ -571,10 +550,11 @@ const CV = () => {
             </CRow>
             <CFormGroup row>
               <CCol md="3">
-                <CLabel>Experience</CLabel>
+                <CLabel>Experiences</CLabel>
               </CCol>
               <CCol xs="12" md="9">
-                <CInput
+                <CTextarea
+                  rows="5"
                   name="experience"
                   defaultValue={cv.experience}
                   onChange={handleChange}
