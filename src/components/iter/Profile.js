@@ -19,6 +19,7 @@ import { getProfile } from "../../redux/actions/getProfile";
 import { updateProfile } from "../../redux/actions/updateProfile";
 import styled from "styled-components";
 import { getSignature } from "src/redux/actions/getSignature";
+import { updatePass } from "src/redux/actions/updatePass";
 const StyledProfile = styled.section`
   .avatar-wrapper {
     position: relative;
@@ -65,6 +66,9 @@ const Profile = () => {
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [image, setImage] = useState("");
+
+  const [pass, setPass] = useState("");
+  const [newPass, setNewPass] = useState("");
 
   const [file, setFile] = useState(null);
 
@@ -164,7 +168,44 @@ const Profile = () => {
       }
     });
   };
-  const handleChangePass = (event) => {};
+  const handleChangePass = (event) => {
+    if (event.target.name === "pass") setPass(event.target.value);
+    if (event.target.name === "newPass") setNewPass(event.target.value);
+  };
+  const changePass = (event) => {
+    event.preventDefault();
+    // const errorState = validate();
+    // if (Object.keys(errorState).length > 0) {
+    //   return setError(errorState);
+    // }
+
+    let data = { password: pass, newPassword: newPass };
+    updatePass(data, (result) => {
+      if (result.status === 200) {
+        toast.success("Update password successfully !", {
+          position: toast.POSITION.BOTTOM_LEFT,
+        });
+        // window.location.reload();
+        document.getElementById("pass-form").reset();
+      } else {
+        toast.error("Fail to update! " + data.msg, {
+          position: toast.POSITION.BOTTOM_LEFT,
+        });
+      }
+    });
+
+    // console.log(data);
+    // updateProfile(data, (data) => {
+    //   if (data.status === 200) {
+    //     toast.success("Update successfully !", {
+    //       position: toast.POSITION.BOTTOM_LEFT,
+    //     });
+    //     window.location.reload();
+    //   } else {
+    //     alert(data.msg);
+    //   }
+    // });
+  };
   return (
     <StyledProfile>
       <CRow className="mt-4">
@@ -268,6 +309,7 @@ const Profile = () => {
                 method="post"
                 className="form-horizontal"
                 style={{ width: "100%" }}
+                id="pass-form"
               >
                 <CFormGroup row>
                   <CCol md="3">
@@ -312,7 +354,7 @@ const Profile = () => {
                   </CCol>
                 </CFormGroup>
 
-                <CButton color="success" onClick={saveChanges}>
+                <CButton color="success" onClick={changePass}>
                   Change password
                 </CButton>
               </CForm>

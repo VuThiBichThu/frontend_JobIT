@@ -1,5 +1,5 @@
-import React from "react";
-// import { toast } from "react-toastify";
+import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 // import LoadingOverlay from "react-loading-overlay";
 // import ReactLoading from "react-loading";
 
@@ -19,7 +19,42 @@ import {
   CTabs,
   CSwitch,
 } from "@coreui/react";
+import { getITerCV } from "src/redux/actions/getITerCV";
+import { receiveEmail } from "src/redux/actions/receiveEmail";
 const ITerProfile = () => {
+  const [isReceive, setIsReceive] = useState(false);
+
+  useEffect(() => {
+    getITerCV((result) => {
+      setIsReceive(result.cv.receiveMail);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (isReceive === !isReceive) {
+      return;
+    }
+    receiveEmail(
+      {
+        receive: isReceive,
+      },
+      (result) => {
+        if (result.status === 200) {
+          toast.success(result.msg, {
+            position: toast.POSITION.BOTTOM_LEFT,
+          });
+        } else {
+          toast.error("Fail! " + result.msg, {
+            position: toast.POSITION.BOTTOM_LEFT,
+          });
+        }
+      }
+    );
+  }, [isReceive]);
+
+  const handleReceiveEmail = () => {
+    setIsReceive(!isReceive);
+  };
   return (
     <>
       <CRow>
@@ -43,8 +78,8 @@ const ITerProfile = () => {
                     color={"danger"}
                     labelOn={"\u2713"}
                     labelOff={"\u2715"}
-                    defaultChecked
-                    // onClick={}
+                    defaultChecked={isReceive}
+                    onClick={handleReceiveEmail}
                   />
                 </div>
 

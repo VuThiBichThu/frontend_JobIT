@@ -28,7 +28,6 @@ import { createCV } from "src/redux/actions/createCV";
 import axios from "axios";
 import { getSignature } from "src/redux/actions/getSignature";
 import { updateCV } from "src/redux/actions/updateCV";
-import { getProfile } from "src/redux/actions/getProfile";
 
 const StyledCV = styled.div`
   .layout-cv {
@@ -61,6 +60,8 @@ const CV = () => {
   const [isCV, setIsCV] = useState(false);
   const loading = useSelector((store) => store.getITerCV.loading);
   const [cv, setCV] = useState({});
+  const [image, setImage] = useState("");
+
   const [form, setForm] = React.useState({
     name: "",
     birthday: "",
@@ -73,16 +74,26 @@ const CV = () => {
 
   useEffect(() => {
     getITerCV((result) => {
-      console.log(result);
       if (result.cv) {
         setIsCV(true);
         setCV(result.cv);
+        setForm({
+          ...form,
+          name: result.cv.name,
+          birthday: result.cv.birthday,
+          email: result.cv.email,
+          experience: result.cv.experience,
+          skill: result.cv.skill,
+          softSkill: result.cv.softSkill,
+          description: result.cv.description,
+        });
+        setImage(result.cv.image);
         setAvatar(result.cv.image);
       }
     });
-    getProfile((result) => {
-      setForm({ ...form, email: result.user.email, name: result.user.name });
-    });
+    // getProfile((result) => {
+    //   setForm({ ...form, email: result.user.email, name: result.user.name });
+    // });
   }, []);
 
   const techSkill = cv.skill ? cv.skill.split(",") : [];
@@ -91,7 +102,6 @@ const CV = () => {
 
   const handleChange = (event) => {
     setForm({ ...form, [event.target.name]: event.target.value.trim() });
-    console.log(form);
   };
 
   const handleSubmit = (event) => {
@@ -105,8 +115,6 @@ const CV = () => {
       ...form,
       image,
     };
-    console.log(cv);
-    console.log(image);
     createCV(cv, (data) => {
       if (data.status === 200) {
         setOpen(!isOpen);
@@ -124,8 +132,6 @@ const CV = () => {
   // upload image
 
   const [avatar, setAvatar] = useState("/avatars/avatar.png");
-
-  const [image, setImage] = useState("");
 
   const [file, setFile] = useState(null);
 
@@ -186,8 +192,6 @@ const CV = () => {
       ...form,
       image,
     };
-    console.log(cv);
-    console.log(image);
     updateCV(cv, (data) => {
       if (data.status === 200) {
         toast.success("Update CV Successfully !", {
@@ -222,7 +226,7 @@ const CV = () => {
                         ></img>
                       </CCol>
                       <CCol md="9" className="cv-header-info">
-                        <div style={{ fontSize: "50px" }}>{cv.iterName}</div>
+                        <div style={{ fontSize: "50px" }}>{cv.name}</div>
                         <br></br>
                         Birthday:
                         <div>{cv.birthday}</div>
@@ -503,7 +507,7 @@ const CV = () => {
                   <CCol xs="12" md="9">
                     <CInput
                       name="name"
-                      defaultValue={cv.iterName}
+                      defaultValue={cv.name}
                       onChange={handleChange}
                     />
                   </CCol>
