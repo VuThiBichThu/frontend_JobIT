@@ -26,6 +26,7 @@ import {
   CCard,
   CCardBody,
   CTabs,
+  CInvalidFeedback,
 } from "@coreui/react";
 import { toast } from "react-toastify";
 import { addPost } from "../../redux/actions/addPost";
@@ -73,19 +74,33 @@ const PostComp = () => {
       skill,
     };
     console.log(post);
-
-    addPost(post, (data) => {
-      if (data.status === 200) {
-        setOpen(!isOpen);
-        toast.success("Create Post Successfully !", {
-          position: toast.POSITION.BOTTOM_LEFT,
-        });
-        window.location.reload();
-      } else {
-        alert(data.msg);
+    let isValid = true;
+    for (var key in post) {
+      if (post[key] === "") {
+        isValid = false;
+        break;
       }
-    });
-    setOpen(!isOpen);
+    }
+    if (isValid) {
+      addPost(post, (data) => {
+        if (data.status === 200) {
+          setOpen(!isOpen);
+          toast.success("create post successfully !", {
+            position: toast.POSITION.BOTTOM_LEFT,
+          });
+          window.location.reload();
+        } else {
+          toast.error("fail to create post !", data.msg, {
+            position: toast.POSITION.BOTTOM_LEFT,
+          });
+        }
+      });
+      setOpen(!isOpen);
+    } else {
+      toast.error("Please enter the empty input !", {
+        position: toast.POSITION.BOTTOM_LEFT,
+      });
+    }
   };
   return (
     <>
@@ -95,7 +110,11 @@ const PostComp = () => {
             <CModalTitle>New post</CModalTitle>
           </CModalHeader>
           <CModalBody>
-            <CForm action="" method="post" className="form-horizontal">
+            <CForm
+              action=""
+              method="post"
+              className="form-horizontal was-validated"
+            >
               <CFormGroup row>
                 <CCol md="3">
                   <CLabel>Title</CLabel>
@@ -106,7 +125,11 @@ const PostComp = () => {
                     name="title"
                     placeholder=""
                     onChange={handleChange}
+                    required
                   />
+                  <CInvalidFeedback className="help-block">
+                    Enter a title
+                  </CInvalidFeedback>
                 </CCol>
               </CFormGroup>
               <CFormGroup row>
@@ -119,7 +142,11 @@ const PostComp = () => {
                     name="skill"
                     placeholder=""
                     onChange={handleChange}
+                    required
                   />
+                  <CInvalidFeedback className="help-block">
+                    Enter skills
+                  </CInvalidFeedback>
                 </CCol>
               </CFormGroup>
               <CFormGroup row>
@@ -132,7 +159,11 @@ const PostComp = () => {
                     name="salary"
                     placeholder=""
                     onChange={handleChange}
+                    required
                   />
+                  <CInvalidFeedback className="help-block">
+                    Enter a salary
+                  </CInvalidFeedback>
                 </CCol>
               </CFormGroup>
               <CFormGroup row>
@@ -145,7 +176,11 @@ const PostComp = () => {
                     name="address"
                     placeholder=""
                     onChange={handleChange}
+                    required
                   />
+                  <CInvalidFeedback className="help-block">
+                    Enter an address
+                  </CInvalidFeedback>
                 </CCol>
               </CFormGroup>
               <CFormGroup row>
@@ -159,6 +194,7 @@ const PostComp = () => {
                     name="endTime"
                     placeholder="date"
                     onChange={handleChange}
+                    required
                   />
                 </CCol>
               </CFormGroup>
@@ -176,7 +212,11 @@ const PostComp = () => {
                     rows="5"
                     placeholder=""
                     onChange={handleChange}
+                    required
                   />
+                  <CInvalidFeedback className="help-block">
+                    Enter a description
+                  </CInvalidFeedback>
                 </CCol>
               </CFormGroup>
             </CForm>
@@ -219,7 +259,7 @@ const PostComp = () => {
                     className="mr-1 right-btn"
                     onClick={() => setOpen(!isOpen)}
                   >
-                   <i className="cil-note-add" ></i> New Post
+                    <i className="cil-note-add"></i> New Post
                   </CButton>
                 </div>
 
