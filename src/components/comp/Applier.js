@@ -14,14 +14,35 @@ import {
   CModalBody,
   CForm,
   CLabel,
-  CInput,
-  CTextarea,
   CModalFooter,
 } from "@coreui/react";
 
 import { getAppliers } from "../../redux/actions/getAppliers";
 import { getCV } from "../../redux/actions/getCV";
+import styled from "styled-components";
 
+const StyledCV = styled.div`
+  .layout-cv {
+    .cv-header {
+      align-items: center;
+      background: #5b9cd6;
+      padding: 20px 150px;
+      padding-right: 0px;
+      color: white;
+      line-height: 30px;
+    }
+
+    .label {
+      font-weight: bold;
+      font-size: 30px;
+      margin-top: 10px;
+    }
+    .ul-list {
+      list-style-type: circle;
+      padding-left: 30px;
+    }
+  }
+`;
 const ITer = ({ match }) => {
   const [appliers, setAppliers] = useState([]);
   const [cv, setCV] = useState({});
@@ -36,6 +57,10 @@ const ITer = ({ match }) => {
       setTitle(result.title);
     });
   }, [id]);
+
+  const techSkill = cv.skill ? cv.skill.split(",") : [];
+
+  const softSkill = cv.softSkill ? cv.softSkill.split(",") : [];
 
   const handleGetCV = (cvId) => {
     console.log("get CV");
@@ -98,131 +123,98 @@ const ITer = ({ match }) => {
               <CModal
                 show={isOpen}
                 onClose={() => setOpen(!isOpen)}
-                color="primary"
+                color="info"
               >
                 <CModalHeader closeButton>
                   <CModalTitle>{cv.iterId}</CModalTitle>
                 </CModalHeader>
                 <CModalBody>
-                  <CForm action="" method="post" className="form-horizontal">
-                    <CRow>
-                      <CCol md="3">
-                        <img
-                          src={cv.image}
-                          alt="this is avatar"
-                          width=" 100px"
-                        ></img>
-                      </CCol>
-                      <CCol>
-                        <CFormGroup row>
-                          <CCol md="3">
-                            <CLabel>Name</CLabel>
-                          </CCol>
-                          <CCol xs="12" md="9">
-                            <CInput
-                              defaultValue={cv.name}
-                              disabled={true}
-                            />
-                          </CCol>
-                        </CFormGroup>
-                        <CFormGroup row>
-                          <CCol md="3">
-                            <CLabel>Birthday</CLabel>
-                          </CCol>
-                          <CCol xs="12" md="9">
-                            <CInput
-                              defaultValue={cv.birthday}
-                              disabled={true}
-                            />
-                          </CCol>
-                        </CFormGroup>
-                        <CFormGroup row>
-                          <CCol md="3">
-                            <CLabel htmlFor="date-input">Email</CLabel>
-                          </CCol>
-                          <CCol xs="12" md="9">
-                            <CInput
-                              type="text"
-                              defaultValue={cv.email}
-                              disabled={true}
-                            />
-                          </CCol>
-                        </CFormGroup>
-                      </CCol>
-                    </CRow>
-                    {/* <CFormGroup row>
-                     
-                    </CFormGroup> */}
+                  <StyledCV>
+                    <div className="layout-cv">
+                      <CForm action="" method="cv" className="form-horizontal">
+                        <CRow xs="1" md="1" className="cv-header">
+                          <img
+                            src={cv.image}
+                            alt="avatar"
+                            width=" 200px"
+                            height="200px"
+                            style={{ borderRadius: "50%" }}
+                          ></img>
+                        </CRow>
 
-                    <CFormGroup row>
-                      <CCol md="3">
-                        <CLabel>Experience</CLabel>
-                      </CCol>
-                      <CCol xs="12" md="9">
-                        <CInput defaultValue={cv.experience} disabled={true} />
-                      </CCol>
-                    </CFormGroup>
-                    <CFormGroup row>
-                      <CCol md="3">
-                        <CLabel htmlFor="text-input">Technical skills</CLabel>
-                      </CCol>
-                      <CCol xs="12" md="9">
-                        <CInput defaultValue={cv.skill} disabled={true} />
-                      </CCol>
-                    </CFormGroup>
-                    <CFormGroup row>
-                      <CCol md="3">
-                        <CLabel>Soft skills</CLabel>
-                      </CCol>
-                      <CCol xs="12" md="9">
-                        <CTextarea
-                          rows="5"
-                          defaultValue={cv.personalSkill}
-                          disabled={true}
-                        />
-                      </CCol>
-                    </CFormGroup>
+                        <CRow xs="4" md="1" className="cv-header">
+                          <div>
+                            <div style={{ fontSize: "30px" }}>{cv.name}</div>
+                            <div>Birthday: {cv.birthday}</div>
 
-                    <CFormGroup row>
-                      <CCol md="3">
-                        <CLabel htmlFor="textarea-input">Description</CLabel>
-                      </CCol>
-                      <CCol xs="12" md="9">
-                        <CTextarea
-                          rows="5"
-                          placeholder={cv.description}
-                          disabled={true}
-                        />
-                      </CCol>
-                    </CFormGroup>
-                  </CForm>
+                            <div>Email: {cv.email}</div>
+                          </div>
+                        </CRow>
+
+                        <CFormGroup row>
+                          <CCol>
+                            <CLabel className="label">Experiences</CLabel>
+                          </CCol>
+                        </CFormGroup>
+                        <hr></hr>
+                        <CFormGroup row>
+                          <CCol>
+                            <span>{cv.experience}</span>
+                          </CCol>
+                        </CFormGroup>
+                        <CFormGroup row>
+                          <CCol>
+                            <CLabel className="label">Technical Skills</CLabel>
+                          </CCol>
+                        </CFormGroup>
+                        <hr></hr>
+                        <CFormGroup row>
+                          <CCol>
+                            <ul className="ul-list">
+                              {techSkill.map((item) => (
+                                <li>{item}</li>
+                              ))}
+                            </ul>
+                          </CCol>
+                        </CFormGroup>
+                        <CFormGroup row>
+                          <CCol>
+                            <CLabel className="label">Soft Skills</CLabel>
+                          </CCol>
+                        </CFormGroup>
+                        <hr></hr>
+                        <CFormGroup row>
+                          <CCol>
+                            <ul className="ul-list">
+                              {softSkill.map((item) => (
+                                <li>{item}</li>
+                              ))}
+                            </ul>
+                          </CCol>
+                        </CFormGroup>
+                        <CFormGroup row>
+                          <CCol>
+                            <CLabel className="label">Descriptions</CLabel>
+                          </CCol>
+                          <hr></hr>
+                        </CFormGroup>
+                        <CFormGroup row>
+                          <CCol>
+                            <span>{cv.description}</span>
+                          </CCol>
+                        </CFormGroup>
+                        <CFormGroup
+                          row
+                          style={{
+                            background: "#5B9CD6",
+                            height: "30px",
+                          }}
+                        ></CFormGroup>
+                      </CForm>
+                    </div>
+                  </StyledCV>
                 </CModalBody>
                 <CModalFooter>
-                  {/* <CButton
-                    color="success"
-                    onClick={() => {
-                      if (!getAuth().token) {
-                        history.push("/login");
-                      } else {
-                        if (getAuth().role === "iter") {
-                          apply(postId, (data) => {
-                            if (data.status === 200) {
-                              toast.success("Apply successfully !", {
-                                position: toast.POSITION.BOTTOM_LEFT,
-                              });
-                            } else {
-                              toast.error("Fail to apply! " + data.msg, {
-                                position: toast.POSITION.BOTTOM_LEFT,
-                              });
-                            }
-                            setOpen(!isOpen);
-                          });
-                        }
-                      }
-                    }}
-                  >
-                    Apply Now
-                  </CButton>{" "} */}
                   <CButton
                     color="secondary"
                     onClick={() => {
