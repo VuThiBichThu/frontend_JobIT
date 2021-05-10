@@ -21,17 +21,18 @@ import {
 } from "@coreui/react";
 import { getITerCV } from "src/redux/actions/getITerCV";
 import { receiveEmail } from "src/redux/actions/receiveEmail";
+import { getAuth } from "src/utils/helpers";
 const ITerProfile = () => {
   const [isReceive, setIsReceive] = useState(false);
 
   useEffect(() => {
     getITerCV((result) => {
-      setIsReceive(result.cv.receiveMail);
+      if (getAuth().role === "iter") setIsReceive(result.cv.receiveMail);
     });
   }, []);
 
   useEffect(() => {
-    if (isReceive === !isReceive) {
+    if (isReceive === !isReceive || getAuth().role === "company") {
       return;
     }
     receiveEmail(
@@ -68,28 +69,38 @@ const ITerProfile = () => {
                     <CNavItem>
                       <CNavLink>My Profile</CNavLink>
                     </CNavItem>
-                    <CNavItem>
-                      <CNavLink>My CV</CNavLink>
-                    </CNavItem>
+                    {getAuth().role === "iter" && (
+                      <CNavItem>
+                        <CNavLink>My CV</CNavLink>
+                      </CNavItem>
+                    )}
                   </CNav>
-                  <CLabel className="mr-2">Receive job email</CLabel>
-                  <CSwitch
-                    className={"mx-1"}
-                    color={"danger"}
-                    labelOn={"\u2713"}
-                    labelOff={"\u2715"}
-                    defaultChecked={isReceive}
-                    onClick={handleReceiveEmail}
-                  />
+                  {getAuth().role === "iter" && (
+                    <>
+                      <CLabel className="mr-2">Receive job email</CLabel>
+                      <CSwitch
+                        className={"mx-1"}
+                        color={"danger"}
+                        labelOn={"\u2713"}
+                        labelOff={"\u2715"}
+                        defaultChecked={isReceive}
+                        onClick={
+                          getAuth().role === "iter" && handleReceiveEmail
+                        }
+                      />
+                    </>
+                  )}
                 </div>
 
                 <CTabContent>
                   <CTabPane>
                     <Profile />
                   </CTabPane>
-                  <CTabPane>
-                    <CV />
-                  </CTabPane>
+                  {getAuth().role === "iter" && (
+                    <CTabPane>
+                      <CV />
+                    </CTabPane>
+                  )}
                 </CTabContent>
               </CTabs>
             </CCardBody>

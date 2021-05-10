@@ -52,7 +52,7 @@ const HomePage = () => {
     // <LoadingOverlay active={loadingList} spinner text="Loading...">
     <CContainer>
       <CRow style={{ justifyContent: "center" }}>
-        <CCol md="6">
+        <CCol md="6" className="mb-4">
           <CInputGroup className="input-prepend">
             <CInputGroupPrepend>
               <CInputGroupText>
@@ -83,7 +83,7 @@ const HomePage = () => {
                 skill={item.skill.join(" ,")}
                 endTime={item.endTime}
                 salary={item.salary}
-                image="https://via.placeholder.com/50"
+                image={item.company[0].image}
                 auth={getAuth}
                 postId={item._id}
                 compId={item.companyId}
