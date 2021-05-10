@@ -27,7 +27,7 @@ const RegisterComp = () => {
     compName: "",
   });
   const handleChange = (event) => {
-    setForm({ ...form, [event.target.name]: event.target.value.trim() });
+    setForm({ ...form, [event.target.name]: event.target.value });
   };
   const handleRegister = (event) => {
     event.preventDefault();
@@ -39,7 +39,7 @@ const RegisterComp = () => {
     const formData = {
       email: form.email,
       password: form.password,
-      companyName: form.compName,
+      name: form.compName,
     };
     console.log(formData);
     register(formData, role, (data) => {

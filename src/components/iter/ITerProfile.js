@@ -23,16 +23,18 @@ import { getITerCV } from "src/redux/actions/getITerCV";
 import { receiveEmail } from "src/redux/actions/receiveEmail";
 import { getAuth } from "src/utils/helpers";
 const ITerProfile = () => {
-  const [isReceive, setIsReceive] = useState(false);
+  const [isReceive, setIsReceive] = useState(null);
 
   useEffect(() => {
     getITerCV((result) => {
-      if (getAuth().role === "iter") setIsReceive(result.cv.receiveMail);
+      if (getAuth().role === "iter" && result.cv) {
+        setIsReceive(result.cv.receiveMail);
+      }
     });
   }, []);
 
   useEffect(() => {
-    if (isReceive === !isReceive || getAuth().role === "company") {
+    if (isReceive === null || getAuth().role === "company") {
       return;
     }
     receiveEmail(
@@ -45,6 +47,7 @@ const ITerProfile = () => {
             position: toast.POSITION.BOTTOM_LEFT,
           });
         } else {
+          document.getElementById("myCheck").checked = false;
           toast.error("Fail! " + result.msg, {
             position: toast.POSITION.BOTTOM_LEFT,
           });
@@ -79,6 +82,7 @@ const ITerProfile = () => {
                     <>
                       <CLabel className="mr-2">Receive job email</CLabel>
                       <CSwitch
+                        id={"myCheck"}
                         className={"mx-1"}
                         color={"danger"}
                         labelOn={"\u2713"}

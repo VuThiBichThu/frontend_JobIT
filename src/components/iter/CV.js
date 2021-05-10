@@ -74,7 +74,7 @@ const CV = () => {
 
   useEffect(() => {
     getITerCV((result) => {
-      if (result.cv._id) {
+      if (result.cv) {
         setIsCV(true);
         setCV(result.cv);
         setForm({
@@ -308,17 +308,24 @@ const CV = () => {
           <CCol md="2"></CCol>
         </CRow>
       ) : (
-        <CRow style={{ alignItems: "center" }}>
+        <CRow style={{ alignItems: "center",textAlign:"center" }}>
           <CCol xs="12" className="mb-4">
             <CCard>
               <CCardBody>
-                <div>No CV</div>
+                <div style={{color:"#ed4444"}}>
+                  YOUR CV IS MISSING! 
+                </div>
+                <div>
+                  Create a CV to apply for jobs
+                  faster and get attractive invitation from employers!
+                </div>
+                <br></br>
                 <CButton
-                  color="primary"
+                  color="success"
                   disabled={loading}
                   onClick={() => setOpen(!isOpen)}
                 >
-                  Create CV
+                  Create CV Now !
                 </CButton>{" "}
               </CCardBody>
             </CCard>

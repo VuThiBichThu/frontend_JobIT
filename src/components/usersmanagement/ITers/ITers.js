@@ -91,7 +91,7 @@ const ITers = () => {
                       color="success"
                       onClick={() =>
                         history.push(
-                          `/usersmanagement/${role}/${item.accountId}/${item.fullName}`
+                          `/usersmanagement/${role}/${item.accountId}/${item.name}`
                         )
                       }
                     >

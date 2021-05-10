@@ -77,7 +77,7 @@ const ITer = ({ match }) => {
                     appliers.map((applier) => {
                       return (
                         <tr key={applier._id}>
-                          <td>{applier.fullName}</td>
+                          <td>{applier.name}</td>
                           <td>{applier.email}</td>
                           <td>
                             <CButton
@@ -120,7 +120,7 @@ const ITer = ({ match }) => {
                           </CCol>
                           <CCol xs="12" md="9">
                             <CInput
-                              defaultValue={cv.iterName}
+                              defaultValue={cv.name}
                               disabled={true}
                             />
                           </CCol>
