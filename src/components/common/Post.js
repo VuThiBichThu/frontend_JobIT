@@ -87,7 +87,11 @@ function Post({
 
             <p>
               <i className="cil-money"></i>
-              {" " + salary}
+              {getAuth().token ? (
+                " " + salary
+              ) : (
+                <a href="/login" style={{color: "#9c9595"}}> {" "} Login to view</a>
+              )}
             </p>
             <p>
               <i className="cil-code"></i>
