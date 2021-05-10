@@ -1,12 +1,12 @@
 import { getAuth } from "../../utils/helpers";
 import * as types from "../constants";
 import store from "../store";
-export function getPosts(newPage, resolve = () => {}) {
+export function getPosts(newPage, query, resolve = () => {}) {
   store.dispatch({
     type: types.GET_POSTS,
   });
   return fetch(
-    `${process.env.REACT_APP_API_URL}/posts?page=${newPage}`,
+    `${process.env.REACT_APP_API_URL}/posts?page=${newPage}&query=${query}`,
     {
       method: "GET",
       headers: {
@@ -15,7 +15,7 @@ export function getPosts(newPage, resolve = () => {}) {
         Authorization: "Bearer " + getAuth().token,
         // "Access-Control-Allow-Origin": "*"
       },
-    //  body: JSON.stringify(data),
+      //  body: JSON.stringify(data),
     }
   )
     .then((response) => response.json())

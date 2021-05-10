@@ -5,7 +5,6 @@ export function listUserPermissions(id, resolve = () => {}) {
   store.dispatch({
     type: types.ADMIN_GET_USER_PERMISSIONS,
   });
-  console.log(getAuth().token);
   return fetch(
     `${process.env.REACT_APP_API_URL}/users/${id}/permissions`,
     {

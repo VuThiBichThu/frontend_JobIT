@@ -15,7 +15,6 @@ import { listUserPermissions } from "../../redux/actions/listUserPermissions";
 import { updateUserPermissions } from "../../redux/actions/updateUserPermissions";
 
 const UserPermissions = ({ match }) => {
-  console.log(match.params.id, " ", match.params.name);
   const [userPermissions, setUserPermissions] = useState([]);
 
   useEffect(() => {
