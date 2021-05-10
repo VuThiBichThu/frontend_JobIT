@@ -74,7 +74,7 @@ const CV = () => {
 
   useEffect(() => {
     getITerCV((result) => {
-      if (result.cv) {
+      if (result.cv._id) {
         setIsCV(true);
         setCV(result.cv);
         setForm({

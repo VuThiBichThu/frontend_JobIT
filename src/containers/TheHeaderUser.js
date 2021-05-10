@@ -18,10 +18,18 @@ const TheHeaderUser = () => {
     <CHeader>
       <CHeaderNav className="d-md-down-none mr-auto">
         <CHeaderNavItem className="px-3">
+          <CHeaderNavLink to="/">
+            <img
+              src="http://res.cloudinary.com/do-an-cnpm/image/upload/v1620610339/hkbtcst9fctlpn5hyjnq.png"
+              alt=""
+            ></img>
+          </CHeaderNavLink>
+        </CHeaderNavItem>
+        <CHeaderNavItem className="px-3">
           <CHeaderNavLink to="/post-management">Post management</CHeaderNavLink>
         </CHeaderNavItem>
         <CHeaderNavItem className="px-3">
-          <CHeaderNavLink to="/it-Companies">IT Companies</CHeaderNavLink>
+          <CHeaderNavLink to="/it-companies">IT Companies</CHeaderNavLink>
         </CHeaderNavItem>
       </CHeaderNav>
       {getAuth().role ? (
@@ -42,16 +50,24 @@ const TheHeaderUser = () => {
   ) : (
     <CHeader>
       <CHeaderNav className="d-md-down-none mr-auto">
+      <CHeaderNavItem className="px-3">
+          <CHeaderNavLink to="/">
+            <img
+              src="http://res.cloudinary.com/do-an-cnpm/image/upload/v1620610339/hkbtcst9fctlpn5hyjnq.png"
+              alt=""
+            ></img>
+          </CHeaderNavLink>
+        </CHeaderNavItem>
         <CHeaderNavItem className="px-3">
           <CHeaderNavLink to="/all-jobs">All jobs</CHeaderNavLink>
         </CHeaderNavItem>
         <CHeaderNavItem className="px-3">
-          <CHeaderNavLink to="/it-Companies">IT Companies</CHeaderNavLink>
+          <CHeaderNavLink to="/it-companies">IT Companies</CHeaderNavLink>
         </CHeaderNavItem>
       </CHeaderNav>
       {getAuth().role ? (
         <CHeaderNav className="px-3">
-           <p>{getAuth().name}</p>
+          <p>{getAuth().name}</p>
           <TheHeaderDropdown />
         </CHeaderNav>
       ) : (
