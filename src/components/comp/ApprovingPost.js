@@ -24,6 +24,7 @@ import {
   CInput,
   CTextarea,
   CModalFooter,
+  CInvalidFeedback,
 } from "@coreui/react";
 
 const ApprovingPost = () => {
@@ -68,12 +69,9 @@ const ApprovingPost = () => {
     if (event.target.name === "endTime") {
       const date = new Date(event.target.value);
       updatedPost.endTime =
-        ("0" + date.getDate()).slice(-2) +
-        "/" +
-        ("0" + (date.getMonth() + 1)).slice(-2) +
-        "/" +
-        date.getFullYear();
+        date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
     }
+
     console.log(updatedPost);
   };
 
@@ -145,7 +143,11 @@ const ApprovingPost = () => {
                 <CModalTitle>{updatedPost.title}</CModalTitle>
               </CModalHeader>
               <CModalBody>
-                <CForm action="" method="post" className="form-horizontal">
+                <CForm
+                  action=""
+                  method="post"
+                  className="form-horizontal was-validated"
+                >
                   <CFormGroup row>
                     <CCol md="3">
                       <CLabel htmlFor="text-input">Title</CLabel>
@@ -155,6 +157,7 @@ const ApprovingPost = () => {
                         name="title"
                         defaultValue={updatedPost.title}
                         onChange={handleChange}
+                        required
                       />
                     </CCol>
                   </CFormGroup>
@@ -167,6 +170,7 @@ const ApprovingPost = () => {
                         name="skill"
                         defaultValue={updatedPost.skill}
                         onChange={handleChange}
+                        required
                       />
                     </CCol>
                   </CFormGroup>
@@ -179,8 +183,11 @@ const ApprovingPost = () => {
                         name="salary"
                         defaultValue={updatedPost.salary}
                         onChange={handleChange}
+                        required
                       />
-                      {/* <CFormText></CFormText> */}
+                      <CInvalidFeedback className="help-block">
+                        Enter a salary
+                      </CInvalidFeedback>
                     </CCol>
                   </CFormGroup>
                   <CFormGroup row>
@@ -193,8 +200,11 @@ const ApprovingPost = () => {
                         defaultValue={updatedPost.address}
                         //disabled="true"
                         onChange={handleChange}
+                        required
                       />
-                      {/* <CFormText></CFormText> */}
+                      <CInvalidFeedback className="help-block">
+                        Enter an address
+                      </CInvalidFeedback>
                     </CCol>
                   </CFormGroup>
                   <CFormGroup row>
@@ -207,7 +217,11 @@ const ApprovingPost = () => {
                         type="date"
                         defaultValue={updatedPost.endTime}
                         onChange={handleChange}
+                        required
                       />
+                      <CInvalidFeedback className="help-block">
+                        Choose end time
+                      </CInvalidFeedback>
                     </CCol>
                   </CFormGroup>
 
@@ -221,7 +235,11 @@ const ApprovingPost = () => {
                         name="description"
                         defaultValue={updatedPost.description}
                         onChange={handleChange}
+                        required
                       />
+                      <CInvalidFeedback className="help-block">
+                        Enter a description
+                      </CInvalidFeedback>
                     </CCol>
                   </CFormGroup>
                 </CForm>
@@ -230,23 +248,36 @@ const ApprovingPost = () => {
                 <CButton
                   color="success"
                   onClick={() => {
-                    if (!getAuth().token) {
-                      history.push("/login");
-                    } else {
-                      if (getAuth().role === "company") {
-                        updatePost(updatedPost.id, updatedPost, (data) => {
-                          if (data.status === 200) {
-                            toast.success("Update post successfully !", {
-                              position: toast.POSITION.BOTTOM_LEFT,
-                            });
-                          } else {
-                            toast.error("Fail to update post! " + data.msg, {
-                              position: toast.POSITION.BOTTOM_LEFT,
-                            });
-                          }
-                          setOpen(!isOpen);
-                        });
+                    let isValid = true;
+                    for (var key in updatedPost) {
+                      if (updatedPost[key] === "") {
+                        isValid = false;
+                        break;
                       }
+                    }
+                    if (isValid) {
+                      if (!getAuth().token) {
+                        history.push("/login");
+                      } else {
+                        if (getAuth().role === "company") {
+                          updatePost(updatedPost.id, updatedPost, (data) => {
+                            if (data.status === 200) {
+                              toast.success("Update post successfully !", {
+                                position: toast.POSITION.BOTTOM_LEFT,
+                              });
+                            } else {
+                              toast.error("Fail to update post! " + data.msg, {
+                                position: toast.POSITION.BOTTOM_LEFT,
+                              });
+                            }
+                            setOpen(!isOpen);
+                          });
+                        }
+                      }
+                    } else {
+                      toast.error("Please enter the empty input !", {
+                        position: toast.POSITION.BOTTOM_LEFT,
+                      });
                     }
                   }}
                 >

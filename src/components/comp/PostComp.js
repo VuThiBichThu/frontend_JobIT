@@ -197,6 +197,9 @@ const PostComp = () => {
                     required
                   />
                 </CCol>
+                <CInvalidFeedback className="help-block">
+                  Choose end time
+                </CInvalidFeedback>
               </CFormGroup>
 
               <CFormGroup row>
