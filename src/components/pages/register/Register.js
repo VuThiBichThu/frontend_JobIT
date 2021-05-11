@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   CButton,
   CCard,
@@ -17,14 +17,18 @@ import CIcon from "@coreui/icons-react";
 import { useHistory } from "react-router-dom";
 import { ROUTER_HOMEPAGE } from "../../../utils/routes";
 import { register } from "../../../redux/actions/register";
+import { toast } from "react-toastify";
 
 const Register = () => {
   const role = "iter";
   const history = useHistory();
+  const [error, setError] = useState("");
+
   const [form, setForm] = React.useState({
     email: "",
     password: "",
     name: "",
+    confirmPassword: "",
   });
   const handleChange = (event) => {
     setForm({ ...form, [event.target.name]: event.target.value });
@@ -41,14 +45,28 @@ const Register = () => {
       password: form.password,
       name: form.name,
     };
-    console.log(formData);
-    register(formData, role, (data) => {
-      if (data.status === 200) {
-        history.push(ROUTER_HOMEPAGE);
-      } else {
-        alert(data.msg);
-      }
-    });
+
+    let isValid = true;
+
+    if (form.password !== form.confirmPassword) isValid = false;
+    if (isValid) {
+      register(formData, role, (data) => {
+        if (data.status === 200) {
+          history.push(ROUTER_HOMEPAGE);
+          toast.success("Register successfully! ", {
+            position: toast.POSITION.BOTTOM_LEFT,
+          });
+        } else {
+          toast.error("Fail! " + data.msg, {
+            position: toast.POSITION.BOTTOM_LEFT,
+          });
+        }
+      });
+    } else {
+      toast.error("Please make sure your passwords match!", {
+        position: toast.POSITION.BOTTOM_LEFT,
+      });
+    }
   };
   return (
     <div className="c-app c-default-layout flex-row align-items-center">
@@ -71,7 +89,6 @@ const Register = () => {
                       name="name"
                       type="text"
                       placeholder="Full name"
-                      autoComplete="full-name"
                       value={form.name}
                       onChange={handleChange}
                       s
@@ -87,7 +104,6 @@ const Register = () => {
                       name="email"
                       type="text"
                       placeholder="Email"
-                      autoComplete="email"
                       value={form.email}
                       onChange={handleChange}
                     />
@@ -102,7 +118,6 @@ const Register = () => {
                       name="password"
                       type="password"
                       placeholder="Password"
-                      autoComplete="new-password"
                       value={form.password}
                       onChange={handleChange}
                     />
@@ -116,11 +131,38 @@ const Register = () => {
                     <CInput
                       type="password"
                       placeholder="Confirm password"
-                      autoComplete="new-password"
+                      onChange={(event) => {
+                        setForm({
+                          ...form,
+                          confirmPassword: event.target.value,
+                        });
+                        if (event.target.value !== form.password) {
+                          setError("Passwords do not match!");
+                        } else {
+                          setError("");
+                        }
+                      }}
                     />
                   </CInputGroup>
-
-                  <CButton color="success" block onClick={handleRegister}>
+                  <CInputGroup
+                    style={{ textAlign: "center", justifyContent: "center" }}
+                    className="mb-2"
+                  >
+                    <span style={{ color: "#e55353", fontSize: "80%" }}>
+                      {error}
+                    </span>
+                  </CInputGroup>
+                  <CButton
+                    color="success"
+                    block
+                    onClick={handleRegister}
+                    disabled={
+                      !form.name ||
+                      !form.email ||
+                      !form.password ||
+                      !form.confirmPassword
+                    }
+                  >
                     Create Account
                   </CButton>
                 </CForm>
