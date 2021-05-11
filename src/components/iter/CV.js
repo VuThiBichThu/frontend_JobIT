@@ -20,6 +20,7 @@ import {
   CLabel,
   CCard,
   CCardBody,
+  CInvalidFeedback,
 } from "@coreui/react";
 
 import { toast } from "react-toastify";
@@ -96,11 +97,27 @@ const CV = () => {
     // });
   }, []);
 
+  
+  //   const getTime = cv.birthday.split("/");
+  //   if (getTime[0] < 10) getTime[0] = "0" + getTime[0];
+  //   if (getTime[1] < 10) getTime[1] = "0" + getTime[1];
+  //   const curBirthday = getTime.reverse().join("-"); 
+  //   trong cái update vs create cho defaultValue=curBirthday
+  //   console.log(curBirthday);
+
   const techSkill = cv.skill ? cv.skill.split(",") : [];
 
   const softSkill = cv.softSkill ? cv.softSkill.split(",") : [];
 
   const handleChange = (event) => {
+
+    // if (event.target.name === "birthday") {
+    //   const date = new Date(event.target.value);
+    //   form.birthday =
+    //     date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+    // }
+    // console.log(form.birthday);
+
     setForm({ ...form, [event.target.name]: event.target.value.trim() });
   };
 
@@ -115,18 +132,31 @@ const CV = () => {
       ...form,
       image,
     };
-    createCV(cv, (data) => {
-      if (data.status === 200) {
-        setOpen(!isOpen);
-        toast.success("Create CV Successfully !", {
-          position: toast.POSITION.BOTTOM_LEFT,
-        });
-        window.location.reload();
-      } else {
-        alert(data.msg);
+    let isValid = true;
+    for (var key in cv) {
+      if (cv[key] === "") {
+        isValid = false;
+        break;
       }
-    });
-    setOpen(!isOpen);
+    }
+    if (isValid) {
+      createCV(cv, (data) => {
+        if (data.status === 200) {
+          setOpen(!isOpen);
+          toast.success("Create CV Successfully !", {
+            position: toast.POSITION.BOTTOM_LEFT,
+          });
+          window.location.reload();
+        } else {
+          alert(data.msg);
+        }
+      });
+      setOpen(!isOpen);
+    } else {
+      toast.error("Please enter the empty input !", {
+        position: toast.POSITION.BOTTOM_LEFT,
+      });
+    }
   };
 
   // upload image
@@ -190,20 +220,35 @@ const CV = () => {
     // }
     const cv = {
       ...form,
+      
       image,
     };
-    updateCV(cv, (data) => {
-      if (data.status === 200) {
-        toast.success("Update CV Successfully !", {
-          position: toast.POSITION.BOTTOM_LEFT,
-        });
-
-        window.location.reload();
-      } else {
-        alert(data.msg);
+    let isValid = true;
+    for (var key in cv) {
+      if (cv[key] === "") {
+        isValid = false;
+        break;
       }
-    });
-    setUpdate(!isUpdate);
+    }
+
+    if (isValid) {
+      updateCV(cv, (data) => {
+        if (data.status === 200) {
+          toast.success("Update CV Successfully !", {
+            position: toast.POSITION.BOTTOM_LEFT,
+          });
+
+          window.location.reload();
+        } else {
+          alert(data.msg);
+        }
+      });
+      setUpdate(!isUpdate);
+    } else {
+      toast.error("Please enter the empty input !", {
+        position: toast.POSITION.BOTTOM_LEFT,
+      });
+    }
   };
   return (
     <StyledCV>
@@ -308,16 +353,14 @@ const CV = () => {
           <CCol md="2"></CCol>
         </CRow>
       ) : (
-        <CRow style={{ alignItems: "center",textAlign:"center" }}>
+        <CRow style={{ alignItems: "center", textAlign: "center" }}>
           <CCol xs="12" className="mb-4">
             <CCard>
               <CCardBody>
-                <div style={{color:"#ed4444"}}>
-                  YOUR CV IS MISSING! 
-                </div>
+                <div style={{ color: "#ed4444" }}>YOUR CV IS MISSING!</div>
                 <div>
-                  Create a CV to apply for jobs
-                  faster and get attractive invitation from employers!
+                  Create a CV to apply for jobs faster and get attractive
+                  invitation from employers!
                 </div>
                 <br></br>
                 <CButton
@@ -338,7 +381,11 @@ const CV = () => {
           <CModalTitle>Your CV</CModalTitle>
         </CModalHeader>
         <CModalBody>
-          <CForm action="" method="cv" className="form-horizontal">
+          <CForm
+            action=""
+            method="cv"
+            className="form-horizontal was-validated"
+          >
             <CRow xs="12" md="12">
               <CCol md="4">
                 <img
@@ -366,7 +413,11 @@ const CV = () => {
                       name="name"
                       defaultValue={form.name}
                       onChange={handleChange}
+                      required
                     />
+                    {/* <CInvalidFeedback className="help-block">
+                      Enter a name
+                    </CInvalidFeedback> */}
                   </CCol>
                 </CFormGroup>
                 <CFormGroup row>
@@ -379,7 +430,11 @@ const CV = () => {
                       type="date"
                       defaultValue={form.birthday}
                       onChange={handleChange}
+                      required
                     />
+                    {/* <CInvalidFeedback className="help-block">
+                      Choose your date of birth
+                    </CInvalidFeedback> */}
                   </CCol>
                 </CFormGroup>
                 <CFormGroup row>
@@ -392,7 +447,11 @@ const CV = () => {
                       type="text"
                       defaultValue={form.email}
                       onChange={handleChange}
+                      required
                     />
+                    {/* <CInvalidFeedback className="help-block">
+                      Enter an email
+                    </CInvalidFeedback> */}
                   </CCol>
                 </CFormGroup>
               </CCol>
@@ -419,7 +478,11 @@ const CV = () => {
                   name="experience"
                   defaultValue={form.experience}
                   onChange={handleChange}
+                  required
                 />
+                <CInvalidFeedback className="help-block">
+                  Enter some experiences
+                </CInvalidFeedback>
               </CCol>
             </CFormGroup>
             <CFormGroup row>
@@ -431,7 +494,11 @@ const CV = () => {
                   name="skill"
                   defaultValue={form.skill}
                   onChange={handleChange}
+                  required
                 />
+                <CInvalidFeedback className="help-block">
+                  Enter some technical skills
+                </CInvalidFeedback>
               </CCol>
             </CFormGroup>
             <CFormGroup row>
@@ -444,7 +511,11 @@ const CV = () => {
                   rows="5"
                   defaultValue={form.softSkill}
                   onChange={handleChange}
+                  required
                 />
+                <CInvalidFeedback className="help-block">
+                  Enter some soft skills
+                </CInvalidFeedback>
               </CCol>
             </CFormGroup>
 
@@ -459,7 +530,11 @@ const CV = () => {
                   placeholder=""
                   defaultValue={form.description}
                   onChange={handleChange}
+                  required
                 />
+                <CInvalidFeedback className="help-block">
+                  Enter a description
+                </CInvalidFeedback>
               </CCol>
             </CFormGroup>
           </CForm>
@@ -488,7 +563,11 @@ const CV = () => {
           <CModalTitle>Your CV</CModalTitle>
         </CModalHeader>
         <CModalBody>
-          <CForm action="" method="cv" className="form-horizontal">
+          <CForm
+            action=""
+            method="cv"
+            className="form-horizontal was-validated"
+          >
             <CRow xs="12" md="12">
               <CCol md="4">
                 <img
@@ -516,8 +595,12 @@ const CV = () => {
                       name="name"
                       defaultValue={cv.name}
                       onChange={handleChange}
+                      required
                     />
                   </CCol>
+                  <CInvalidFeedback className="help-block">
+                    Enter a name
+                  </CInvalidFeedback>
                 </CFormGroup>
                 <CFormGroup row>
                   <CCol md="3">
@@ -529,7 +612,11 @@ const CV = () => {
                       type="date"
                       defaultValue={cv.birthday}
                       onChange={handleChange}
+                      required
                     />
+                    <CInvalidFeedback className="help-block">
+                      Choose your date of birth
+                    </CInvalidFeedback>
                   </CCol>
                 </CFormGroup>
                 <CFormGroup row>
@@ -542,7 +629,11 @@ const CV = () => {
                       type="text"
                       defaultValue={cv.email}
                       onChange={handleChange}
+                      required
                     />
+                    <CInvalidFeedback className="help-block">
+                      Enter an email
+                    </CInvalidFeedback>
                   </CCol>
                 </CFormGroup>
               </CCol>
@@ -569,7 +660,11 @@ const CV = () => {
                   name="experience"
                   defaultValue={cv.experience}
                   onChange={handleChange}
+                  required
                 />
+                <CInvalidFeedback className="help-block">
+                  Enter some experience
+                </CInvalidFeedback>
               </CCol>
             </CFormGroup>
             <CFormGroup row>
@@ -581,7 +676,11 @@ const CV = () => {
                   name="skill"
                   defaultValue={cv.skill}
                   onChange={handleChange}
+                  required
                 />
+                <CInvalidFeedback className="help-block">
+                  Enter some tech skills
+                </CInvalidFeedback>
               </CCol>
             </CFormGroup>
             <CFormGroup row>
@@ -594,7 +693,11 @@ const CV = () => {
                   rows="5"
                   defaultValue={cv.softSkill}
                   onChange={handleChange}
+                  required
                 />
+                <CInvalidFeedback className="help-block">
+                  Enter some soft skills
+                </CInvalidFeedback>
               </CCol>
             </CFormGroup>
 
@@ -609,7 +712,11 @@ const CV = () => {
                   placeholder=""
                   defaultValue={cv.description}
                   onChange={handleChange}
+                  required
                 />
+                <CInvalidFeedback className="help-block">
+                  Enter a description
+                </CInvalidFeedback>
               </CCol>
             </CFormGroup>
           </CForm>
