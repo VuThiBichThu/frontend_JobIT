@@ -62,6 +62,7 @@ const CV = () => {
   const loading = useSelector((store) => store.getITerCV.loading);
   const [cv, setCV] = useState({});
   const [image, setImage] = useState("");
+  const [curBirthday, setCurBirthday] = useState("");
 
   const [form, setForm] = React.useState({
     name: "",
@@ -78,6 +79,10 @@ const CV = () => {
       if (result.cv) {
         setIsCV(true);
         setCV(result.cv);
+        const getTime = result.cv.birthday.split("/");
+        if (getTime[0] < 10) getTime[0] = "0" + getTime[0];
+        if (getTime[1] < 10) getTime[1] = "0" + getTime[1];
+        setCurBirthday(getTime.reverse().join("-"));
         setForm({
           ...form,
           name: result.cv.name,
@@ -92,33 +97,28 @@ const CV = () => {
         setAvatar(result.cv.image);
       }
     });
-    // getProfile((result) => {
-    //   setForm({ ...form, email: result.user.email, name: result.user.name });
-    // });
   }, []);
-
-  
-  //   const getTime = cv.birthday.split("/");
-  //   if (getTime[0] < 10) getTime[0] = "0" + getTime[0];
-  //   if (getTime[1] < 10) getTime[1] = "0" + getTime[1];
-  //   const curBirthday = getTime.reverse().join("-"); 
-  //   trong cái update vs create cho defaultValue=curBirthday
-  //   console.log(curBirthday);
 
   const techSkill = cv.skill ? cv.skill.split(",") : [];
 
   const softSkill = cv.softSkill ? cv.softSkill.split(",") : [];
 
   const handleChange = (event) => {
+    if (event.target.name === "birthday") {
+      const date = new Date(event.target.value);
 
-    // if (event.target.name === "birthday") {
-    //   const date = new Date(event.target.value);
-    //   form.birthday =
-    //     date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
-    // }
-    // console.log(form.birthday);
-
-    setForm({ ...form, [event.target.name]: event.target.value.trim() });
+      setForm({
+        ...form,
+        birthday:
+          date.getDate() +
+          "/" +
+          (date.getMonth() + 1) +
+          "/" +
+          date.getFullYear(),
+      });
+    } else {
+      setForm({ ...form, [event.target.name]: event.target.value.trim() });
+    }
   };
 
   const handleSubmit = (event) => {
@@ -220,7 +220,6 @@ const CV = () => {
     // }
     const cv = {
       ...form,
-      
       image,
     };
     let isValid = true;
@@ -610,7 +609,7 @@ const CV = () => {
                     <CInput
                       name="birthday"
                       type="date"
-                      defaultValue={cv.birthday}
+                      defaultValue={curBirthday}
                       onChange={handleChange}
                       required
                     />
