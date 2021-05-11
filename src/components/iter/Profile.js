@@ -12,6 +12,7 @@ import {
   CLabel,
   CCard,
   CCardBody,
+  CInvalidFeedback,
 } from "@coreui/react";
 
 import { toast } from "react-toastify";
@@ -59,6 +60,7 @@ const StyledProfile = styled.section`
 `;
 const Profile = () => {
   // const loading = useSelector((store) => store.getProfile.loading);
+  const [error, setError] = useState("");
 
   const [avatar, setAvatar] = useState("/avatars/avatar.png");
   const [email, setEmail] = useState("");
@@ -69,6 +71,7 @@ const Profile = () => {
 
   const [pass, setPass] = useState("");
   const [newPass, setNewPass] = useState("");
+  const [newConPass, setNewConPass] = useState("");
 
   const [file, setFile] = useState(null);
 
@@ -162,7 +165,7 @@ const Profile = () => {
         toast.success("Update successfully !", {
           position: toast.POSITION.BOTTOM_LEFT,
         });
-        window.location.reload();
+        // window.location.reload();
       } else {
         alert(data.msg);
       }
@@ -171,6 +174,7 @@ const Profile = () => {
   const handleChangePass = (event) => {
     if (event.target.name === "pass") setPass(event.target.value);
     if (event.target.name === "newPass") setNewPass(event.target.value);
+    if (event.target.name === "newConPass") setNewConPass(event.target.value);
   };
   const changePass = (event) => {
     event.preventDefault();
@@ -180,19 +184,28 @@ const Profile = () => {
     // }
 
     let data = { password: pass, newPassword: newPass };
-    updatePass(data, (result) => {
-      if (result.status === 200) {
-        toast.success("Update password successfully !", {
-          position: toast.POSITION.BOTTOM_LEFT,
-        });
-        // window.location.reload();
-        document.getElementById("pass-form").reset();
-      } else {
-        toast.error("Fail to update! " + data.msg, {
-          position: toast.POSITION.BOTTOM_LEFT,
-        });
-      }
-    });
+    let isValid = true;
+
+    if (newPass !== newConPass) isValid = false;
+    if (isValid) {
+      updatePass(data, (result) => {
+        if (result.status === 200) {
+          toast.success("Update password successfully !", {
+            position: toast.POSITION.BOTTOM_LEFT,
+          });
+          // window.location.reload();
+          document.getElementById("pass-form").reset();
+        } else {
+          toast.error("Fail to update! " + data.msg, {
+            position: toast.POSITION.BOTTOM_LEFT,
+          });
+        }
+      });
+    } else {
+      toast.error("Please make sure your passwords match!", {
+        position: toast.POSITION.BOTTOM_LEFT,
+      });
+    }
 
     // console.log(data);
     // updateProfile(data, (data) => {
@@ -239,7 +252,7 @@ const Profile = () => {
               <CForm
                 action=""
                 method="post"
-                className="form-horizontal"
+                className="form-horizontal  was-validated"
                 style={{ width: "100%" }}
               >
                 <CFormGroup row>
@@ -252,7 +265,11 @@ const Profile = () => {
                       name="name"
                       value={name}
                       onChange={handleChange}
+                      required
                     />
+                    <CInvalidFeedback className="help-block">
+                      Must have a username
+                    </CInvalidFeedback>
                   </CCol>
                 </CFormGroup>
                 <CFormGroup row>
@@ -294,7 +311,7 @@ const Profile = () => {
                     />
                   </CCol>
                 </CFormGroup>
-                <CButton color="success" onClick={saveChanges}>
+                <CButton color="success" onClick={saveChanges} disabled={!name}>
                   Save changes
                 </CButton>
               </CForm>
@@ -346,15 +363,30 @@ const Profile = () => {
                   <CCol xs="12" md="9">
                     <CInput
                       type="password"
-                      id="confirm"
-                      name="confirm"
+                      id="newConPass"
+                      name="newConPass"
                       // value=""
-                      onChange={handleChangePass}
+                      onChange={(event) => {
+                        setNewConPass(event.target.value);
+                        if (event.target.value !== newPass) {
+                          setError("Passwords do not match!");
+                        } else {
+                          setError("");
+                        }
+                      }}
                     />
                   </CCol>
                 </CFormGroup>
-
-                <CButton color="success" onClick={changePass}>
+                <CFormGroup style={{ textAlign: "center" }}>
+                  <span style={{ color: "#e55353", fontSize: "80%" }}>
+                    {error}
+                  </span>
+                </CFormGroup>
+                <CButton
+                  color="success"
+                  onClick={changePass}
+                  disabled={!pass || !newPass || !newConPass}
+                >
                   Change password
                 </CButton>
               </CForm>

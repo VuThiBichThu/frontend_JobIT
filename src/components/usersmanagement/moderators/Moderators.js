@@ -62,7 +62,7 @@ const Moderators = () => {
   };
   const [primary, setPrimary] = useState(false);
 
-  const loading = useSelector((store) => store.addMod.loading);
+  // const loading = useSelector((store) => store.addMod.loading);
 
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");

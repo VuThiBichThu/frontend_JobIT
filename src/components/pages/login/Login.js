@@ -19,6 +19,7 @@ import { useHistory } from "react-router-dom";
 import { login } from "../../../redux/actions/login";
 import { ROUTER_HOMEPAGE } from "../../../utils/routes";
 import { setAuth } from "../../../utils/helpers";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const history = useHistory();
@@ -42,8 +43,13 @@ const Login = () => {
       if (data.status === 200) {
         setAuth(data);
         history.push(ROUTER_HOMEPAGE);
+        toast.success("Login successfully! ", {
+          position: toast.POSITION.BOTTOM_LEFT,
+        });
       } else {
-        alert(data.msg);
+        toast.error("Fail! " + data.msg, {
+          position: toast.POSITION.BOTTOM_LEFT,
+        });
       }
     });
   };
@@ -96,6 +102,7 @@ const Login = () => {
                           color="primary"
                           className="px-4"
                           onClick={handleLogin}
+                          disabled={!form.email || !form.password}
                         >
                           Login
                         </CButton>
