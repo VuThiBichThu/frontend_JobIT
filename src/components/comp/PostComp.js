@@ -47,18 +47,14 @@ const PostComp = () => {
     let date;
     if (event.target.name === "endTime") {
       date = new Date(event.target.value);
-      console.log(date);
       setEndTime(
         date.getMonth() + 1 + "/" + date.getDate() + "/" + date.getFullYear()
       );
-      console.log(endTime);
     }
     if (event.target.name === "skill") {
       setSkill(event.target.value.split(","));
     }
-    console.log(event.target.value.trim());
     setForm({ ...form, [event.target.name]: event.target.value.trim() });
-    console.log(form);
   };
 
   const handleSubmit = (event) => {
@@ -111,6 +107,7 @@ const PostComp = () => {
           </CModalHeader>
           <CModalBody>
             <CForm
+              id="post-form"
               action=""
               method="post"
               className="form-horizontal was-validated"
@@ -232,7 +229,8 @@ const PostComp = () => {
               color="secondary"
               onClick={() => {
                 setOpen(!isOpen);
-                window.location.reload();
+                document.getElementById("post-form").reset();
+                // window.location.reload();
               }}
             >
               Cancel

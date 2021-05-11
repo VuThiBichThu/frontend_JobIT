@@ -94,16 +94,25 @@ const ITer = ({ match }) => {
                   <tr>
                     <th>Full name</th>
                     <th>Email</th>
+                    <th>Applied Date</th>
                     <th>CV</th>
                   </tr>
                 </thead>
                 <tbody>
                   {appliers &&
                     appliers.map((applier) => {
+                      let temp= new Date(applier.timeApply);
+                      applier.timeApply= 
+                      ("0" + temp.getDate()).slice(-2) +
+                      "/" +
+                      ("0" + (temp.getMonth() + 1)).slice(-2) +
+                      "/" +
+                      temp.getFullYear();
                       return (
                         <tr key={applier._id}>
                           <td>{applier.name}</td>
                           <td>{applier.email}</td>
+                          <td>{applier.timeApply}</td>
                           <td>
                             <CButton
                               color="success"

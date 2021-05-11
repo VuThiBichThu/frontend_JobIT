@@ -25,6 +25,7 @@ import {
   CInputGroupText,
   CInput,
   CInputGroupPrepend,
+  CInvalidFeedback,
 } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
 import { addMod } from "../../../redux/actions/addMod";
@@ -41,6 +42,7 @@ const Moderators = () => {
 
   const [numPages, setNumPages] = useState(1);
   const take = 10; // rows in table
+  const [success, setSuccess] = useState(0);
 
   const role = "moderator";
   useEffect(() => {
@@ -49,7 +51,7 @@ const Moderators = () => {
       setNumPages(item.data.numPages);
       setPage(item.data.page);
     });
-  }, [page]);
+  }, [page, success]);
 
   const pageChange = (newPage) => {
     listModerator(newPage, (data) => {
@@ -64,6 +66,9 @@ const Moderators = () => {
 
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const [error, setError] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -75,19 +80,36 @@ const Moderators = () => {
       userName,
       password,
     };
+    let isValid = true;
 
-    addMod(mod, (data) => {
-      if (data.status === 200) {
-        setPrimary(!primary);
-        toast.success("Create Mod Successfully !", {
+    if (userName === "" || password === "" || password !== confirmPassword) {
+      isValid = false;
+    }
+    if (isValid) {
+      addMod(mod, (data) => {
+        if (data.status === 200) {
+          setPrimary(!primary);
+          toast.success("Create Mod Successfully !", {
+            position: toast.POSITION.BOTTOM_LEFT,
+          });
+          setSuccess(success + 1);
+          // window.location.reload();
+        } else {
+          alert(data.msg);
+        }
+      });
+      setPrimary(!primary);
+    } else {
+      if (userName === "" || password === "") {
+        toast.error("Please enter the empty input !", {
           position: toast.POSITION.BOTTOM_LEFT,
         });
-        window.location.reload();
       } else {
-        alert(data.msg);
+        toast.error("Please make sure your passwords match!", {
+          position: toast.POSITION.BOTTOM_LEFT,
+        });
       }
-    });
-    setPrimary(!primary);
+    }
   };
 
   return (
@@ -113,7 +135,12 @@ const Moderators = () => {
                 <CModalTitle>New moderator</CModalTitle>
               </CModalHeader>
               <CModalBody>
-                <CForm action="" method="post">
+                <CForm
+                  id="form"
+                  action=""
+                  method="post"
+                  className="form-horizontal was-validated"
+                >
                   <CFormGroup>
                     <CInputGroup>
                       <CInputGroupPrepend>
@@ -125,9 +152,12 @@ const Moderators = () => {
                         id="username"
                         name="username"
                         placeholder="Username"
-                        autoComplete="name"
                         onChange={(event) => setUserName(event.target.value)}
+                        required
                       />
+                      <CInvalidFeedback className="help-block ml-5">
+                        Enter a username
+                      </CInvalidFeedback>
                     </CInputGroup>
                   </CFormGroup>
                   <CFormGroup>
@@ -142,9 +172,12 @@ const Moderators = () => {
                         id="password"
                         name="password"
                         placeholder="Password"
-                        autoComplete="password"
                         onChange={(event) => setPassword(event.target.value)}
+                        required
                       />
+                      <CInvalidFeedback className="help-block ml-5">
+                        Enter a password
+                      </CInvalidFeedback>
                     </CInputGroup>
                   </CFormGroup>
                   <CFormGroup>
@@ -159,16 +192,34 @@ const Moderators = () => {
                         id="confirm-password"
                         name="confirm-password"
                         placeholder="Confirm password"
-                        autoComplete="confirm-password"
+                        onChange={(event) => {
+                          setConfirmPassword(event.target.value);
+                          if (event.target.value !== password) {
+                            setError("Passwords do not match!");
+                          } else {
+                            setError("");
+                          }
+                        }}
+                        required
                       />
+                      <CInvalidFeedback className="help-block ml-5">
+                        Enter a confirm password
+                      </CInvalidFeedback>
                     </CInputGroup>
+                  </CFormGroup>
+                  <CFormGroup
+                    style={{ textAlign: "center", marginBottom: "0" }}
+                  >
+                    <span style={{ color: "#e55353", fontSize: "80%" }}>
+                      {error}
+                    </span>
                   </CFormGroup>
                 </CForm>
               </CModalBody>
               <CModalFooter>
                 <CButton
                   color="primary"
-                  disabled={loading}
+                  disabled={(!userName)||(!password)||(!confirmPassword)}
                   onClick={handleSubmit}
                 >
                   Create
@@ -177,7 +228,8 @@ const Moderators = () => {
                   color="secondary"
                   onClick={() => {
                     setPrimary(!primary);
-                    window.location.reload();
+                    document.getElementById("form").reset();
+                    // window.location.reload();
                   }}
                 >
                   Cancel
@@ -216,6 +268,7 @@ const Moderators = () => {
                             toast.success("Delete Mod Successfully !", {
                               position: toast.POSITION.BOTTOM_LEFT,
                             });
+                            setSuccess(success + 1);
                           } else {
                             toast.error("Failed to delete," + data.msg, {
                               position: toast.POSITION.BOTTOM_LEFT,
