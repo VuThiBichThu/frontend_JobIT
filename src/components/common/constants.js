@@ -1,0 +1,15 @@
+export const technicalSkill = [
+    { label: "Java", value: "Java" },
+    { label: "Javascript", value: "Javascript" },
+    { label: "Python", value: "Python" },
+    { label: "PHP", value: "Typescript" },
+    { label: "ReactJS", value: "ReactJS" },
+    { label: "NodeJS", value: "NodeJS" },
+    { label: "Spring", value: "Spring" },
+    { label: "C", value: "C" },
+    { label: "C++", value: "C++" },
+    { label: "C#", value: "C#" },
+    { label: "VueJS", value: "VueJS" },
+    { label: "Flask", value: "Flask" },
+    { label: "DotNet", value: "DotNet" },
+  ];

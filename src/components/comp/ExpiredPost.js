@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { getPostsComp } from "../../../src/redux/actions/getPostsComp";
 import { deletePost } from "../../../src/redux/actions/deletePost";
-import { completePost} from "../../../src/redux/actions/completePost"
+
 import {
   CCard,
   CCardBody,
@@ -24,7 +24,7 @@ import {
   CModalFooter,
 } from "@coreui/react";
 
-const ApprovedPost = () => {
+const ExpiredPost = () => {
   const [posts, setPosts] = useState([]);
   const storeGetPosts = useSelector((store) => store.getPosts);
   const loadingList = storeGetPosts.loading;
@@ -32,7 +32,7 @@ const ApprovedPost = () => {
 
   useEffect(() => {
     getPostsComp((item) => {
-      setPosts(item.posts.filter((post) => post.status === "ACCEPTED"));
+        setPosts(item.posts.filter((post) => post.status === "DONE"));
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -63,28 +63,6 @@ const ApprovedPost = () => {
                   <td>
                     <CButton
                       color="success"
-                      onClick={() => {
-                        setPosts(
-                          posts.filter((itemCom) => itemCom._id !== item._id)
-                        );
-                        completePost(item._id, (data) => {
-                          if (data.status === 200) {
-                            toast.success("Complete post successfully !", {
-                              position: toast.POSITION.BOTTOM_LEFT,
-                            });
-                            window.location.reload();
-                          } else {
-                            toast.error("Fail to delete! " + data.msg, {
-                              position: toast.POSITION.BOTTOM_LEFT,
-                            });
-                          }
-                        });
-                      }}
-                    >
-                      <i className="cil-check-circle"></i>
-                    </CButton>{" "}
-                    <CButton
-                      color="info"
                       onClick={() => {
                         const curPost = {
                           id: item._id,
@@ -122,7 +100,7 @@ const ApprovedPost = () => {
                       }}
                     >
                       <i className="cil-trash"></i>
-                    </CButton>
+                    </CButton>{" "}
                   </td>
                 ),
                 ListApplications: (item) => (
@@ -236,4 +214,4 @@ const ApprovedPost = () => {
   );
 };
 
-export default ApprovedPost;
+export default ExpiredPost;

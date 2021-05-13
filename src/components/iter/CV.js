@@ -29,6 +29,8 @@ import { createCV } from "src/redux/actions/createCV";
 import axios from "axios";
 import { getSignature } from "src/redux/actions/getSignature";
 import { updateCV } from "src/redux/actions/updateCV";
+import { technicalSkill } from "../common/constants";
+import MultiSelect from "react-multi-select-component";
 
 const StyledCV = styled.div`
   .layout-cv {
@@ -99,9 +101,9 @@ const CV = () => {
     });
   }, []);
 
-  const techSkill = cv.skill ? cv.skill.split(",") : [];
+  const techSkill = cv.skill ? cv.skill : [];
 
-  const softSkill = cv.softSkill ? cv.softSkill.split(",") : [];
+  const [selected, setSelected] = useState([]);
 
   const handleChange = (event) => {
     if (event.target.name === "birthday") {
@@ -124,14 +126,17 @@ const CV = () => {
   const handleSubmit = (event) => {
     console.log("create cv");
     event.preventDefault();
-    // const errorState = validate();
-    // if (Object.keys(errorState).length > 0) {
-    //   return setError(errorState);
-    // }
+
     const cv = {
       ...form,
       image,
     };
+    
+    form.skill = [];
+    if (selected) {
+      selected.map((item) => form.skill.push(item.value));
+    }
+
     let isValid = true;
     for (var key in cv) {
       if (cv[key] === "") {
@@ -214,10 +219,12 @@ const CV = () => {
   const handleUpdate = (event) => {
     console.log("update cv");
     event.preventDefault();
-    // const errorState = validate();
-    // if (Object.keys(errorState).length > 0) {
-    //   return setError(errorState);
-    // }
+
+    form.skill = [];
+    if (selected) {
+      selected.map((item) => form.skill.push(item.value));
+    }
+
     const cv = {
       ...form,
       image,
@@ -299,9 +306,12 @@ const CV = () => {
                     <CFormGroup row>
                       <CCol>
                         <ul className="ul-list">
-                          {techSkill.map((item) => (
-                            <li>{item}</li>
-                          ))}
+                          {
+                            //cv.skill.map((item)=>(<li>{item}</li>))
+                            techSkill.map((item) => (
+                              <li>{item}</li>
+                            ))
+                          }
                         </ul>
                       </CCol>
                     </CFormGroup>
@@ -313,11 +323,7 @@ const CV = () => {
                     <hr></hr>
                     <CFormGroup row>
                       <CCol>
-                        <ul className="ul-list">
-                          {softSkill.map((item) => (
-                            <li>{item}</li>
-                          ))}
-                        </ul>
+                        <pre>{cv.softSkill}</pre>
                       </CCol>
                     </CFormGroup>
                     <CFormGroup row>
@@ -343,7 +349,14 @@ const CV = () => {
               <CButton
                 color="primary"
                 disabled={loading}
-                onClick={() => setUpdate(!isUpdate)}
+                onClick={() => {
+                  const curSkill = [];
+                  techSkill.map((skill) =>
+                    curSkill.push({ label: skill, value: skill })
+                  );
+                  setSelected(curSkill);
+                  setUpdate(!isUpdate);
+                }}
               >
                 Update CV
               </CButton>{" "}
@@ -489,15 +502,12 @@ const CV = () => {
                 <CLabel htmlFor="text-input">Technical skills</CLabel>
               </CCol>
               <CCol xs="12" md="9">
-                <CInput
-                  name="skill"
-                  defaultValue={form.skill}
-                  onChange={handleChange}
-                  required
+                <MultiSelect
+                  options={technicalSkill}
+                  value={selected}
+                  onChange={setSelected}
+                  labelledBy="Select"
                 />
-                <CInvalidFeedback className="help-block">
-                  Enter some technical skills
-                </CInvalidFeedback>
               </CCol>
             </CFormGroup>
             <CFormGroup row>
@@ -671,15 +681,12 @@ const CV = () => {
                 <CLabel htmlFor="text-input">Technical skills</CLabel>
               </CCol>
               <CCol xs="12" md="9">
-                <CInput
-                  name="skill"
-                  defaultValue={cv.skill}
-                  onChange={handleChange}
-                  required
+                <MultiSelect
+                  options={technicalSkill}
+                  value={selected}
+                  onChange={setSelected}
+                  labelledBy="Select"
                 />
-                <CInvalidFeedback className="help-block">
-                  Enter some tech skills
-                </CInvalidFeedback>
               </CCol>
             </CFormGroup>
             <CFormGroup row>

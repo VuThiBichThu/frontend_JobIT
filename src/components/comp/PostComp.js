@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 // import { toast } from "react-toastify";
 // import LoadingOverlay from "react-loading-overlay";
-import { ApprovingPost, ApprovedPost } from "./index";
+import { ApprovingPost, ApprovedPost, ExpiredPost } from "./index";
+import MultiSelect from "react-multi-select-component";
+import { technicalSkill } from "../common/constants";
 
 import {
   CRow,
@@ -31,11 +33,12 @@ import {
 import { toast } from "react-toastify";
 import { addPost } from "../../redux/actions/addPost";
 // import ReactLoading from "react-loading";
+
 const PostComp = () => {
   const [isOpen, setOpen] = useState(false);
   const loading = useSelector((store) => store.addPost.loading);
   const [endTime, setEndTime] = useState("");
-  const [skill, setSkill] = useState([]);
+  //const [skill, setSkill] = useState([]);
   const [form, setForm] = React.useState({
     title: "",
     salary: "",
@@ -48,31 +51,33 @@ const PostComp = () => {
     if (event.target.name === "endTime") {
       date = new Date(event.target.value);
       setEndTime(
-        date.getMonth() + 1 + "/" + date.getDate() + "/" + date.getFullYear()
+        date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear()
       );
     }
-    if (event.target.name === "skill") {
-      setSkill(event.target.value.split(","));
-    }
+    // if (event.target.name === "skill") {
+    //   setSkill(event.target.value.split(","));
+    // }
     setForm({ ...form, [event.target.name]: event.target.value.trim() });
   };
 
   const handleSubmit = (event) => {
     console.log("create post");
     event.preventDefault();
-    // const errorState = validate();
-    // if (Object.keys(errorState).length > 0) {
-    //   return setError(errorState);
-    // }
+
+    const skill = [];
+    if (selected) {
+      selected.map((item) => skill.push(item.value));
+    }
+
     const post = {
       ...form,
       endTime,
       skill,
     };
-    console.log(post);
+
     let isValid = true;
     for (var key in post) {
-      if (post[key] === "") {
+      if (post[key] === "" || post["skill"].length === 0) {
         isValid = false;
         break;
       }
@@ -98,6 +103,9 @@ const PostComp = () => {
       });
     }
   };
+
+  const [selected, setSelected] = useState([]);
+
   return (
     <>
       <CRow>
@@ -134,16 +142,12 @@ const PostComp = () => {
                   <CLabel htmlFor="text-input">Skills</CLabel>
                 </CCol>
                 <CCol xs="12" md="9">
-                  <CInput
-                    id="skill"
-                    name="skill"
-                    placeholder=""
-                    onChange={handleChange}
-                    required
+                  <MultiSelect
+                    options={technicalSkill}
+                    value={selected}
+                    onChange={setSelected}
+                    labelledBy="Select"
                   />
-                  <CInvalidFeedback className="help-block">
-                    Enter skills
-                  </CInvalidFeedback>
                 </CCol>
               </CFormGroup>
               <CFormGroup row>
@@ -230,7 +234,6 @@ const PostComp = () => {
               onClick={() => {
                 setOpen(!isOpen);
                 document.getElementById("post-form").reset();
-                // window.location.reload();
               }}
             >
               Cancel
@@ -253,6 +256,9 @@ const PostComp = () => {
                     <CNavItem>
                       <CNavLink>Approved Posts</CNavLink>
                     </CNavItem>
+                    <CNavItem>
+                      <CNavLink>Expired Posts</CNavLink>
+                    </CNavItem>
                   </CNav>
                   <CButton
                     style={{ marginBottom: "5px" }}
@@ -270,6 +276,9 @@ const PostComp = () => {
                   </CTabPane>
                   <CTabPane>
                     <ApprovedPost />
+                  </CTabPane>
+                  <CTabPane>
+                    <ExpiredPost />
                   </CTabPane>
                 </CTabContent>
               </CTabs>
