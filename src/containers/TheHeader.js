@@ -55,6 +55,9 @@ const TheHeader = () => {
             Group Permissions
           </CHeaderNavLink>
         </CHeaderNavItem>
+        <CHeaderNavItem className="px-3">
+          <CHeaderNavLink to="/feedbacks">Feedbacks</CHeaderNavLink>
+        </CHeaderNavItem>
       </CHeaderNav>
 
       <CHeaderNav className="px-3">

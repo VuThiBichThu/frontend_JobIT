@@ -13,6 +13,8 @@ import PostManagement from "./containers/admin/PostManagement";
 import PostComp from "./components/comp/PostComp";
 import Applier from "./components/comp/Applier";
 import ITerProfile from "./components/iter/ITerProfile";
+import Feedbacks from "./containers/admin/Feedbacks";
+import Company from "./components/comp/Company";
 
 
 const routes = [
@@ -31,9 +33,12 @@ const routes = [
 
   { path: '/grouppermissions', exact: true, name: 'Group permissions', component: GroupPermissions },
 
+  { path: '/feedbacks', exact: true, name: 'Feedbacks', component: Feedbacks },
+
   // comp
   { path: '/post-management', component: PostComp, exact: true },
   { path: '/post/appliers/:id', component: Applier, exact: true },
+  { path: '/posts/company/:companyId', component: Company, exact: true },
 
   { path: '/profile', component: ITerProfile, exact: true },
 

@@ -193,6 +193,7 @@ function Post({
               </CForm>
             </CModalBody>
             <CModalFooter>
+             
               <CButton
                 color="success"
                 onClick={() => {
@@ -211,6 +212,11 @@ function Post({
                           });
                         }
                         setOpen(!isOpen);
+                      });
+                    }
+                    else{
+                      toast.warn("Only ITer can apply job! ", {
+                        position: toast.POSITION.BOTTOM_LEFT,
                       });
                     }
                   }

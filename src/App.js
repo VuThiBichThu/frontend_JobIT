@@ -16,6 +16,8 @@ import Register from "./components/pages/register/Register";
 import Login from "./components/pages/login/Login";
 import HomePage from "./containers/HomePage";
 import RegisterComp from "./components/pages/register/RegisterComp";
+import ITCompanies from "./containers/ITCompanies";
+import AboutUs from "./containers/AboutUs";
 // Containers
 // const TheLayout = React.lazy(() => import("./containers/TheLayout"));
 // const LogInAdmin = React.lazy(() => import("./containers/LogInAdmin"));
@@ -34,6 +36,9 @@ function App() {
         <Route path="/register" exact component={Register} />
         <Route path="/register-company" exact component={RegisterComp} />
         <Route path="/forgot-password" exact component={ForgotPassword} />
+        <Route path="/it-companies" exact component={TheLayout(ITCompanies)} />
+        <Route path="/about-us" exact component={TheLayout(AboutUs)} />
+
 
         <Route path={ROUTER_ADMIN} component={LogInAdmin} exact />
         {routes.map((route, idx) => {
