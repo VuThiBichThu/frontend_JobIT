@@ -22,9 +22,9 @@ const ApprovedPost = () => {
 
   const [numPages, setNumPages] = useState(1);
   const take = 10; // rows in table
-
+  const query = "";
   useEffect(() => {
-    getPosts(page, (item) => {
+    getPosts(page, query, (item) => {
       setPosts(item.data.posts);
       setNumPages(item.data.numPages);
       setPage(item.data.currentPage);
@@ -58,9 +58,7 @@ const ApprovedPost = () => {
               itemsPerPage={take}
               activePage={page}
               scopedSlots={{
-                companyName: (item) => (
-                  <td>{item.company[0].name}</td>
-                ),
+                companyName: (item) => <td>{item.company[0].name}</td>,
                 Actions: (item) => (
                   <td>
                     <CButton

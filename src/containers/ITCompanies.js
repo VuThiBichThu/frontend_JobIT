@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import LoadingOverlay from "react-loading-overlay";
 // import ReactLoading from "react-loading";
+import defaultImage from "../assets/images/default_image.png";
 
 import {
   CRow,
@@ -101,7 +102,7 @@ const ITCompanies = () => {
                   key={index}
                   compName={item.name}
                   address={item.address}
-                  image={item.image}
+                  image={item.image ? item.image : defaultImage}
                   auth={getAuth}
                   recruitingPost={item.recruitingPost}
                   compId={item.accountId}

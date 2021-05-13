@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { getAuth } from "src/utils/helpers";
 import { CCard, CCardBody, CLink } from "@coreui/react";
+import defaultImage from "../../assets/images/default_image.png";
 
 const StyledComp = styled.section`
   .card {
@@ -41,7 +42,11 @@ function Comp({ compName, address, image, recruitingPost, auth, compId }) {
         <CCardBody className="flex center" style={{ flexDirection: "column" }}>
           <div className="image">
             {" "}
-            <img src={image} className="image" alt="avatar" />
+            <img
+              src={image ? image : defaultImage}
+              className="image"
+              alt="avatar"
+            />
           </div>
           <h4 className="text-primary mt-4">{compName}</h4>
           <div className="flex  margin-top">

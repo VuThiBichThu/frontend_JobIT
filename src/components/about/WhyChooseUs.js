@@ -1,4 +1,7 @@
 import React from "react";
+import image1 from "../../assets/images/aboutus/2.png";
+import image2 from "../../assets/images/aboutus/1.png";
+import image3 from "../../assets/images/aboutus/3.png";
 
 function WhyChooseUs() {
   return (
@@ -12,12 +15,7 @@ function WhyChooseUs() {
         <div className="items">
           <div className="item">
             <div className="item__inner">
-              <img
-                width="300px"
-                height="300px"
-                src="https://via.placeholder.com/150"
-                alt=""
-              />
+              <img width="300px" height="300px" src={image1} alt="" />
               <div className="item__inner__text">
                 <h3 className="h3 underline underline--secondary">
                   Focus only on IT jobs
@@ -31,12 +29,7 @@ function WhyChooseUs() {
           </div>
           <div className="item">
             <div className="item__inner">
-              <img
-                width="300px"
-                height="300px"
-                src="https://via.placeholder.com/150"
-                alt=""
-              />
+              <img width="300px" height="300px" src={image2} alt="" />
               <div className="item__inner__text">
                 <h3 className="h3 underline underline--primary">
                   Screen candidates
@@ -49,12 +42,7 @@ function WhyChooseUs() {
           </div>
           <div className="item">
             <div className="item__inner">
-              <img
-                width="300px"
-                height="300px"
-                src="https://via.placeholder.com/150"
-                alt=""
-              />
+              <img width="300px" height="300px" src={image3} alt="" />
               <div className="item__inner__text">
                 <h3 className="h3 underline underline--blue">
                   Provide company reviews

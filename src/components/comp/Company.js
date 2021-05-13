@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { getPostList } from "src/redux/actions/getPostList";
 import Post from "../common/Post";
 import { getAuth } from "src/utils/helpers";
+import defaultImage from "../../assets/images/default_image.png";
 
 const StyledCompany = styled.div`
   .company {
@@ -69,7 +70,11 @@ const Company = ({ match }) => {
               {" "}
               <div className="photo">
                 {" "}
-                <img src={company.image} className="photo" alt="avatar" />
+                <img
+                  src={company.image ? company.image : defaultImage}
+                  className="photo"
+                  alt="avatar"
+                />
               </div>
               <div className="flex info">
                 <h2 className="h2">
@@ -120,7 +125,7 @@ const Company = ({ match }) => {
                         skill={item.skill.join(" ,")}
                         endTime={item.endTime}
                         salary={item.salary}
-                        image={company.image}
+                        image={company.image ? company.name : defaultImage}
                         auth={getAuth()}
                         postId={item._id}
                         compId={item.companyId}
