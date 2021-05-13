@@ -6,6 +6,8 @@ import { getPostsComp } from "../../../src/redux/actions/getPostsComp";
 import { deletePost } from "../../../src/redux/actions/deletePost";
 import { getAuth } from "src/utils/helpers";
 import { updatePost } from "../../redux/actions/updatePost";
+import { technicalSkill } from "../common/constants";
+import MultiSelect from "react-multi-select-component";
 
 import {
   CCard,
@@ -29,6 +31,7 @@ import {
 
 const ApprovingPost = () => {
   const [posts, setPosts] = useState([]);
+  const [updatedPost, setUpdatedPost] = useState({});
   const storeGetPosts = useSelector((store) => store.getPosts);
   const loadingList = storeGetPosts.loading;
   const [isOpen, setOpen] = useState(false);
@@ -36,44 +39,35 @@ const ApprovingPost = () => {
 
   useEffect(() => {
     getPostsComp((item) => {
-      setPosts(item.posts.filter((post) => post.accept === false));
-      console.log(posts);
+      setPosts(item.posts.filter((post) => post.status === "WAITING"));
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  posts.map((item) => {
-    const getTime = item.endTime.split("/");
-    if (getTime[0] < 10) getTime[0] = "0" + getTime[0];
-    if (getTime[1] < 10) getTime[1] = "0" + getTime[1];
-    item.endTime = getTime.reverse().join("-");
-    console.log(item.endTime);
-  });
-
-  const [updatedPost, setUpdatedPost] = useState({});
+  const [time, setTime] = useState("");
 
   const handleChange = (event) => {
-    if (event.target.name === "title") updatedPost.title = event.target.value;
-
-    if (event.target.name === "skill")
-      updatedPost.skill = event.target.value.split(",");
-
-    if (event.target.name === "salary") updatedPost.salary = event.target.value;
-
-    if (event.target.name === "address")
-      updatedPost.address = event.target.value;
-
-    if (event.target.name === "description")
-      updatedPost.description = event.target.value;
-
     if (event.target.name === "endTime") {
       const date = new Date(event.target.value);
-      updatedPost.endTime =
-        date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+      setUpdatedPost({
+        ...updatedPost,
+        endTime:
+          date.getDate() +
+          "/" +
+          (date.getMonth() + 1) +
+          "/" +
+          date.getFullYear(),
+      });
+    } else {
+      setUpdatedPost({
+        ...updatedPost,
+        [event.target.name]: event.target.value,
+      });
     }
-
     console.log(updatedPost);
   };
+
+  const [selected, setSelected] = useState([]);
 
   return (
     <CRow>
@@ -102,6 +96,17 @@ const ApprovingPost = () => {
                           endTime: item.endTime,
                           description: item.description,
                         };
+
+                        const getTime = item.endTime.split("/");
+                        if (getTime[0] < 10) getTime[0] = "0" + getTime[0];
+                        if (getTime[1] < 10) getTime[1] = "0" + getTime[1];
+                        setTime(getTime.reverse().join("-"));
+
+                        const curSkill = [];
+                        currentPost.skill.map((skill) => {
+                          curSkill.push({ label: skill, value: skill });
+                        });
+                        setSelected(curSkill);
 
                         setUpdatedPost(currentPost);
                         setOpen(!isOpen);
@@ -147,6 +152,7 @@ const ApprovingPost = () => {
                   action=""
                   method="post"
                   className="form-horizontal was-validated"
+                  id="updateForm"
                 >
                   <CFormGroup row>
                     <CCol md="3">
@@ -163,17 +169,18 @@ const ApprovingPost = () => {
                   </CFormGroup>
                   <CFormGroup row>
                     <CCol md="3">
-                      <CLabel htmlFor="text-input">Skills</CLabel>
+                      <CLabel>Select Skills</CLabel>
                     </CCol>
                     <CCol xs="12" md="9">
-                      <CInput
-                        name="skill"
-                        defaultValue={updatedPost.skill}
-                        onChange={handleChange}
-                        required
+                      <MultiSelect
+                        options={technicalSkill}
+                        value={selected}
+                        onChange={setSelected}
+                        labelledBy="Select"
                       />
                     </CCol>
                   </CFormGroup>
+
                   <CFormGroup row>
                     <CCol md="3">
                       <CLabel>Salary</CLabel>
@@ -215,7 +222,7 @@ const ApprovingPost = () => {
                       <CInput
                         name="endTime"
                         type="date"
-                        defaultValue={updatedPost.endTime}
+                        defaultValue={time}
                         onChange={handleChange}
                         required
                       />
@@ -260,6 +267,15 @@ const ApprovingPost = () => {
                         history.push("/login");
                       } else {
                         if (getAuth().role === "company") {
+                          if (selected) {
+                            const selectSkill = [];
+                            selected.map((item) => {
+                              selectSkill.push(item.value);
+                            });
+
+                            updatedPost.skill = selectSkill;
+                            console.log(updatedPost.skill);
+                          }
                           updatePost(updatedPost.id, updatedPost, (data) => {
                             if (data.status === 200) {
                               toast.success("Update post successfully !", {
@@ -271,6 +287,7 @@ const ApprovingPost = () => {
                               });
                             }
                             setOpen(!isOpen);
+                            window.location.reload();
                           });
                         }
                       }
@@ -286,6 +303,7 @@ const ApprovingPost = () => {
                 <CButton
                   color="secondary"
                   onClick={() => {
+                    document.getElementById("updateForm").reset();
                     setOpen(!isOpen);
                   }}
                 >

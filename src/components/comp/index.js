@@ -1,3 +1,5 @@
 import ApprovedPost from "./ApprovedPost";
 import ApprovingPost from "./ApprovingPost";
-export { ApprovingPost, ApprovedPost };
+import ExpiredPost from "./ExpiredPost";
+
+export { ApprovingPost, ApprovedPost, ExpiredPost };
