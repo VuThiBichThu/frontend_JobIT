@@ -397,6 +397,7 @@ const CV = () => {
             action=""
             method="cv"
             className="form-horizontal was-validated"
+            id="create-form"
           >
             <CRow xs="12" md="12">
               <CCol md="4">
@@ -555,7 +556,9 @@ const CV = () => {
           <CButton
             color="secondary"
             onClick={() => {
+              document.getElementById("create-form").reset();
               setOpen(!isOpen);
+            
             }}
           >
             Cancel

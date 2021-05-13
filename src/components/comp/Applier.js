@@ -43,7 +43,7 @@ const StyledCV = styled.div`
     }
   }
 `;
-const ITer = ({ match }) => {
+const Applier = ({ match }) => {
   const [appliers, setAppliers] = useState([]);
   const [cv, setCV] = useState({});
   const [title, setTitle] = useState("");
@@ -242,4 +242,4 @@ const ITer = ({ match }) => {
   );
 };
 
-export default ITer;
+export default Applier;

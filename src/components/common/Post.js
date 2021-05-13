@@ -5,6 +5,8 @@ import styled from "styled-components";
 import { getAuth } from "src/utils/helpers";
 import { toast } from "react-toastify";
 import { apply } from "../../redux/actions/apply";
+import defaultImage from "../../assets/images/default_image.png";
+
 import {
   CCard,
   CCardBody,
@@ -26,7 +28,7 @@ import {
 
 const StyledPost = styled.section`
   .card {
-    width: 530px;
+    width: 600px;
     margin: 10px;
   }
   .align {
@@ -73,7 +75,11 @@ function Post({
         <CCardBody className="flex space-between">
           <div className="image">
             {" "}
-            <img src={image} className="image" alt="avatar" />
+            <img
+              src={image ? image : defaultImage}
+              className="image"
+              alt="avatar"
+            />
           </div>
 
           <div className="info">
@@ -90,7 +96,10 @@ function Post({
               {getAuth().token ? (
                 " " + salary
               ) : (
-                <a href="/login" style={{color: "#9c9595"}}> {" "} Login to view</a>
+                <a href="/login" style={{ color: "#9c9595" }}>
+                  {" "}
+                  Login to view
+                </a>
               )}
             </p>
             <p>
@@ -211,6 +220,10 @@ function Post({
                           });
                         }
                         setOpen(!isOpen);
+                      });
+                    } else {
+                      toast.warn("Only ITer can apply job! ", {
+                        position: toast.POSITION.BOTTOM_LEFT,
                       });
                     }
                   }

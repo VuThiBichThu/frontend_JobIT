@@ -1,55 +1,59 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import { getPosts } from "../../../redux/actions/getPosts";
-import { deletePost } from "../../../redux/actions/deletePost";
+
 import {
+  CCol,
+  CRow,
   CCard,
   CCardBody,
-  CCol,
+  CCardHeader,
   CDataTable,
-  CRow,
-  CPagination,
   CButton,
+  // CPagination,
 } from "@coreui/react";
-const ApprovedPost = () => {
-  const [posts, setPosts] = useState([]);
-  const storeGetPosts = useSelector((store) => store.getPosts);
-  const loadingList = storeGetPosts.loading;
+import { getFeedback } from "src/redux/actions/getFeedback";
+import { useSelector } from "react-redux";
+import { deleteFeedback } from "src/redux/actions/deleteFeedback";
+import { toast } from "react-toastify";
+
+const Feedbacks = () => {
+  const [feedbacks, setFeedbacks] = useState([]);
+  const storeGetFeedback = useSelector((store) => store.getFeedback);
+  const loadingList = storeGetFeedback.loading;
 
   const [page, setPage] = useState(1);
-  const [currentPage, setCurrentPage] = useState(1);
+  // const [currentPage, setCurrentPage] = useState(1);
 
-  const [numPages, setNumPages] = useState(1);
-  const take = 10; // rows in table
-  const query = "";
+  // const [numPages, setNumPages] = useState(1);
+  const [take, setTake] = useState(10);
+  // const take = 10; // rows in table
+
   useEffect(() => {
-    getPosts(page, query, (item) => {
-      setPosts(item.data.posts);
-      setNumPages(item.data.numPages);
-      setPage(item.data.currentPage);
+    getFeedback((result) => {
+      setFeedbacks(result.feedbacks);
+      setTake(result.feedbacks.length);
     });
-  }, [page]);
+  }, []);
 
-  const pageChange = (newPage) => {
-    getPosts(newPage, (data) => {
-      setPosts(data.data.posts);
-      setNumPages(data.data.numPages);
-      setCurrentPage(data.data.currentPage);
-    });
-  };
+  // const pageChange = (newPage) => {
+  //   getFeedback(newPage, (data) => {
+  //     setFeedbacks(data.data.posts);
+  //     setNumPages(data.data.numPages);
+  //     setCurrentPage(data.data.currentPage);
+  //   });
+  // };
 
   return (
     <CRow>
-      <CCol xl={6}>
+      <CCol xs="12" className="mb-4">
         <CCard>
+          <CCardHeader>All feedbacks from users</CCardHeader>
           <CCardBody>
             <CDataTable
-              items={posts}
+              items={feedbacks}
               fields={[
                 { key: "_id", _classes: "font-weight-bold" },
-                "companyName",
-                "salary",
+                "userId",
+                "content",
                 "Actions",
               ]}
               hover
@@ -58,18 +62,19 @@ const ApprovedPost = () => {
               itemsPerPage={take}
               activePage={page}
               scopedSlots={{
-                companyName: (item) => <td>{item.company[0].name}</td>,
                 Actions: (item) => (
                   <td>
                     <CButton
                       color="danger"
                       onClick={() => {
-                        setPosts(
-                          posts.filter((itemCom) => itemCom._id !== item._id)
+                        setFeedbacks(
+                          feedbacks.filter(
+                            (itemCom) => itemCom._id !== item._id
+                          )
                         );
-                        deletePost(item._id, (data) => {
+                        deleteFeedback(item._id, (data) => {
                           if (data.status === 200) {
-                            toast.success("Delete post successfully !", {
+                            toast.success("Delete feedback successfully !", {
                               position: toast.POSITION.BOTTOM_LEFT,
                             });
                           } else {
@@ -86,18 +91,17 @@ const ApprovedPost = () => {
                 ),
               }}
             />
-            <CPagination
+            {/* <CPagination
               activePage={currentPage}
               onActivePageChange={pageChange}
               pages={numPages}
               doubleArrows={false}
               align="center"
-            />
+            /> */}
           </CCardBody>
         </CCard>
       </CCol>
     </CRow>
   );
 };
-
-export default ApprovedPost;
+export default Feedbacks;

@@ -32,6 +32,11 @@ import createCV from "./createCV";
 import getSignature from "./getSignature";
 import uploadImage from "./uploadImage";
 import updateCV from "./updateCV";
+import createFeedback from "./createFeedback";
+import deleteFeedback from "./deleteFeedback";
+import getFeedback from "./getFeedback";
+import getCompany from "./getCompany";
+import getPostList from "./getPostList";
 
 export default combineReducers({
   loginAdmin,
@@ -67,4 +72,9 @@ export default combineReducers({
   getSignature,
   uploadImage,
   updateCV,
+  createFeedback,
+  deleteFeedback,
+  getFeedback,
+  getCompany,
+  getPostList
 });

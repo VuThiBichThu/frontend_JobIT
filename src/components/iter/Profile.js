@@ -268,7 +268,7 @@ const Profile = () => {
                       required
                     />
                     <CInvalidFeedback className="help-block">
-                      Must have a username
+                      Enter a username
                     </CInvalidFeedback>
                   </CCol>
                 </CFormGroup>
@@ -282,7 +282,11 @@ const Profile = () => {
                       name="phone"
                       value={phone}
                       onChange={handleChange}
+                      required
                     />
+                    <CInvalidFeedback className="help-block">
+                      Enter a phone number
+                    </CInvalidFeedback>
                   </CCol>
                 </CFormGroup>
                 <CFormGroup row>
@@ -295,7 +299,11 @@ const Profile = () => {
                       name="address"
                       value={address}
                       onChange={handleChange}
+                      required
                     />
+                    <CInvalidFeedback className="help-block">
+                      Enter a address
+                    </CInvalidFeedback>
                   </CCol>
                 </CFormGroup>
                 <CFormGroup row>
@@ -311,7 +319,11 @@ const Profile = () => {
                     />
                   </CCol>
                 </CFormGroup>
-                <CButton color="success" onClick={saveChanges} disabled={!name}>
+                <CButton
+                  color="success"
+                  onClick={saveChanges}
+                  disabled={!name || !phone || !address}
+                >
                   Save changes
                 </CButton>
               </CForm>
