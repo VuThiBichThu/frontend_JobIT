@@ -8,6 +8,7 @@ import {
   CCardHeader,
   CDataTable,
   CButton,
+  CTooltip,
   // CPagination,
 } from "@coreui/react";
 import { getFeedback } from "src/redux/actions/getFeedback";
@@ -20,7 +21,7 @@ const Feedbacks = () => {
   const storeGetFeedback = useSelector((store) => store.getFeedback);
   const loadingList = storeGetFeedback.loading;
 
-  const [page, setPage] = useState(1);
+  // const [page, setPage] = useState(1);
   // const [currentPage, setCurrentPage] = useState(1);
 
   // const [numPages, setNumPages] = useState(1);
@@ -60,33 +61,38 @@ const Feedbacks = () => {
               loading={loadingList}
               striped
               itemsPerPage={take}
-              activePage={page}
+              // activePage={page}
               scopedSlots={{
                 Actions: (item) => (
                   <td>
-                    <CButton
-                      color="danger"
-                      onClick={() => {
-                        setFeedbacks(
-                          feedbacks.filter(
-                            (itemCom) => itemCom._id !== item._id
-                          )
-                        );
-                        deleteFeedback(item._id, (data) => {
-                          if (data.status === 200) {
-                            toast.success("Delete feedback successfully !", {
-                              position: toast.POSITION.BOTTOM_LEFT,
-                            });
-                          } else {
-                            toast.error("Fail to delete! " + data.msg, {
-                              position: toast.POSITION.BOTTOM_LEFT,
-                            });
-                          }
-                        });
-                      }}
+                    <CTooltip
+                      content="delete this company"
+                      placement="bottom-start"
                     >
-                      <i className="cil-trash"></i>
-                    </CButton>{" "}
+                      <CButton
+                        color="danger"
+                        onClick={() => {
+                          setFeedbacks(
+                            feedbacks.filter(
+                              (itemCom) => itemCom._id !== item._id
+                            )
+                          );
+                          deleteFeedback(item._id, (data) => {
+                            if (data.status === 200) {
+                              toast.success("Delete feedback successfully !", {
+                                position: toast.POSITION.BOTTOM_LEFT,
+                              });
+                            } else {
+                              toast.error("Fail to delete! " + data.msg, {
+                                position: toast.POSITION.BOTTOM_LEFT,
+                              });
+                            }
+                          });
+                        }}
+                      >
+                        <i className="cil-trash"></i>
+                      </CButton>
+                    </CTooltip>{" "}
                   </td>
                 ),
               }}

@@ -16,11 +16,12 @@ import {
   CInput,
   CButton,
   CContainer,
+  CCard,
 } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
 import { getAuth } from "src/utils/helpers";
 import Post from "src/components/common/Post";
-
+import notfound from "../assets/icons/not-found.png";
 const HomePage = () => {
   const [posts, setPosts] = useState([]);
   const storeGetPosts = useSelector((store) => store.getPosts);
@@ -33,12 +34,11 @@ const HomePage = () => {
   // const take = 10; // rows in table
 
   const [query, setQuery] = useState("");
-  const [searchInput, setSearchInput] = useState("");
+  // const [searchInput, setSearchInput] = useState("");
 
   useEffect(() => {
     getPosts(page, query, (item) => {
       setPosts(item.data.posts);
-
       setNumPages(item.data.numPages);
       setPage(item.data.currentPage);
     });
@@ -53,11 +53,11 @@ const HomePage = () => {
   };
 
   const handleChange = (event) => {
-    setSearchInput(event.target.value);
+    setQuery(event.target.value);
   };
 
   const search = () => {
-    setQuery(searchInput);
+    setQuery(query);
   };
   return (
     <LoadingOverlay active={loadingList} spinner text="Loading..." s>
@@ -94,7 +94,7 @@ const HomePage = () => {
                   compName={item.company[0].name}
                   title={item.title}
                   address={item.address}
-                  skill={item.skill.join(" ,")}
+                  skill={item.skill.join(", ")}
                   endTime={item.endTime}
                   salary={item.salary}
                   image={item.company[0].image}
@@ -108,6 +108,15 @@ const HomePage = () => {
                 />
               );
             })}
+          {!posts.length && (
+            <CCard className="no-result">
+              {" "}
+              <img src={notfound} alt=""></img>
+              <div>
+                Sorry, we couldn't find any results for your search!{" "}
+              </div>
+            </CCard>
+          )}
         </div>
 
         <CPagination

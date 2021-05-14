@@ -5,7 +5,6 @@ export function updatePost(id, data, resolve = () => {}) {
   store.dispatch({
     type: types.UPDATE_POST,
   });
-  console.log(id);
   return fetch(`${process.env.REACT_APP_API_URL}/posts/${id}`, {
     method: "PUT",
     headers: {

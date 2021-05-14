@@ -5,7 +5,6 @@ export function deleteMod(id, resolve = () => {}) {
   store.dispatch({
     type: types.DELETE_MOD_API,
   });
-  console.log(id);
   return fetch(
     `${process.env.REACT_APP_API_URL}/moderators/${id}`,
     {

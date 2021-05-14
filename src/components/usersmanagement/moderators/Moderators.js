@@ -26,11 +26,12 @@ import {
   CInput,
   CInputGroupPrepend,
   CInvalidFeedback,
-  CTooltip
+  CTooltip,
 } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
 import { addMod } from "../../../redux/actions/addMod";
 import { deleteMod } from "../../../redux/actions/deleteMod";
+import { getAuth } from "src/utils/helpers";
 
 const Moderators = () => {
   const [moderators, setModerators] = useState([]);
@@ -117,201 +118,215 @@ const Moderators = () => {
     <CRow>
       <CCol xl={6}>
         <CCard>
-          <CCardHeader>
-            MODERATORS
-            <CButton
-              style={{ float: "right" }}
-              color="primary"
-              className="mr-1 right-btn"
-              onClick={() => setPrimary(!primary)}
-            >
-              <i className="cil-user-plus"></i> New Moderator
-            </CButton>
-            <CModal
-              show={primary}
-              onClose={() => setPrimary(!primary)}
-              color="primary"
-            >
-              <CModalHeader closeButton>
-                <CModalTitle>New moderator</CModalTitle>
-              </CModalHeader>
-              <CModalBody>
-                <CForm
-                  id="form"
-                  action=""
-                  method="post"
-                  className="form-horizontal was-validated"
-                >
-                  <CFormGroup>
-                    <CInputGroup>
-                      <CInputGroupPrepend>
-                        <CInputGroupText>
-                          <CIcon name="cil-user" />
-                        </CInputGroupText>
-                      </CInputGroupPrepend>
-                      <CInput
-                        id="username"
-                        name="username"
-                        placeholder="Username"
-                        onChange={(event) => setUserName(event.target.value)}
-                        required
-                      />
-                      <CInvalidFeedback className="help-block ml-5">
-                        Enter a username
-                      </CInvalidFeedback>
-                    </CInputGroup>
-                  </CFormGroup>
-                  <CFormGroup>
-                    <CInputGroup>
-                      <CInputGroupPrepend>
-                        <CInputGroupText>
-                          <CIcon name="cil-asterisk" />
-                        </CInputGroupText>
-                      </CInputGroupPrepend>
-                      <CInput
-                        type="password"
-                        id="password"
-                        name="password"
-                        placeholder="Password"
-                        onChange={(event) => setPassword(event.target.value)}
-                        required
-                      />
-                      <CInvalidFeedback className="help-block ml-5">
-                        Enter a password
-                      </CInvalidFeedback>
-                    </CInputGroup>
-                  </CFormGroup>
-                  <CFormGroup>
-                    <CInputGroup>
-                      <CInputGroupPrepend>
-                        <CInputGroupText>
-                          <CIcon name="cil-asterisk" />
-                        </CInputGroupText>
-                      </CInputGroupPrepend>
-                      <CInput
-                        type="password"
-                        id="confirm-password"
-                        name="confirm-password"
-                        placeholder="Confirm password"
-                        onChange={(event) => {
-                          setConfirmPassword(event.target.value);
-                          if (event.target.value !== password) {
-                            setError("Passwords do not match!");
-                          } else {
-                            setError("");
-                          }
-                        }}
-                        required
-                      />
-                      <CInvalidFeedback className="help-block ml-5">
-                        Enter a confirm password
-                      </CInvalidFeedback>
-                    </CInputGroup>
-                  </CFormGroup>
-                  <CFormGroup
-                    style={{ textAlign: "center", marginBottom: "0" }}
-                  >
-                    <span style={{ color: "#e55353", fontSize: "80%" }}>
-                      {error}
-                    </span>
-                  </CFormGroup>
-                </CForm>
-              </CModalBody>
-              <CModalFooter>
+          {getAuth().role === "admin" ? (
+            <>
+              <CCardHeader>
+                MODERATORS
                 <CButton
+                  style={{ float: "right" }}
                   color="primary"
-                  disabled={!userName || !password || !confirmPassword}
-                  onClick={handleSubmit}
+                  className="mr-1 right-btn"
+                  onClick={() => setPrimary(!primary)}
                 >
-                  Create
-                </CButton>{" "}
-                <CButton
-                  color="secondary"
-                  onClick={() => {
-                    setPrimary(!primary);
-                    document.getElementById("form").reset();
-                    // window.location.reload();
-                  }}
-                >
-                  Cancel
+                  <i className="cil-user-plus"></i> New Moderator
                 </CButton>
-              </CModalFooter>
-            </CModal>
-          </CCardHeader>
-          <CCardBody>
-            <CDataTable
-              items={moderators}
-              fields={[
-                { key: "_id", _classes: "font-weight-bold" },
-                "userName",
-                "createdAt",
-                "Actions",
-              ]}
-              hover
-              loading={loadingList}
-              striped
-              itemsPerPage={take}
-              activePage={page}
-              scopedSlots={{
-                Actions: (item) => (
-                  <td>
-                    <CTooltip
-                      content="delete this moderator"
-                      placement="bottom-start"
+                <CModal
+                  show={primary}
+                  onClose={() => setPrimary(!primary)}
+                  color="primary"
+                >
+                  <CModalHeader closeButton>
+                    <CModalTitle>New moderator</CModalTitle>
+                  </CModalHeader>
+                  <CModalBody>
+                    <CForm
+                      id="form"
+                      action=""
+                      method="post"
+                      className="form-horizontal was-validated"
                     >
-                      <CButton
-                        color="danger"
-                        // disabled={item.status}
-                        onClick={() => {
-                          setModerators(
-                            moderators.filter(
-                              (itemMod) => itemMod._id !== item._id
-                            )
-                          );
-                          deleteMod(item._id, (data) => {
-                            if (data.status === 200) {
-                              toast.success("Delete Mod Successfully !", {
-                                position: toast.POSITION.BOTTOM_LEFT,
-                              });
-                              setSuccess(success + 1);
-                            } else {
-                              toast.error("Failed to delete," + data.msg, {
-                                position: toast.POSITION.BOTTOM_LEFT,
-                              });
+                      <CFormGroup>
+                        <CInputGroup>
+                          <CInputGroupPrepend>
+                            <CInputGroupText>
+                              <CIcon name="cil-user" />
+                            </CInputGroupText>
+                          </CInputGroupPrepend>
+                          <CInput
+                            id="username"
+                            name="username"
+                            placeholder="Username"
+                            onChange={(event) =>
+                              setUserName(event.target.value)
                             }
-                          });
-                        }}
+                            required
+                          />
+                          <CInvalidFeedback className="help-block ml-5">
+                            Enter a username
+                          </CInvalidFeedback>
+                        </CInputGroup>
+                      </CFormGroup>
+                      <CFormGroup>
+                        <CInputGroup>
+                          <CInputGroupPrepend>
+                            <CInputGroupText>
+                              <CIcon name="cil-asterisk" />
+                            </CInputGroupText>
+                          </CInputGroupPrepend>
+                          <CInput
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Password"
+                            onChange={(event) =>
+                              setPassword(event.target.value)
+                            }
+                            required
+                          />
+                          <CInvalidFeedback className="help-block ml-5">
+                            Enter a password
+                          </CInvalidFeedback>
+                        </CInputGroup>
+                      </CFormGroup>
+                      <CFormGroup>
+                        <CInputGroup>
+                          <CInputGroupPrepend>
+                            <CInputGroupText>
+                              <CIcon name="cil-asterisk" />
+                            </CInputGroupText>
+                          </CInputGroupPrepend>
+                          <CInput
+                            type="password"
+                            id="confirm-password"
+                            name="confirm-password"
+                            placeholder="Confirm password"
+                            onChange={(event) => {
+                              setConfirmPassword(event.target.value);
+                              if (event.target.value !== password) {
+                                setError("Passwords do not match!");
+                              } else {
+                                setError("");
+                              }
+                            }}
+                            required
+                          />
+                          <CInvalidFeedback className="help-block ml-5">
+                            Enter a confirm password
+                          </CInvalidFeedback>
+                        </CInputGroup>
+                      </CFormGroup>
+                      <CFormGroup
+                        style={{ textAlign: "center", marginBottom: "0" }}
                       >
-                        <i className="cil-trash"></i>
-                      </CButton>
-                    </CTooltip>{" "}
-                    <CTooltip
-                      content="set permissions"
-                      placement="bottom-start"
+                        <span style={{ color: "#e55353", fontSize: "80%" }}>
+                          {error}
+                        </span>
+                      </CFormGroup>
+                    </CForm>
+                  </CModalBody>
+                  <CModalFooter>
+                    <CButton
+                      color="primary"
+                      disabled={!userName || !password || !confirmPassword}
+                      onClick={handleSubmit}
                     >
-                      <CButton
-                        color="success"
-                        onClick={() =>
-                          history.push(
-                            `/usersmanagement/${role}/${item._id}/${item.userName}`
-                          )
-                        }
-                      >
-                        <i className="cil-cog"></i>
-                      </CButton>
-                    </CTooltip>
-                  </td>
-                ),
-              }}
-            />
-            <CPagination
-              activePage={currentPage}
-              onActivePageChange={pageChange}
-              pages={numPages}
-              doubleArrows={false}
-              align="center"
-            />
-          </CCardBody>
+                      Create
+                    </CButton>{" "}
+                    <CButton
+                      color="secondary"
+                      onClick={() => {
+                        setPrimary(!primary);
+                        document.getElementById("form").reset();
+                        // window.location.reload();
+                      }}
+                    >
+                      Cancel
+                    </CButton>
+                  </CModalFooter>
+                </CModal>
+              </CCardHeader>
+              <CCardBody>
+                <CDataTable
+                  items={moderators}
+                  fields={[
+                    { key: "_id", _classes: "font-weight-bold" },
+                    "userName",
+                    "createdAt",
+                    "Actions",
+                  ]}
+                  hover
+                  loading={loadingList}
+                  striped
+                  itemsPerPage={take}
+                  activePage={page}
+                  scopedSlots={{
+                    Actions: (item) => (
+                      <td>
+                        <CTooltip
+                          content="delete this moderator"
+                          placement="bottom-start"
+                        >
+                          <CButton
+                            color="danger"
+                            // disabled={item.status}
+                            onClick={() => {
+                              setModerators(
+                                moderators.filter(
+                                  (itemMod) => itemMod._id !== item._id
+                                )
+                              );
+                              deleteMod(item._id, (data) => {
+                                if (data.status === 200) {
+                                  toast.success("Delete Mod Successfully !", {
+                                    position: toast.POSITION.BOTTOM_LEFT,
+                                  });
+                                  setSuccess(success + 1);
+                                } else {
+                                  toast.error("Failed to delete," + data.msg, {
+                                    position: toast.POSITION.BOTTOM_LEFT,
+                                  });
+                                }
+                              });
+                            }}
+                          >
+                            <i className="cil-trash"></i>
+                          </CButton>
+                        </CTooltip>{" "}
+                        <CTooltip
+                          content="set permissions"
+                          placement="bottom-start"
+                        >
+                          <CButton
+                            color="success"
+                            onClick={() =>
+                              history.push(
+                                `/usersmanagement/${role}/${item._id}/${item.userName}`
+                              )
+                            }
+                          >
+                            <i className="cil-cog"></i>
+                          </CButton>
+                        </CTooltip>
+                      </td>
+                    ),
+                  }}
+                />
+                <CPagination
+                  activePage={currentPage}
+                  onActivePageChange={pageChange}
+                  pages={numPages}
+                  doubleArrows={false}
+                  align="center"
+                />
+              </CCardBody>
+            </>
+          ) : (
+            <CCardBody className="center-admin">
+              <div style={{ fontSize: "x-large" }}>
+                You don't have permission to control this management!{" "}
+              </div>
+            </CCardBody>
+          )}
         </CCard>
       </CCol>
     </CRow>

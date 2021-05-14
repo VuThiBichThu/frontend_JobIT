@@ -20,7 +20,6 @@ import { login } from "../../../redux/actions/login";
 import { ROUTER_HOMEPAGE } from "../../../utils/routes";
 import { getAuth, setAuth } from "../../../utils/helpers";
 import { toast } from "react-toastify";
-import { useSelector } from "react-redux";
 import { setInfo } from "src/redux/actions/setInfo";
 
 const Login = () => {
@@ -29,7 +28,6 @@ const Login = () => {
   const handleChange = (event) => {
     setForm({ ...form, [event.target.name]: event.target.value.trim() });
   };
-  const info = useSelector((state) => state.setInfo);
   const handleLogin = (event) => {
     event.preventDefault();
     // const errorState = validate();
@@ -41,7 +39,6 @@ const Login = () => {
       email: form.email,
       password: form.password,
     };
-    console.log(formData);
     login(formData, (result) => {
       if (result.status === 200) {
         let image = getAuth().image;

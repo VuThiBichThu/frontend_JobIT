@@ -5,7 +5,6 @@ export function deleteITer(id, resolve = () => {}) {
   store.dispatch({
     type: types.DELETE_ITER_API,
   });
-  console.log(id);
   return fetch(
     `${process.env.REACT_APP_API_URL}/iters/${id}`,
     {

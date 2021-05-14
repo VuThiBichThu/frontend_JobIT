@@ -5,7 +5,6 @@ export function deleteCompany(id, resolve = () => {}) {
   store.dispatch({
     type: types.DELETE_COMPANY_API,
   });
-  console.log(id);
   return fetch(
     `${process.env.REACT_APP_API_URL}/companies/${id}`,
     {

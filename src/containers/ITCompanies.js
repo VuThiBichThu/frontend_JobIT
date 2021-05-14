@@ -42,9 +42,7 @@ const ITCompanies = () => {
       setNumPages(item.data.numPages);
       setPage(item.data.page);
     });
-    // getCompany((result)=>{
-    //   console.log(result);
-    // })
+
   }, [page, query]);
 
   const pageChange = (newPage) => {
