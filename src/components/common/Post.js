@@ -25,6 +25,7 @@ import {
   CModalFooter,
   CButton,
 } from "@coreui/react";
+import CIcon from "@coreui/icons-react";
 
 const StyledPost = styled.section`
   .card {
@@ -54,6 +55,14 @@ const StyledPost = styled.section`
     display: inline-block;
     max-width: 250px;
   }
+  .notify {
+    color: #59a0e6;
+    font-weight: lighter;
+    font-style: italic;
+  }
+  .job-title {
+    font-size: 20px;
+  }
 `;
 
 function Post({
@@ -68,14 +77,26 @@ function Post({
   auth,
   postId,
   compId,
+  isApplied,
 }) {
   const history = useHistory();
   const [isOpen, setOpen] = useState(false);
-
+  console.log(isApplied);
   return (
     <StyledPost>
       <CCard accentColor="primary" className="card">
-        <CCardHeader>{title}</CCardHeader>
+        <CCardHeader>
+          <span className="job-title"> {title}</span>
+          {isApplied && (
+            <div className="card-header-actions">
+              <span className=" notify float-right">
+                {" "}
+                <CIcon name="cil-check" className="mr-2" />
+                You applied this job!
+              </span>
+            </div>
+          )}
+        </CCardHeader>
         <CCardBody className="flex space-between">
           <div className="image">
             {" "}

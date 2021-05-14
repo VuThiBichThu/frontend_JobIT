@@ -21,6 +21,9 @@ import { updateProfile } from "../../redux/actions/updateProfile";
 import styled from "styled-components";
 import { getSignature } from "src/redux/actions/getSignature";
 import { updatePass } from "src/redux/actions/updatePass";
+import { getAuth, setAuth } from "src/utils/helpers";
+import { useSelector } from "react-redux";
+import { setInfo } from "src/redux/actions/setInfo";
 const StyledProfile = styled.section`
   .avatar-wrapper {
     position: relative;
@@ -61,13 +64,14 @@ const StyledProfile = styled.section`
 const Profile = () => {
   // const loading = useSelector((store) => store.getProfile.loading);
   const [error, setError] = useState("");
+  const storeSetInfo = useSelector((store) => store.setInfo);
 
-  const [avatar, setAvatar] = useState("/avatars/avatar.png");
+  const [avatar, setAvatar] = useState(storeSetInfo.data.image);
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(storeSetInfo.data.image);
 
   const [pass, setPass] = useState("");
   const [newPass, setNewPass] = useState("");
@@ -79,7 +83,6 @@ const Profile = () => {
 
   useEffect(() => {
     getProfile((result) => {
-      console.log(result);
       setEmail(result.user.email);
       setName(result.user.name);
       setPhone(result.user.phone);
@@ -158,6 +161,7 @@ const Profile = () => {
     }
     if (image !== "") {
       data = { ...data, image };
+    } else {
     }
     console.log(data);
     updateProfile(data, (data) => {
@@ -165,6 +169,8 @@ const Profile = () => {
         toast.success("Update successfully !", {
           position: toast.POSITION.BOTTOM_LEFT,
         });
+        setAuth({ ...getAuth(), image: image, name: name });
+        setInfo({ name: name, image: image });
         // window.location.reload();
       } else {
         alert(data.msg);
