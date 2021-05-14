@@ -32,7 +32,7 @@ const TheHeaderUser = () => {
           <CHeaderNavLink to="/it-companies">IT Companies</CHeaderNavLink>
         </CHeaderNavItem>
         <CHeaderNavItem className="px-3">
-          <CHeaderNavLink to="/about-us">About us</CHeaderNavLink>
+          <CHeaderNavLink to="/about-us">About Us</CHeaderNavLink>
         </CHeaderNavItem>
       </CHeaderNav>
       {getAuth().role ? (
@@ -68,7 +68,7 @@ const TheHeaderUser = () => {
           <CHeaderNavLink to="/it-companies">IT Companies</CHeaderNavLink>
         </CHeaderNavItem>
         <CHeaderNavItem className="px-3">
-          <CHeaderNavLink to="/about-us">About us</CHeaderNavLink>
+          <CHeaderNavLink to="/about-us">About Us</CHeaderNavLink>
         </CHeaderNavItem>
       </CHeaderNav>
       {getAuth().role ? (

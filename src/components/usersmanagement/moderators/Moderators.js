@@ -26,6 +26,7 @@ import {
   CInput,
   CInputGroupPrepend,
   CInvalidFeedback,
+  CTooltip
 } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
 import { addMod } from "../../../redux/actions/addMod";
@@ -219,7 +220,7 @@ const Moderators = () => {
               <CModalFooter>
                 <CButton
                   color="primary"
-                  disabled={(!userName)||(!password)||(!confirmPassword)}
+                  disabled={!userName || !password || !confirmPassword}
                   onClick={handleSubmit}
                 >
                   Create
@@ -254,41 +255,51 @@ const Moderators = () => {
               scopedSlots={{
                 Actions: (item) => (
                   <td>
-                    <CButton
-                      color="danger"
-                      // disabled={item.status}
-                      onClick={() => {
-                        setModerators(
-                          moderators.filter(
-                            (itemMod) => itemMod._id !== item._id
+                    <CTooltip
+                      content="delete this moderator"
+                      placement="bottom-start"
+                    >
+                      <CButton
+                        color="danger"
+                        // disabled={item.status}
+                        onClick={() => {
+                          setModerators(
+                            moderators.filter(
+                              (itemMod) => itemMod._id !== item._id
+                            )
+                          );
+                          deleteMod(item._id, (data) => {
+                            if (data.status === 200) {
+                              toast.success("Delete Mod Successfully !", {
+                                position: toast.POSITION.BOTTOM_LEFT,
+                              });
+                              setSuccess(success + 1);
+                            } else {
+                              toast.error("Failed to delete," + data.msg, {
+                                position: toast.POSITION.BOTTOM_LEFT,
+                              });
+                            }
+                          });
+                        }}
+                      >
+                        <i className="cil-trash"></i>
+                      </CButton>
+                    </CTooltip>{" "}
+                    <CTooltip
+                      content="set permissions"
+                      placement="bottom-start"
+                    >
+                      <CButton
+                        color="success"
+                        onClick={() =>
+                          history.push(
+                            `/usersmanagement/${role}/${item._id}/${item.userName}`
                           )
-                        );
-                        deleteMod(item._id, (data) => {
-                          if (data.status === 200) {
-                            toast.success("Delete Mod Successfully !", {
-                              position: toast.POSITION.BOTTOM_LEFT,
-                            });
-                            setSuccess(success + 1);
-                          } else {
-                            toast.error("Failed to delete," + data.msg, {
-                              position: toast.POSITION.BOTTOM_LEFT,
-                            });
-                          }
-                        });
-                      }}
-                    >
-                      <i className="cil-trash"></i>
-                    </CButton>{" "}
-                    <CButton
-                      color="success"
-                      onClick={() =>
-                        history.push(
-                          `/usersmanagement/${role}/${item._id}/${item.userName}`
-                        )
-                      }
-                    >
-                      <i className="cil-cog"></i>
-                    </CButton>
+                        }
+                      >
+                        <i className="cil-cog"></i>
+                      </CButton>
+                    </CTooltip>
                   </td>
                 ),
               }}

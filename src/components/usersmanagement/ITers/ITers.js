@@ -12,6 +12,7 @@ import {
   CRow,
   CPagination,
   CButton,
+  CTooltip,
 } from "@coreui/react";
 
 import { deleteITer } from "../../../redux/actions/deleteITer";
@@ -66,37 +67,47 @@ const ITers = () => {
               scopedSlots={{
                 Actions: (item) => (
                   <td>
-                    <CButton
-                      color="danger"
-                      onClick={() => {
-                        setITers(
-                          iters.filter((itemIT) => itemIT._id !== item._id)
-                        );
-                        deleteITer(item._id, (data) => {
-                          if (data.status === 200) {
-                            toast.success("Delete ITer Successfully !", {
-                              position: toast.POSITION.BOTTOM_LEFT,
-                            });
-                          } else {
-                            toast.error("Fail to delete! " + data.msg, {
-                              position: toast.POSITION.BOTTOM_LEFT,
-                            });
-                          }
-                        });
-                      }}
+                    <CTooltip
+                      content="delete this ITer"
+                      placement="bottom-start"
                     >
-                      <i className="cil-trash"></i>
-                    </CButton>{" "}
-                    <CButton
-                      color="success"
-                      onClick={() =>
-                        history.push(
-                          `/usersmanagement/${role}/${item.accountId}/${item.name}`
-                        )
-                      }
+                      <CButton
+                        color="danger"
+                        onClick={() => {
+                          setITers(
+                            iters.filter((itemIT) => itemIT._id !== item._id)
+                          );
+                          deleteITer(item._id, (data) => {
+                            if (data.status === 200) {
+                              toast.success("Delete ITer Successfully !", {
+                                position: toast.POSITION.BOTTOM_LEFT,
+                              });
+                            } else {
+                              toast.error("Fail to delete! " + data.msg, {
+                                position: toast.POSITION.BOTTOM_LEFT,
+                              });
+                            }
+                          });
+                        }}
+                      >
+                        <i className="cil-trash"></i>
+                      </CButton>
+                    </CTooltip>{" "}
+                    <CTooltip
+                      content="set permissions"
+                      placement="bottom-start"
                     >
-                      <i className="cil-cog"></i>
-                    </CButton>
+                      <CButton
+                        color="success"
+                        onClick={() =>
+                          history.push(
+                            `/usersmanagement/${role}/${item.accountId}/${item.name}`
+                          )
+                        }
+                      >
+                        <i className="cil-cog"></i>
+                      </CButton>
+                    </CTooltip>
                   </td>
                 ),
               }}

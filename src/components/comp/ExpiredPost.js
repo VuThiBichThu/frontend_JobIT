@@ -22,6 +22,7 @@ import {
   CInput,
   CTextarea,
   CModalFooter,
+  CTooltip,
 } from "@coreui/react";
 
 const ExpiredPost = () => {
@@ -32,7 +33,7 @@ const ExpiredPost = () => {
 
   useEffect(() => {
     getPostsComp((item) => {
-        setPosts(item.posts.filter((post) => post.status === "DONE"));
+      setPosts(item.posts.filter((post) => post.status === "DONE"));
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -61,46 +62,56 @@ const ExpiredPost = () => {
               scopedSlots={{
                 Actions: (item) => (
                   <td>
-                    <CButton
-                      color="success"
-                      onClick={() => {
-                        const curPost = {
-                          id: item._id,
-                          title: item.title,
-                          skill: item.skill,
-                          salary: item.salary,
-                          address: item.address,
-                          endTime: item.endTime,
-                          description: item.description,
-                        };
+                    <CTooltip
+                      content="view details"
+                      placement="bottom-start"
+                    >
+                      <CButton
+                        color="success"
+                        onClick={() => {
+                          const curPost = {
+                            id: item._id,
+                            title: item.title,
+                            skill: item.skill,
+                            salary: item.salary,
+                            address: item.address,
+                            endTime: item.endTime,
+                            description: item.description,
+                          };
 
-                        setCurrentPost(curPost);
-                        setOpen(!isOpen);
-                      }}
+                          setCurrentPost(curPost);
+                          setOpen(!isOpen);
+                        }}
+                      >
+                        <i className="cil-clipboard"></i>
+                      </CButton>
+                    </CTooltip>{" "}
+                    <CTooltip
+                      content="delete this post"
+                      placement="bottom-start"
                     >
-                      <i className="cil-clipboard"></i>
-                    </CButton>{" "}
-                    <CButton
-                      color="danger"
-                      onClick={() => {
-                        setPosts(
-                          posts.filter((itemCom) => itemCom._id !== item._id)
-                        );
-                        deletePost(item._id, (data) => {
-                          if (data.status === 200) {
-                            toast.success("Delete post successfully !", {
-                              position: toast.POSITION.BOTTOM_LEFT,
-                            });
-                          } else {
-                            toast.error("Fail to delete! " + data.msg, {
-                              position: toast.POSITION.BOTTOM_LEFT,
-                            });
-                          }
-                        });
-                      }}
-                    >
-                      <i className="cil-trash"></i>
-                    </CButton>{" "}
+                      <CButton
+                        color="danger"
+                        onClick={() => {
+                          setPosts(
+                            posts.filter((itemCom) => itemCom._id !== item._id)
+                          );
+                          deletePost(item._id, (data) => {
+                            if (data.status === 200) {
+                              toast.success("Delete post successfully !", {
+                                position: toast.POSITION.BOTTOM_LEFT,
+                              });
+                            } else {
+                              toast.error("Fail to delete! " + data.msg, {
+                                position: toast.POSITION.BOTTOM_LEFT,
+                              });
+                            }
+                          });
+                        }}
+                      >
+                        <i className="cil-trash"></i>
+                      </CButton>
+                    </CTooltip>
                   </td>
                 ),
                 ListApplications: (item) => (

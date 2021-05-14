@@ -13,8 +13,17 @@ const StyledCompany = styled.div`
     padding: 20px;
     justify-content: center;
     width: 1080px;
-    border: 2px solid #321fdb;
+    border-radius: 5px;
     margin: 50px 20px;
+    box-shadow: 0px 10px 10px 5px #321fdb;
+  }
+  .rating {
+    font-size: 40px;
+    color: #f6ad29;
+
+  }
+  .paddingRight {
+    padding-right:100px;
   }
   .align {
     align-items: center;
@@ -38,12 +47,12 @@ const StyledCompany = styled.div`
   }
   .post-header {
     width: 1080px;
-    border-bottom: 2px solid #321fdb;
+    border-bottom: 3px solid #321fdb;
     margin-bottom: 20px;
   }
-  .post-list {
+  /* .post-list {
     width: 1100px;
-  }
+  } */
 `;
 const Company = ({ match }) => {
   const [posts, setPosts] = useState([]);
@@ -77,9 +86,18 @@ const Company = ({ match }) => {
                 />
               </div>
               <div className="flex info">
-                <h2 className="h2">
-                  <span className="primary">{company.name}</span>
-                </h2>
+                <div className="flex space-between align-item">
+                  <h2 className="h2">
+                    <span style={{color:"#f6ad29"}}>{company.name}</span>
+                  </h2>
+                  <p className="paddingRight">
+                    <i className="cil-star rating"></i>
+                    <i className="cil-star rating"></i>
+                    <i className="cil-star rating"></i>
+                    <i className="cil-star rating"></i>
+                    <i className="cil-star-half rating"></i>
+                  </p>
+                </div>
                 <div className="flex mt-2">
                   <p className="detail">
                     <span className="span">
@@ -100,6 +118,30 @@ const Company = ({ match }) => {
                       {company.email}
                     </span>
                     <span className="span">
+                      <i className="cil-globe-alt mr-2"></i>
+                      Germany
+                    </span>
+                  </p>
+
+                  <p className="detail">
+                    <span className="span">
+                      {" "}
+                      <i className="cil-calendar mr-2"></i>
+                      Mon - Fri
+                    </span>
+                    <span className="span">
+                      <i className="cil-settings mr-2"></i>
+                      Products
+                    </span>
+                  </p>
+
+                  <p className="detail">
+                    <span className="span">
+                      {" "}
+                      <i className="cil-clock mr-2"></i>
+                      No OT
+                    </span>
+                    <span className="span">
                       <i className="cil-external-link mr-2"></i>
                       <a href="/">Website</a>
                     </span>
@@ -109,11 +151,11 @@ const Company = ({ match }) => {
             </div>
             <div className="post-header">
               <h2 className="h3">
-                <span>{company.name + " "}</span>Jobs
+                <span>{company.name + "'s "}</span>Jobs
               </h2>
             </div>
             {company.recruitingPost && company.recruitingPost > 0 ? (
-              <div className="flex flex-wrap center post-list mb-4">
+              <div className="flex flex-wrap center mb-4">
                 {posts &&
                   posts.map((item, index) => {
                     return (
