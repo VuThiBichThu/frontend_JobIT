@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { getUnacceptedPosts } from "../../../redux/actions/getUnacceptedPosts";
 import { deletePost } from "../../../redux/actions/deletePost";
 import { approvePost } from "../../../redux/actions/approvePost";
-import {approveMultiPosts}  from "../../../redux/actions/approveMultiPosts";
+import { approveMultiPosts } from "../../../redux/actions/approveMultiPosts";
 import {
   CCard,
   CCardBody,
@@ -49,9 +49,6 @@ const ApprovingPost = () => {
     });
   }, [page]);
 
-  //  console.log(posts);
-  //  posts.map((item) => item.companyName = item.company[0].name)
-
   const pageChange = (newPage) => {
     getUnacceptedPosts(newPage, (data) => {
       setPosts(data.posts);
@@ -64,14 +61,11 @@ const ApprovingPost = () => {
   const handleViewDetail = (id) => {
     setCurrentPost(posts.filter((post) => post._id === id));
     setOpen(!isOpen);
-    console.log(id);
   };
 
   const selectItem = (event) => {
     const id = event.target.value;
     const checkedValue = event.target.checked;
-
-    console.log(id, " ", checkedValue);
 
     if (checkedValue) {
       setItems([...items, id]);
@@ -85,8 +79,6 @@ const ApprovingPost = () => {
       posts.filter(
         (post) => document.getElementById(post._id).checked === false
       ).length !== 0;
-
-    // console.log(listChecked.length, " ", status);
 
     if (status) {
       setItems(posts.map((i) => i._id));
@@ -102,15 +94,14 @@ const ApprovingPost = () => {
   };
 
   const approveAll = () => {
-    const selectedPosts = {listId: items}
-    console.log(selectedPosts);
-    
+    const selectedPosts = { listId: items };
+
     approveMultiPosts(selectedPosts, (data) => {
       if (data.status === 200) {
         toast.success("Approve selected posts successfully !", {
           position: toast.POSITION.BOTTOM_LEFT,
         });
-       // window.location.reload();
+        // window.location.reload();
       } else {
         toast.error("Fail to approve ! " + data.msg, {
           position: toast.POSITION.BOTTOM_LEFT,
@@ -220,19 +211,23 @@ const ApprovingPost = () => {
               }}
             />
             <div className="flex flex-end">
-              <CButton color="secondary" className="mr-1" onClick={selectAll}>
-                <CInputCheckbox
-                  style={{ visibility: "hidden" }}
-                  name="checkAll"
-                  value="checkAll"
-                  onClick={selectAll}
-                  defaultChecked={false}
-                ></CInputCheckbox>
-                All <i className="cil-task"></i>
-              </CButton>
-              <CButton color="success" onClick={approveAll}>
-                <i className="cil-check"></i>
-              </CButton>
+              <CTooltip content="select all post" placement="bottom-start">
+                <CButton color="secondary" className="mr-1" onClick={selectAll}>
+                  <CInputCheckbox
+                    style={{ visibility: "hidden" }}
+                    name="checkAll"
+                    value="checkAll"
+                    onClick={selectAll}
+                    defaultChecked={false}
+                  ></CInputCheckbox>
+                  All <i className="cil-task"></i>
+                </CButton>
+              </CTooltip>
+              <CTooltip content="approve all post" placement="bottom-start">
+                <CButton color="success" onClick={approveAll}>
+                  <i className="cil-check"></i>
+                </CButton>
+              </CTooltip>
             </div>
             <CPagination
               activePage={currentPage}
@@ -259,7 +254,9 @@ const ApprovingPost = () => {
                   <CCol xs="12" md="9">
                     <CInput
                       name="skill"
-                      defaultValue={currentPost[0].title}
+                      value={currentPost[0].title}
+                      onChange={() => {}}
+
                       //disabled="true"
                     />
                   </CCol>
@@ -271,7 +268,9 @@ const ApprovingPost = () => {
                   <CCol xs="12" md="9">
                     <CInput
                       name="skill"
-                      defaultValue={currentPost[0].skill}
+                      value={currentPost[0].skill}
+                      onChange={() => {}}
+
                       //disabled="true"
                     />
                   </CCol>
@@ -283,7 +282,9 @@ const ApprovingPost = () => {
                   <CCol xs="12" md="9">
                     <CInput
                       name="salary"
-                      defaultValue={currentPost[0].salary}
+                      value={currentPost[0].salary}
+                      onChange={() => {}}
+
                       // disabled="true"
                     />
                     {/* <CFormText></CFormText> */}
@@ -296,7 +297,9 @@ const ApprovingPost = () => {
                   <CCol xs="12" md="9">
                     <CInput
                       name="address"
-                      defaultValue={currentPost[0].address}
+                      value={currentPost[0].address}
+                      onChange={() => {}}
+
                       //disabled="true"
                     />
                     {/* <CFormText></CFormText> */}
@@ -309,7 +312,9 @@ const ApprovingPost = () => {
                   <CCol xs="12" md="9">
                     <CInput
                       name="endTime"
-                      defaultValue={currentPost[0].endTime}
+                      value={currentPost[0].endTime}
+                      onChange={() => {}}
+
                       //   disabled="true"
                     />
                   </CCol>
@@ -323,7 +328,8 @@ const ApprovingPost = () => {
                     <CTextarea
                       rows="5"
                       name="description"
-                      defaultValue={currentPost[0].description}
+                      value={currentPost[0].description}
+                      onChange={() => {}}
 
                       //   disabled="true"
                     />
@@ -335,7 +341,6 @@ const ApprovingPost = () => {
               <CButton
                 color="secondary"
                 onClick={() => {
-                  console.log(currentPost);
                   setOpen(!isOpen);
                 }}
               >

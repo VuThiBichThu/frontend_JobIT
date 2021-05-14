@@ -65,7 +65,6 @@ const ApprovingPost = () => {
         [event.target.name]: event.target.value,
       });
     }
-    console.log(updatedPost);
   };
 
   const [selected, setSelected] = useState([]);
@@ -285,7 +284,6 @@ const ApprovingPost = () => {
                             });
 
                             updatedPost.skill = selectSkill;
-                            console.log(updatedPost.skill);
                           }
                           updatePost(updatedPost.id, updatedPost, (data) => {
                             if (data.status === 200) {

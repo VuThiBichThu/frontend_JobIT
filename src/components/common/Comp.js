@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { getAuth } from "src/utils/helpers";
 import { CCard, CCardBody, CLink } from "@coreui/react";
 import defaultImage from "../../assets/images/default_image.png";
 
@@ -11,7 +10,7 @@ const StyledComp = styled.section`
     text-align: center;
     align-items: center;
   }
-  .center {
+  .center-comp {
     align-items: center;
   }
   .align {
@@ -39,7 +38,10 @@ function Comp({ compName, address, image, recruitingPost, auth, compId }) {
   return (
     <StyledComp>
       <CCard accentColor="primary" className="card">
-        <CCardBody className="flex center" style={{ flexDirection: "column" }}>
+        <CCardBody
+          className="flex center-comp"
+          style={{ flexDirection: "column" }}
+        >
           <div className="image">
             {" "}
             <img
@@ -50,20 +52,15 @@ function Comp({ compName, address, image, recruitingPost, auth, compId }) {
           </div>
           <h4 className="text-primary mt-4">{compName}</h4>
           <div className="flex  margin-top">
-            {getAuth().token ? (
-              <CLink
-                className="text-success mr-2"
-                to={`/posts/company/${compId}`}
-                target="_blank"
-                params={{ companyId: compId }}
-              >
-                {recruitingPost + " jobs"}
-              </CLink>
-            ) : (
-              <CLink className="text-success mr-2" to={`/login`}>
-                {recruitingPost + " jobs"}
-              </CLink>
-            )}
+            <CLink
+              className="text-success mr-2"
+              to={`/posts/company/${compId}`}
+              target="_blank"
+              params={{ companyId: compId }}
+            >
+              {recruitingPost + " jobs"}
+            </CLink>
+
             <p className="ml-2">
               <i className="cil-location-pin"></i>
               {" " + address}

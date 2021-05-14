@@ -81,12 +81,14 @@ function Post({
 }) {
   const history = useHistory();
   const [isOpen, setOpen] = useState(false);
-  console.log(isApplied);
   return (
     <StyledPost>
       <CCard accentColor="primary" className="card">
         <CCardHeader>
-          <span className="job-title ellipsis-text text-truncate"> {title}</span>
+          <span className="job-title ellipsis-text text-truncate">
+            {" "}
+            {title}
+          </span>
           {isApplied && (
             <div className="card-header-actions">
               <span className=" notify float-right">
@@ -158,10 +160,10 @@ function Post({
                   </CCol>
                   <CCol xs="12" md="9">
                     <CInput
-                      defaultValue={compName}
+                      value={compName}
+                      onChange={() => {}}
                       // disabled="true"
                     />
-                    {/* <CFormText></CFormText> */}
                   </CCol>
                 </CFormGroup>
                 <CFormGroup row>
@@ -170,7 +172,9 @@ function Post({
                   </CCol>
                   <CCol xs="12" md="9">
                     <CInput
-                      defaultValue={skill}
+                      value={skill}
+                      onChange={() => {}}
+
                       //disabled="true"
                     />
                   </CCol>
@@ -181,10 +185,11 @@ function Post({
                   </CCol>
                   <CCol xs="12" md="9">
                     <CInput
-                      defaultValue={salary}
+                      value={salary}
+                      onChange={() => {}}
+
                       // disabled="true"
                     />
-                    {/* <CFormText></CFormText> */}
                   </CCol>
                 </CFormGroup>
                 <CFormGroup row>
@@ -193,10 +198,11 @@ function Post({
                   </CCol>
                   <CCol xs="12" md="9">
                     <CInput
-                      defaultValue={address}
+                      value={address}
+                      onChange={() => {}}
+
                       //disabled="true"
                     />
-                    {/* <CFormText></CFormText> */}
                   </CCol>
                 </CFormGroup>
                 <CFormGroup row>
@@ -206,7 +212,9 @@ function Post({
                   <CCol xs="12" md="9">
                     <CInput
                       type="text"
-                      defaultValue={endTime}
+                      value={endTime}
+                      onChange={() => {}}
+
                       //   disabled="true"
                     />
                   </CCol>
@@ -219,7 +227,9 @@ function Post({
                   <CCol xs="12" md="9">
                     <CTextarea
                       rows="5"
-                      placeholder={description}
+                      value={description}
+                      onChange={() => {}}
+
                       //   disabled="true"
                     />
                   </CCol>

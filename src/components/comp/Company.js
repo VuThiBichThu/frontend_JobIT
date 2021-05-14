@@ -20,10 +20,9 @@ const StyledCompany = styled.div`
   .rating {
     font-size: 40px;
     color: #f6ad29;
-
   }
   .paddingRight {
-    padding-right:100px;
+    padding-right: 100px;
   }
   .align {
     align-items: center;
@@ -50,9 +49,6 @@ const StyledCompany = styled.div`
     border-bottom: 3px solid #321fdb;
     margin-bottom: 20px;
   }
-  /* .post-list {
-    width: 1100px;
-  } */
 `;
 const Company = ({ match }) => {
   const [posts, setPosts] = useState([]);
@@ -62,13 +58,10 @@ const Company = ({ match }) => {
 
   useEffect(() => {
     getPostList(id, (result) => {
-      console.log("here");
       setPosts(result.posts);
       setCompany(result.company);
     });
   }, [id]);
-  console.log(posts);
-  console.log(company);
 
   return (
     <StyledCompany>
@@ -88,7 +81,7 @@ const Company = ({ match }) => {
               <div className="flex info">
                 <div className="flex space-between align-item">
                   <h2 className="h2">
-                    <span style={{color:"#f6ad29"}}>{company.name}</span>
+                    <span style={{ color: "#f6ad29" }}>{company.name}</span>
                   </h2>
                   <p className="paddingRight">
                     <i className="cil-star rating"></i>
@@ -177,7 +170,10 @@ const Company = ({ match }) => {
                   })}
               </div>
             ) : (
-              <div>Company doesn't have jobs!</div>
+              <CCard className="no-result">
+                {" "}
+                <div>Company doesn't have jobs!</div>
+              </CCard>
             )}
           </CCard>
         </CCol>

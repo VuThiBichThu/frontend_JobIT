@@ -5,7 +5,6 @@ export function deleteFeedback(id, resolve = () => {}) {
   store.dispatch({
     type: types.DELETE_FEEDBACK,
   });
-  console.log(id);
   return fetch(
     `${process.env.REACT_APP_API_URL}/feedbacks/${id}`,
     {

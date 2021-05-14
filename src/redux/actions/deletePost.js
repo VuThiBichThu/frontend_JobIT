@@ -5,7 +5,6 @@ export function deletePost(id, resolve = () => {}) {
   store.dispatch({
     type: types.DELETE_POST_API,
   });
-  console.log(id);
   return fetch(
     `${process.env.REACT_APP_API_URL}/posts/${id}`,
     {

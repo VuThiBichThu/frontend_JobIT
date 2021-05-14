@@ -16,7 +16,6 @@ const TheHeaderDropdown = () => {
   const history = useHistory();
 
   const storeSetInfo = useSelector((store) => store.setInfo);
-  console.log(storeSetInfo.data.image);
   const defaultAvatar =
     "https://iupac.org/wp-content/uploads/2018/05/default-avatar.png";
   return (

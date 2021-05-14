@@ -163,7 +163,6 @@ const Profile = () => {
       data = { ...data, image };
     } else {
     }
-    console.log(data);
     updateProfile(data, (data) => {
       if (data.status === 200) {
         toast.success("Update successfully !", {
@@ -213,17 +212,6 @@ const Profile = () => {
       });
     }
 
-    // console.log(data);
-    // updateProfile(data, (data) => {
-    //   if (data.status === 200) {
-    //     toast.success("Update successfully !", {
-    //       position: toast.POSITION.BOTTOM_LEFT,
-    //     });
-    //     window.location.reload();
-    //   } else {
-    //     alert(data.msg);
-    //   }
-    // });
   };
   return (
     <StyledProfile>
