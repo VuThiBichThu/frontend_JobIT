@@ -60,12 +60,7 @@ const HomePage = () => {
     setQuery(searchInput);
   };
   return (
-    <LoadingOverlay
-      active={loadingList}
-      spinner
-      text="Loading..."
-      style={{ position: "fixed", width: "100%", height: "100%" }}
-    >
+    <LoadingOverlay active={loadingList} spinner text="Loading..." s>
       <CContainer>
         <CRow style={{ justifyContent: "center" }}>
           <CCol md="6" className="mb-4">
@@ -90,7 +85,6 @@ const HomePage = () => {
             </CInputGroup>
           </CCol>
         </CRow>
-        {/* {loadingList && <ReactLoading type="spinningBubbles" color="#321fdb" />} */}
         <div className="flex flex-wrap space-between">
           {posts &&
             posts.map((item, index) => {
@@ -108,6 +102,9 @@ const HomePage = () => {
                   postId={item._id}
                   compId={item.companyId}
                   description={item.description}
+                  isApplied={item.apply.some(
+                    (i) => i.iterId === getAuth().userId
+                  )}
                 />
               );
             })}

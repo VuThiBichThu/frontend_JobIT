@@ -8,21 +8,21 @@ import {
 } from "@coreui/react";
 import { Link } from "react-router-dom";
 import { getAuth } from "src/utils/helpers";
-
+import logo from "../assets/images/logo.png";
 // routes config
 
 import { TheHeaderDropdown } from "./index";
+import { useSelector } from "react-redux";
 
 const TheHeaderUser = () => {
+  const storeSetInfo = useSelector((store) => store.setInfo);
+
   return getAuth().token && getAuth().role === "company" ? (
     <CHeader>
       <CHeaderNav className="d-md-down-none mr-auto">
         <CHeaderNavItem className="px-3">
           <CHeaderNavLink to="/">
-            <img
-              src="http://res.cloudinary.com/do-an-cnpm/image/upload/v1620610339/hkbtcst9fctlpn5hyjnq.png"
-              alt=""
-            ></img>
+            <img src={logo} alt="" width="120px"></img>
           </CHeaderNavLink>
         </CHeaderNavItem>
         <CHeaderNavItem className="px-3">
@@ -55,10 +55,7 @@ const TheHeaderUser = () => {
       <CHeaderNav className="d-md-down-none mr-auto">
         <CHeaderNavItem className="px-3">
           <CHeaderNavLink to="/">
-            <img
-              src="http://res.cloudinary.com/do-an-cnpm/image/upload/v1620610339/hkbtcst9fctlpn5hyjnq.png"
-              alt=""
-            ></img>
+            <img src={logo} alt="" width="120px"></img>
           </CHeaderNavLink>
         </CHeaderNavItem>
         <CHeaderNavItem className="px-3">
@@ -73,7 +70,7 @@ const TheHeaderUser = () => {
       </CHeaderNav>
       {getAuth().role ? (
         <CHeaderNav className="px-3">
-          <p>{getAuth().name}</p>
+          <p>{storeSetInfo.data.name}</p>
           <TheHeaderDropdown />
         </CHeaderNav>
       ) : (

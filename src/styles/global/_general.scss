@@ -143,3 +143,14 @@ a {
   flex: unset;
   max-width: 100%;
 }
+._loading_overlay_overlay {
+  position: fixed !important;
+  z-index: 9999 !important;
+}
+.modal-width {
+  max-width: 600px;
+}
+.c-header.c-header-fixed {
+  z-index: 9 !important;
+}
+

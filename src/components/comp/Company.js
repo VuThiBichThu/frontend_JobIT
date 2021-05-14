@@ -167,7 +167,7 @@ const Company = ({ match }) => {
                         skill={item.skill.join(" ,")}
                         endTime={item.endTime}
                         salary={item.salary}
-                        image={company.image ? company.name : defaultImage}
+                        image={company.image ? company.image : defaultImage}
                         auth={getAuth()}
                         postId={item._id}
                         compId={item.companyId}

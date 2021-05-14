@@ -37,6 +37,8 @@ import deleteFeedback from "./deleteFeedback";
 import getFeedback from "./getFeedback";
 import getCompany from "./getCompany";
 import getPostList from "./getPostList";
+import setInfo from "./setInfo";
+
 
 export default combineReducers({
   loginAdmin,
@@ -76,5 +78,6 @@ export default combineReducers({
   deleteFeedback,
   getFeedback,
   getCompany,
-  getPostList
+  getPostList,
+  setInfo
 });
