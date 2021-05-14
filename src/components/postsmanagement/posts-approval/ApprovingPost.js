@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { getUnacceptedPosts } from "../../../redux/actions/getUnacceptedPosts";
 import { deletePost } from "../../../redux/actions/deletePost";
 import { approvePost } from "../../../redux/actions/approvePost";
+import {approveMultiPosts}  from "../../../redux/actions/approveMultiPosts";
 import {
   CCard,
   CCardBody,
@@ -15,12 +16,23 @@ import {
   CButton,
   CInputCheckbox,
   CTooltip,
+  CFormGroup,
+  CModal,
+  CModalHeader,
+  CModalTitle,
+  CModalBody,
+  CForm,
+  CLabel,
+  CInput,
+  CTextarea,
+  CModalFooter,
 } from "@coreui/react";
 
 const ApprovingPost = () => {
   const [posts, setPosts] = useState([]);
   const storeGetPosts = useSelector((store) => store.getPosts);
   const loadingList = storeGetPosts.loading;
+  const [isOpen, setOpen] = useState(false);
 
   const [page, setPage] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
@@ -46,6 +58,13 @@ const ApprovingPost = () => {
       setNumPages(data.numPages);
       setCurrentPage(data.currentPage);
     });
+  };
+
+  const [currentPost, setCurrentPost] = useState([{}]);
+  const handleViewDetail = (id) => {
+    setCurrentPost(posts.filter((post) => post._id === id));
+    setOpen(!isOpen);
+    console.log(id);
   };
 
   const selectItem = (event) => {
@@ -83,8 +102,23 @@ const ApprovingPost = () => {
   };
 
   const approveAll = () => {
-    console.log(items);
+    const selectedPosts = {listId: items}
+    console.log(selectedPosts);
+    
+    approveMultiPosts(selectedPosts, (data) => {
+      if (data.status === 200) {
+        toast.success("Approve selected posts successfully !", {
+          position: toast.POSITION.BOTTOM_LEFT,
+        });
+       // window.location.reload();
+      } else {
+        toast.error("Fail to approve ! " + data.msg, {
+          position: toast.POSITION.BOTTOM_LEFT,
+        });
+      }
+    });
   };
+
   return (
     <CRow>
       <CCol xl={6}>
@@ -133,8 +167,15 @@ const ApprovingPost = () => {
                       >
                         <i className="cil-trash"></i>
                       </CButton>
-                    </CTooltip>
-                    {" "}
+                    </CTooltip>{" "}
+                    <CTooltip content="view details" placement="bottom-start">
+                      <CButton
+                        color="info"
+                        onClick={() => handleViewDetail(item._id)}
+                      >
+                        <i className="cil-clipboard"></i>
+                      </CButton>
+                    </CTooltip>{" "}
                     <CTooltip
                       content="approve this post"
                       placement="bottom-start"
@@ -201,6 +242,107 @@ const ApprovingPost = () => {
               align="center"
             />
           </CCardBody>
+          <CModal
+            show={isOpen}
+            onClose={() => setOpen(!isOpen)}
+            color="primary"
+          >
+            <CModalHeader closeButton>
+              <CModalTitle>{currentPost[0]._id}</CModalTitle>
+            </CModalHeader>
+            <CModalBody>
+              <CForm action="" method="post" className="form-horizontal">
+                <CFormGroup row>
+                  <CCol md="3">
+                    <CLabel htmlFor="text-input">Title</CLabel>
+                  </CCol>
+                  <CCol xs="12" md="9">
+                    <CInput
+                      name="skill"
+                      defaultValue={currentPost[0].title}
+                      //disabled="true"
+                    />
+                  </CCol>
+                </CFormGroup>
+                <CFormGroup row>
+                  <CCol md="3">
+                    <CLabel htmlFor="text-input">Skills</CLabel>
+                  </CCol>
+                  <CCol xs="12" md="9">
+                    <CInput
+                      name="skill"
+                      defaultValue={currentPost[0].skill}
+                      //disabled="true"
+                    />
+                  </CCol>
+                </CFormGroup>
+                <CFormGroup row>
+                  <CCol md="3">
+                    <CLabel>Salary</CLabel>
+                  </CCol>
+                  <CCol xs="12" md="9">
+                    <CInput
+                      name="salary"
+                      defaultValue={currentPost[0].salary}
+                      // disabled="true"
+                    />
+                    {/* <CFormText></CFormText> */}
+                  </CCol>
+                </CFormGroup>
+                <CFormGroup row>
+                  <CCol md="3">
+                    <CLabel>Address</CLabel>
+                  </CCol>
+                  <CCol xs="12" md="9">
+                    <CInput
+                      name="address"
+                      defaultValue={currentPost[0].address}
+                      //disabled="true"
+                    />
+                    {/* <CFormText></CFormText> */}
+                  </CCol>
+                </CFormGroup>
+                <CFormGroup row>
+                  <CCol md="3">
+                    <CLabel htmlFor="date-input">End time</CLabel>
+                  </CCol>
+                  <CCol xs="12" md="9">
+                    <CInput
+                      name="endTime"
+                      defaultValue={currentPost[0].endTime}
+                      //   disabled="true"
+                    />
+                  </CCol>
+                </CFormGroup>
+
+                <CFormGroup row>
+                  <CCol md="3">
+                    <CLabel htmlFor="textarea-input">Description</CLabel>
+                  </CCol>
+                  <CCol xs="12" md="9">
+                    <CTextarea
+                      rows="5"
+                      name="description"
+                      defaultValue={currentPost[0].description}
+
+                      //   disabled="true"
+                    />
+                  </CCol>
+                </CFormGroup>
+              </CForm>
+            </CModalBody>
+            <CModalFooter>
+              <CButton
+                color="secondary"
+                onClick={() => {
+                  console.log(currentPost);
+                  setOpen(!isOpen);
+                }}
+              >
+                Cancel
+              </CButton>
+            </CModalFooter>
+          </CModal>
         </CCard>
       </CCol>
     </CRow>

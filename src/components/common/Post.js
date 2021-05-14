@@ -53,7 +53,7 @@ const StyledPost = styled.section`
   }
   .ellipsis-text {
     display: inline-block;
-    max-width: 250px;
+    max-width: 300px;
   }
   .notify {
     color: #59a0e6;
@@ -86,7 +86,7 @@ function Post({
     <StyledPost>
       <CCard accentColor="primary" className="card">
         <CCardHeader>
-          <span className="job-title"> {title}</span>
+          <span className="job-title ellipsis-text text-truncate"> {title}</span>
           {isApplied && (
             <div className="card-header-actions">
               <span className=" notify float-right">
