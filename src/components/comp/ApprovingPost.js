@@ -27,6 +27,7 @@ import {
   CTextarea,
   CModalFooter,
   CInvalidFeedback,
+  CTooltip,
 } from "@coreui/react";
 
 const ApprovingPost = () => {
@@ -84,57 +85,67 @@ const ApprovingPost = () => {
               scopedSlots={{
                 Actions: (item) => (
                   <td>
-                    <CButton
-                      color="success"
-                      onClick={() => {
-                        const currentPost = {
-                          id: item._id,
-                          title: item.title,
-                          skill: item.skill,
-                          salary: item.salary,
-                          address: item.address,
-                          endTime: item.endTime,
-                          description: item.description,
-                        };
-
-                        const getTime = item.endTime.split("/");
-                        if (getTime[0] < 10) getTime[0] = "0" + getTime[0];
-                        if (getTime[1] < 10) getTime[1] = "0" + getTime[1];
-                        setTime(getTime.reverse().join("-"));
-
-                        const curSkill = [];
-                        currentPost.skill.map((skill) => {
-                          curSkill.push({ label: skill, value: skill });
-                        });
-                        setSelected(curSkill);
-
-                        setUpdatedPost(currentPost);
-                        setOpen(!isOpen);
-                      }}
+                    <CTooltip
+                      content="view and update"
+                      placement="bottom-start"
                     >
-                      <i className="cil-pen"></i>
-                    </CButton>{" "}
-                    <CButton
-                      color="danger"
-                      onClick={() => {
-                        setPosts(
-                          posts.filter((itemCom) => itemCom._id !== item._id)
-                        );
-                        deletePost(item._id, (data) => {
-                          if (data.status === 200) {
-                            toast.success("Delete post successfully !", {
-                              position: toast.POSITION.BOTTOM_LEFT,
-                            });
-                          } else {
-                            toast.error("Fail to delete! " + data.msg, {
-                              position: toast.POSITION.BOTTOM_LEFT,
-                            });
-                          }
-                        });
-                      }}
+                      <CButton
+                        color="success"
+                        onClick={() => {
+                          const currentPost = {
+                            id: item._id,
+                            title: item.title,
+                            skill: item.skill,
+                            salary: item.salary,
+                            address: item.address,
+                            endTime: item.endTime,
+                            description: item.description,
+                          };
+
+                          const getTime = item.endTime.split("/");
+                          if (getTime[0] < 10) getTime[0] = "0" + getTime[0];
+                          if (getTime[1] < 10) getTime[1] = "0" + getTime[1];
+                          setTime(getTime.reverse().join("-"));
+
+                          const curSkill = [];
+                          currentPost.skill.map((skill) => {
+                            curSkill.push({ label: skill, value: skill });
+                          });
+                          setSelected(curSkill);
+
+                          setUpdatedPost(currentPost);
+                          setOpen(!isOpen);
+                        }}
+                      >
+                        <i className="cil-pen"></i>
+                      </CButton>
+                    </CTooltip>{" "}
+                    <CTooltip
+                      content="delete this post"
+                      placement="bottom-start"
                     >
-                      <i className="cil-trash"></i>
-                    </CButton>{" "}
+                      <CButton
+                        color="danger"
+                        onClick={() => {
+                          setPosts(
+                            posts.filter((itemCom) => itemCom._id !== item._id)
+                          );
+                          deletePost(item._id, (data) => {
+                            if (data.status === 200) {
+                              toast.success("Delete post successfully !", {
+                                position: toast.POSITION.BOTTOM_LEFT,
+                              });
+                            } else {
+                              toast.error("Fail to delete! " + data.msg, {
+                                position: toast.POSITION.BOTTOM_LEFT,
+                              });
+                            }
+                          });
+                        }}
+                      >
+                        <i className="cil-trash"></i>
+                      </CButton>
+                    </CTooltip>
                   </td>
                 ),
               }}

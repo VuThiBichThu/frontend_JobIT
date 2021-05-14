@@ -28,7 +28,7 @@ import {
 
 const StyledPost = styled.section`
   .card {
-    width: 600px;
+    width: 610px;
     margin: 10px;
   }
   .align {
@@ -49,6 +49,10 @@ const StyledPost = styled.section`
   .button {
     background-color: white;
     color: green;
+  }
+  .ellipsis-text {
+    display: inline-block;
+    max-width: 250px;
   }
 `;
 
@@ -102,7 +106,7 @@ function Post({
                 </a>
               )}
             </p>
-            <p>
+            <p className="ellipsis-text  text-truncate">
               <i className="cil-code"></i>
               {" " + skill}
             </p>

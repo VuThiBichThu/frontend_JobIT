@@ -12,6 +12,7 @@ import {
   CRow,
   CPagination,
   CButton,
+  CTooltip,
 } from "@coreui/react";
 
 import { deleteCompany } from "../../../redux/actions/deleteCompany";
@@ -67,29 +68,36 @@ const Companies = () => {
               scopedSlots={{
                 Actions: (item) => (
                   <td>
-                    <CButton
-                      color="danger"
-                      onClick={() => {
-                        setCompanies(
-                          companies.filter(
-                            (itemCom) => itemCom._id !== item._id
-                          )
-                        );
-                        deleteCompany(item._id, (data) => {
-                          if (data.status === 200) {
-                            toast.success("Delete Company Successfully !", {
-                              position: toast.POSITION.BOTTOM_LEFT,
-                            });
-                          } else {
-                            toast.error("Fail to delete! " + data.msg, {
-                              position: toast.POSITION.BOTTOM_LEFT,
-                            });
-                          }
-                        });
-                      }}
+                    <CTooltip
+                      content="delete this company"
+                      placement="bottom-start"
                     >
-                      <i className="cil-trash"></i>
-                    </CButton>{" "}
+                      <CButton
+                        color="danger"
+                        onClick={() => {
+                          setCompanies(
+                            companies.filter(
+                              (itemCom) => itemCom._id !== item._id
+                            )
+                          );
+                          deleteCompany(item._id, (data) => {
+                            if (data.status === 200) {
+                              toast.success("Delete Company Successfully !", {
+                                position: toast.POSITION.BOTTOM_LEFT,
+                              });
+                            } else {
+                              toast.error("Fail to delete! " + data.msg, {
+                                position: toast.POSITION.BOTTOM_LEFT,
+                              });
+                            }
+                          });
+                        }}
+                      >
+                        <i className="cil-trash"></i>
+                      </CButton>
+                    </CTooltip>{" "}
+                    <CTooltip content="set permissions"
+                      placement="bottom-start">
                     <CButton
                       color="success"
                       onClick={() =>
@@ -100,6 +108,8 @@ const Companies = () => {
                     >
                       <i className="cil-cog"></i>
                     </CButton>
+                    </CTooltip>
+                    
                   </td>
                 ),
               }}

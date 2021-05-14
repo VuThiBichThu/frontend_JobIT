@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { getPostsComp } from "../../../src/redux/actions/getPostsComp";
 import { deletePost } from "../../../src/redux/actions/deletePost";
-import { completePost} from "../../../src/redux/actions/completePost"
+import { completePost } from "../../../src/redux/actions/completePost";
 import {
   CCard,
   CCardBody,
@@ -22,6 +22,7 @@ import {
   CInput,
   CTextarea,
   CModalFooter,
+  CTooltip,
 } from "@coreui/react";
 
 const ApprovedPost = () => {
@@ -61,68 +62,83 @@ const ApprovedPost = () => {
               scopedSlots={{
                 Actions: (item) => (
                   <td>
-                    <CButton
-                      color="success"
-                      onClick={() => {
-                        setPosts(
-                          posts.filter((itemCom) => itemCom._id !== item._id)
-                        );
-                        completePost(item._id, (data) => {
-                          if (data.status === 200) {
-                            toast.success("Complete post successfully !", {
-                              position: toast.POSITION.BOTTOM_LEFT,
-                            });
-                            window.location.reload();
-                          } else {
-                            toast.error("Fail to delete! " + data.msg, {
-                              position: toast.POSITION.BOTTOM_LEFT,
-                            });
-                          }
-                        });
-                      }}
+                    <CTooltip
+                      content="complete this post"
+                      placement="bottom-start"
                     >
-                      <i className="cil-check-circle"></i>
-                    </CButton>{" "}
-                    <CButton
-                      color="info"
-                      onClick={() => {
-                        const curPost = {
-                          id: item._id,
-                          title: item.title,
-                          skill: item.skill,
-                          salary: item.salary,
-                          address: item.address,
-                          endTime: item.endTime,
-                          description: item.description,
-                        };
+                      <CButton
+                        color="success"
+                        onClick={() => {
+                          setPosts(
+                            posts.filter((itemCom) => itemCom._id !== item._id)
+                          );
+                          completePost(item._id, (data) => {
+                            if (data.status === 200) {
+                              toast.success("Complete post successfully !", {
+                                position: toast.POSITION.BOTTOM_LEFT,
+                              });
+                              window.location.reload();
+                            } else {
+                              toast.error("Fail to delete! " + data.msg, {
+                                position: toast.POSITION.BOTTOM_LEFT,
+                              });
+                            }
+                          });
+                        }}
+                      >
+                        <i className="cil-check-circle"></i>
+                      </CButton>
+                    </CTooltip>{" "}
+                    <CTooltip
+                      content="view details"
+                      placement="bottom-start"
+                    >
+                      <CButton
+                        color="info"
+                        onClick={() => {
+                          const curPost = {
+                            id: item._id,
+                            title: item.title,
+                            skill: item.skill,
+                            salary: item.salary,
+                            address: item.address,
+                            endTime: item.endTime,
+                            description: item.description,
+                          };
 
-                        setCurrentPost(curPost);
-                        setOpen(!isOpen);
-                      }}
+                          setCurrentPost(curPost);
+                          setOpen(!isOpen);
+                        }}
+                      >
+                        <i className="cil-clipboard"></i>
+                      </CButton>
+                    </CTooltip>{" "}
+                    <CTooltip
+                      content="delete this post"
+                      placement="bottom-start"
                     >
-                      <i className="cil-clipboard"></i>
-                    </CButton>{" "}
-                    <CButton
-                      color="danger"
-                      onClick={() => {
-                        setPosts(
-                          posts.filter((itemCom) => itemCom._id !== item._id)
-                        );
-                        deletePost(item._id, (data) => {
-                          if (data.status === 200) {
-                            toast.success("Delete post successfully !", {
-                              position: toast.POSITION.BOTTOM_LEFT,
-                            });
-                          } else {
-                            toast.error("Fail to delete! " + data.msg, {
-                              position: toast.POSITION.BOTTOM_LEFT,
-                            });
-                          }
-                        });
-                      }}
-                    >
-                      <i className="cil-trash"></i>
-                    </CButton>
+                      <CButton
+                        color="danger"
+                        onClick={() => {
+                          setPosts(
+                            posts.filter((itemCom) => itemCom._id !== item._id)
+                          );
+                          deletePost(item._id, (data) => {
+                            if (data.status === 200) {
+                              toast.success("Delete post successfully !", {
+                                position: toast.POSITION.BOTTOM_LEFT,
+                              });
+                            } else {
+                              toast.error("Fail to delete! " + data.msg, {
+                                position: toast.POSITION.BOTTOM_LEFT,
+                              });
+                            }
+                          });
+                        }}
+                      >
+                        <i className="cil-trash"></i>
+                      </CButton>
+                    </CTooltip>
                   </td>
                 ),
                 ListApplications: (item) => (

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { getAuth } from "src/utils/helpers";
 import { CCard, CCardBody, CLink } from "@coreui/react";

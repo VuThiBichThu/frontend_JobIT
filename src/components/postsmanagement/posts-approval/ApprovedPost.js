@@ -11,6 +11,7 @@ import {
   CRow,
   CPagination,
   CButton,
+  CTooltip
 } from "@coreui/react";
 const ApprovedPost = () => {
   const [posts, setPosts] = useState([]);
@@ -61,27 +62,32 @@ const ApprovedPost = () => {
                 companyName: (item) => <td>{item.company[0].name}</td>,
                 Actions: (item) => (
                   <td>
-                    <CButton
-                      color="danger"
-                      onClick={() => {
-                        setPosts(
-                          posts.filter((itemCom) => itemCom._id !== item._id)
-                        );
-                        deletePost(item._id, (data) => {
-                          if (data.status === 200) {
-                            toast.success("Delete post successfully !", {
-                              position: toast.POSITION.BOTTOM_LEFT,
-                            });
-                          } else {
-                            toast.error("Fail to delete! " + data.msg, {
-                              position: toast.POSITION.BOTTOM_LEFT,
-                            });
-                          }
-                        });
-                      }}
+                    <CTooltip
+                      content="delete this post"
+                      placement="bottom-start"
                     >
-                      <i className="cil-trash"></i>
-                    </CButton>{" "}
+                      <CButton
+                        color="danger"
+                        onClick={() => {
+                          setPosts(
+                            posts.filter((itemCom) => itemCom._id !== item._id)
+                          );
+                          deletePost(item._id, (data) => {
+                            if (data.status === 200) {
+                              toast.success("Delete post successfully !", {
+                                position: toast.POSITION.BOTTOM_LEFT,
+                              });
+                            } else {
+                              toast.error("Fail to delete! " + data.msg, {
+                                position: toast.POSITION.BOTTOM_LEFT,
+                              });
+                            }
+                          });
+                        }}
+                      >
+                        <i className="cil-trash"></i>
+                      </CButton>
+                    </CTooltip>
                   </td>
                 ),
               }}

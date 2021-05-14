@@ -14,7 +14,9 @@ import {
   CPagination,
   CButton,
   CInputCheckbox,
+  CTooltip,
 } from "@coreui/react";
+
 const ApprovingPost = () => {
   const [posts, setPosts] = useState([]);
   const storeGetPosts = useSelector((store) => store.getPosts);
@@ -35,8 +37,8 @@ const ApprovingPost = () => {
     });
   }, [page]);
 
-//  console.log(posts);
-//  posts.map((item) => item.companyName = item.company[0].name)
+  //  console.log(posts);
+  //  posts.map((item) => item.companyName = item.company[0].name)
 
   const pageChange = (newPage) => {
     getUnacceptedPosts(newPage, (data) => {
@@ -50,6 +52,8 @@ const ApprovingPost = () => {
     const id = event.target.value;
     const checkedValue = event.target.checked;
 
+    console.log(id, " ", checkedValue);
+
     if (checkedValue) {
       setItems([...items, id]);
     } else {
@@ -58,10 +62,24 @@ const ApprovingPost = () => {
   };
 
   const selectAll = () => {
-    setItems(posts.map((i) => i._id));
-    items.forEach(
-      (item) => (document.getElementById(item).defaultChecked = "true")
-    );
+    const status =
+      posts.filter(
+        (post) => document.getElementById(post._id).checked === false
+      ).length !== 0;
+
+    // console.log(listChecked.length, " ", status);
+
+    if (status) {
+      setItems(posts.map((i) => i._id));
+      posts.forEach(
+        (item) => (document.getElementById(item._id).checked = true)
+      );
+    } else {
+      setItems([]);
+      posts.forEach(
+        (item) => (document.getElementById(item._id).checked = false)
+      );
+    }
   };
 
   const approveAll = () => {
@@ -87,54 +105,63 @@ const ApprovingPost = () => {
               itemsPerPage={take}
               activePage={page}
               scopedSlots={{
-                companyName: (item) => (
-                  <td>{item.company[0].name}</td>
-                ),
+                companyName: (item) => <td>{item.company[0].name}</td>,
                 Actions: (item) => (
-                  <td>
-                    <CButton
-                      color="danger"
-                      onClick={() => {
-                        setPosts(
-                          posts.filter((itemCom) => itemCom._id !== item._id)
-                        );
-                        deletePost(item._id, (data) => {
-                          if (data.status === 200) {
-                            toast.success("Delete post successfully !", {
-                              position: toast.POSITION.BOTTOM_LEFT,
-                            });
-                          } else {
-                            toast.error("Fail to delete! " + data.msg, {
-                              position: toast.POSITION.BOTTOM_LEFT,
-                            });
-                          }
-                        });
-                      }}
+                  <td md="4" className="py-4" key={"bottom-start"}>
+                    <CTooltip
+                      content="delete this post"
+                      placement="bottom-start"
                     >
-                      <i className="cil-trash"></i>
-                    </CButton>{" "}
-                    <CButton
-                      color="success"
-                      onClick={() => {
-                        setPosts(
-                          posts.filter((itemCom) => itemCom._id !== item._id)
-                        );
-                        approvePost(item._id, (data) => {
-                          if (data.status === 200) {
-                            toast.success("Approve post successfully !", {
-                              position: toast.POSITION.BOTTOM_LEFT,
-                            });
-                            window.location.reload();
-                          } else {
-                            toast.error("Fail to approve ! " + data.msg, {
-                              position: toast.POSITION.BOTTOM_LEFT,
-                            });
-                          }
-                        });
-                      }}
+                      <CButton
+                        color="danger"
+                        onClick={() => {
+                          setPosts(
+                            posts.filter((itemCom) => itemCom._id !== item._id)
+                          );
+                          deletePost(item._id, (data) => {
+                            if (data.status === 200) {
+                              toast.success("Delete post successfully !", {
+                                position: toast.POSITION.BOTTOM_LEFT,
+                              });
+                            } else {
+                              toast.error("Fail to delete! " + data.msg, {
+                                position: toast.POSITION.BOTTOM_LEFT,
+                              });
+                            }
+                          });
+                        }}
+                      >
+                        <i className="cil-trash"></i>
+                      </CButton>
+                    </CTooltip>
+                    {" "}
+                    <CTooltip
+                      content="approve this post"
+                      placement="bottom-start"
                     >
-                      <i className="cil-check"></i>
-                    </CButton>
+                      <CButton
+                        color="success"
+                        onClick={() => {
+                          setPosts(
+                            posts.filter((itemCom) => itemCom._id !== item._id)
+                          );
+                          approvePost(item._id, (data) => {
+                            if (data.status === 200) {
+                              toast.success("Approve post successfully !", {
+                                position: toast.POSITION.BOTTOM_LEFT,
+                              });
+                              window.location.reload();
+                            } else {
+                              toast.error("Fail to approve ! " + data.msg, {
+                                position: toast.POSITION.BOTTOM_LEFT,
+                              });
+                            }
+                          });
+                        }}
+                      >
+                        <i className="cil-check"></i>
+                      </CButton>
+                    </CTooltip>
                   </td>
                 ),
                 More: (item) => (
