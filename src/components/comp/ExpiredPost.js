@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { getPostsComp } from "../../../src/redux/actions/getPostsComp";
 import { deletePost } from "../../../src/redux/actions/deletePost";
+import styled from "styled-components";
 
 import {
   CCard,
@@ -24,6 +25,13 @@ import {
   CModalFooter,
   CTooltip,
 } from "@coreui/react";
+
+const StyleLabel = styled.section`
+  .label {
+    font-weight: 800;
+    color: #321fdb;
+  }
+`;
 
 const ExpiredPost = () => {
   const [posts, setPosts] = useState([]);
@@ -62,12 +70,9 @@ const ExpiredPost = () => {
               scopedSlots={{
                 Actions: (item) => (
                   <td>
-                    <CTooltip
-                      content="view details"
-                      placement="bottom-start"
-                    >
+                    <CTooltip content="view details" placement="bottom-start">
                       <CButton
-                        color="success"
+                        color="info"
                         onClick={() => {
                           const curPost = {
                             id: item._id,
@@ -138,74 +143,54 @@ const ExpiredPost = () => {
                 <CModalTitle>{currentPost.title}</CModalTitle>
               </CModalHeader>
               <CModalBody>
-                <CForm action="" method="post" className="form-horizontal">
-                  <CFormGroup row>
-                    <CCol md="3">
-                      <CLabel htmlFor="text-input">Skills</CLabel>
-                    </CCol>
-                    <CCol xs="12" md="9">
-                      <CInput
-                        name="skill"
-                        defaultValue={currentPost.skill}
-                        //disabled="true"
-                      />
-                    </CCol>
-                  </CFormGroup>
-                  <CFormGroup row>
-                    <CCol md="3">
-                      <CLabel>Salary</CLabel>
-                    </CCol>
-                    <CCol xs="12" md="9">
-                      <CInput
-                        name="salary"
-                        defaultValue={currentPost.salary}
-                        // disabled="true"
-                      />
-                      {/* <CFormText></CFormText> */}
-                    </CCol>
-                  </CFormGroup>
-                  <CFormGroup row>
-                    <CCol md="3">
-                      <CLabel>Address</CLabel>
-                    </CCol>
-                    <CCol xs="12" md="9">
-                      <CInput
-                        name="address"
-                        defaultValue={currentPost.address}
-                        //disabled="true"
-                      />
-                      {/* <CFormText></CFormText> */}
-                    </CCol>
-                  </CFormGroup>
-                  <CFormGroup row>
-                    <CCol md="3">
-                      <CLabel htmlFor="date-input">End time</CLabel>
-                    </CCol>
-                    <CCol xs="12" md="9">
-                      <CInput
-                        name="endTime"
-                        type="date"
-                        defaultValue={currentPost.endTime}
-                        //   disabled="true"
-                      />
-                    </CCol>
-                  </CFormGroup>
-
-                  <CFormGroup row>
-                    <CCol md="3">
-                      <CLabel htmlFor="textarea-input">Description</CLabel>
-                    </CCol>
-                    <CCol xs="12" md="9">
-                      <CTextarea
-                        rows="5"
-                        name="description"
-                        defaultValue={currentPost.description}
-
-                        //   disabled="true"
-                      />
-                    </CCol>
-                  </CFormGroup>
-                </CForm>
+                <StyleLabel>
+                  <CForm className="form-horizontal">
+                    <CFormGroup row>
+                      <CCol md="3">
+                        <CLabel className="label">Skills</CLabel>
+                      </CCol>
+                      <CCol xs="12" md="9">
+                        <span> {currentPost.skill}</span>
+                      </CCol>
+                    </CFormGroup>
+                    <hr></hr>
+                    <CFormGroup row>
+                      <CCol md="3">
+                        <CLabel className="label">Salary</CLabel>
+                      </CCol>
+                      <CCol xs="12" md="9">
+                        <span> {currentPost.salary}</span>
+                      </CCol>
+                    </CFormGroup>
+                    <hr></hr>
+                    <CFormGroup row>
+                      <CCol md="3">
+                        <CLabel className="label">Address</CLabel>
+                      </CCol>
+                      <CCol xs="12" md="9">
+                        {currentPost.address}
+                      </CCol>
+                    </CFormGroup>
+                    <hr></hr>
+                    <CFormGroup row>
+                      <CCol md="3">
+                        <CLabel className="label">End time</CLabel>
+                      </CCol>
+                      <CCol xs="12" md="9">
+                        <span> {currentPost.endTime}</span>
+                      </CCol>
+                    </CFormGroup>
+                    <hr></hr>
+                    <CFormGroup row>
+                      <CCol md="3">
+                        <CLabel className="label">Description</CLabel>
+                      </CCol>
+                      <CCol xs="12" md="9">
+                        <span> {currentPost.description}</span>
+                      </CCol>
+                    </CFormGroup>
+                  </CForm>
+                </StyleLabel>
               </CModalBody>
               <CModalFooter>
                 <CButton

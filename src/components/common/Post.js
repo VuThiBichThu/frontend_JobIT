@@ -28,6 +28,12 @@ import {
 import CIcon from "@coreui/icons-react";
 
 const StyledPost = styled.section`
+  .label {
+    font-weight: 800;
+    color: #321fdb;
+    font-size: 14px;
+  }
+
   .card {
     width: 610px;
     margin: 10px;
@@ -156,82 +162,67 @@ function Post({
               <CForm action="" method="post" className="form-horizontal">
                 <CFormGroup row>
                   <CCol md="3">
-                    <CLabel>Company Name</CLabel>
+                    <CLabel className="label">
+                      <i className="cil-people"></i> Company Name
+                    </CLabel>
                   </CCol>
                   <CCol xs="12" md="9">
-                    <CInput
-                      value={compName}
-                      onChange={() => {}}
-                      // disabled="true"
-                    />
+                    <span> {compName}</span>
                   </CCol>
                 </CFormGroup>
+                <hr></hr>
                 <CFormGroup row>
                   <CCol md="3">
-                    <CLabel htmlFor="text-input">Skills</CLabel>
+                    <CLabel className="label">
+                      <i className="cil-code"></i> Skills
+                    </CLabel>
                   </CCol>
                   <CCol xs="12" md="9">
-                    <CInput
-                      value={skill}
-                      onChange={() => {}}
-
-                      //disabled="true"
-                    />
+                    <span> {skill}</span>
                   </CCol>
                 </CFormGroup>
+                <hr></hr>
                 <CFormGroup row>
                   <CCol md="3">
-                    <CLabel>Salary</CLabel>
+                    <CLabel className="label">
+                      <i className="cil-money"></i> Salary
+                    </CLabel>
                   </CCol>
                   <CCol xs="12" md="9">
-                    <CInput
-                      value={salary}
-                      onChange={() => {}}
-
-                      // disabled="true"
-                    />
+                    <span> {salary}</span>
                   </CCol>
                 </CFormGroup>
+                <hr></hr>
                 <CFormGroup row>
                   <CCol md="3">
-                    <CLabel>Address</CLabel>
+                    <CLabel className="label">
+                      <i className="cil-location-pin"></i> Address
+                    </CLabel>
                   </CCol>
                   <CCol xs="12" md="9">
-                    <CInput
-                      value={address}
-                      onChange={() => {}}
-
-                      //disabled="true"
-                    />
+                    <span>{address}</span>
                   </CCol>
                 </CFormGroup>
+                <hr></hr>
                 <CFormGroup row>
                   <CCol md="3">
-                    <CLabel htmlFor="date-input">End time</CLabel>
+                    <CLabel className="label">
+                      <i className="cil-clock"></i> End Time
+                    </CLabel>
                   </CCol>
                   <CCol xs="12" md="9">
-                    <CInput
-                      type="text"
-                      value={endTime}
-                      onChange={() => {}}
-
-                      //   disabled="true"
-                    />
+                    <span>{endTime}</span>
                   </CCol>
                 </CFormGroup>
-
+                <hr></hr>
                 <CFormGroup row>
                   <CCol md="3">
-                    <CLabel htmlFor="textarea-input">Description</CLabel>
+                    <CLabel className="label">
+                      <i className="cil-description"></i> Description
+                    </CLabel>
                   </CCol>
                   <CCol xs="12" md="9">
-                    <CTextarea
-                      rows="5"
-                      value={description}
-                      onChange={() => {}}
-
-                      //   disabled="true"
-                    />
+                    <pre>{description}</pre>
                   </CCol>
                 </CFormGroup>
               </CForm>
