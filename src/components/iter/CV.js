@@ -334,7 +334,7 @@ const CV = () => {
                     </CFormGroup>
                     <CFormGroup row>
                       <CCol>
-                        <span>{cv.description}</span>
+                        <pre>{cv.description}</pre>
                       </CCol>
                     </CFormGroup>
                     <CFormGroup

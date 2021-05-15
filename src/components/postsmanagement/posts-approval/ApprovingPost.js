@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import styled from "styled-components";
 
 import { getUnacceptedPosts } from "../../../redux/actions/getUnacceptedPosts";
 import { deletePost } from "../../../redux/actions/deletePost";
@@ -23,11 +24,15 @@ import {
   CModalBody,
   CForm,
   CLabel,
-  CInput,
-  CTextarea,
   CModalFooter,
 } from "@coreui/react";
 
+const StyleLabel = styled.section`
+  .label {
+    font-weight: 800;
+    color: #321fdb;
+  }
+`;
 const ApprovingPost = () => {
   const [posts, setPosts] = useState([]);
   const storeGetPosts = useSelector((store) => store.getPosts);
@@ -58,8 +63,10 @@ const ApprovingPost = () => {
   };
 
   const [currentPost, setCurrentPost] = useState([{}]);
+
   const handleViewDetail = (id) => {
-    setCurrentPost(posts.filter((post) => post._id === id));
+    const getPost = posts.filter((post) => post._id === id);
+    setCurrentPost([{ ...getPost[0], skill: getPost[0].skill.join(", ") }]);
     setOpen(!isOpen);
   };
 
@@ -246,96 +253,63 @@ const ApprovingPost = () => {
               <CModalTitle>{currentPost[0]._id}</CModalTitle>
             </CModalHeader>
             <CModalBody>
-              <CForm action="" method="post" className="form-horizontal">
-                <CFormGroup row>
-                  <CCol md="3">
-                    <CLabel htmlFor="text-input">Title</CLabel>
-                  </CCol>
-                  <CCol xs="12" md="9">
-                    <CInput
-                      name="skill"
-                      value={currentPost[0].title}
-                      onChange={() => {}}
-
-                      //disabled="true"
-                    />
-                  </CCol>
-                </CFormGroup>
-                <CFormGroup row>
-                  <CCol md="3">
-                    <CLabel htmlFor="text-input">Skills</CLabel>
-                  </CCol>
-                  <CCol xs="12" md="9">
-                    <CInput
-                      name="skill"
-                      value={currentPost[0].skill}
-                      onChange={() => {}}
-
-                      //disabled="true"
-                    />
-                  </CCol>
-                </CFormGroup>
-                <CFormGroup row>
-                  <CCol md="3">
-                    <CLabel>Salary</CLabel>
-                  </CCol>
-                  <CCol xs="12" md="9">
-                    <CInput
-                      name="salary"
-                      value={currentPost[0].salary}
-                      onChange={() => {}}
-
-                      // disabled="true"
-                    />
-                    {/* <CFormText></CFormText> */}
-                  </CCol>
-                </CFormGroup>
-                <CFormGroup row>
-                  <CCol md="3">
-                    <CLabel>Address</CLabel>
-                  </CCol>
-                  <CCol xs="12" md="9">
-                    <CInput
-                      name="address"
-                      value={currentPost[0].address}
-                      onChange={() => {}}
-
-                      //disabled="true"
-                    />
-                    {/* <CFormText></CFormText> */}
-                  </CCol>
-                </CFormGroup>
-                <CFormGroup row>
-                  <CCol md="3">
-                    <CLabel htmlFor="date-input">End time</CLabel>
-                  </CCol>
-                  <CCol xs="12" md="9">
-                    <CInput
-                      name="endTime"
-                      value={currentPost[0].endTime}
-                      onChange={() => {}}
-
-                      //   disabled="true"
-                    />
-                  </CCol>
-                </CFormGroup>
-
-                <CFormGroup row>
-                  <CCol md="3">
-                    <CLabel htmlFor="textarea-input">Description</CLabel>
-                  </CCol>
-                  <CCol xs="12" md="9">
-                    <CTextarea
-                      rows="5"
-                      name="description"
-                      value={currentPost[0].description}
-                      onChange={() => {}}
-
-                      //   disabled="true"
-                    />
-                  </CCol>
-                </CFormGroup>
-              </CForm>
+              <StyleLabel>
+                <CForm className="form-horizontal">
+                  <CFormGroup row>
+                    <CCol md="3">
+                      <CLabel className="label">Title</CLabel>
+                    </CCol>
+                    <CCol xs="12" md="9">
+                      <span>{currentPost[0].title}</span>
+                    </CCol>
+                  </CFormGroup>
+                  <hr></hr>
+                  <CFormGroup row>
+                    <CCol md="3">
+                      <CLabel className="label">Skills</CLabel>
+                    </CCol>
+                    <CCol xs="12" md="9">
+                      <pre>{currentPost[0].skill}</pre>
+                    </CCol>
+                  </CFormGroup>
+                  <hr></hr>
+                  <CFormGroup row>
+                    <CCol md="3">
+                      <CLabel className="label">Salary</CLabel>
+                    </CCol>
+                    <CCol xs="12" md="9">
+                      <span>{currentPost[0].salary}</span>
+                    </CCol>
+                  </CFormGroup>
+                  <hr></hr>
+                  <CFormGroup row>
+                    <CCol md="3">
+                      <CLabel className="label">Address</CLabel>
+                    </CCol>
+                    <CCol xs="12" md="9">
+                      <span> {currentPost[0].address}</span>
+                    </CCol>
+                  </CFormGroup>
+                  <hr></hr>
+                  <CFormGroup row>
+                    <CCol md="3">
+                      <CLabel className="label">End time</CLabel>
+                    </CCol>
+                    <CCol xs="12" md="9">
+                      <span>{currentPost[0].endTime}</span>
+                    </CCol>
+                  </CFormGroup>
+                  <hr></hr>
+                  <CFormGroup row>
+                    <CCol md="3">
+                      <CLabel className="label">Description</CLabel>
+                    </CCol>
+                    <CCol xs="12" md="9">
+                      <pre> {currentPost[0].description}</pre>
+                    </CCol>
+                  </CFormGroup>
+                </CForm>
+              </StyleLabel>
             </CModalBody>
             <CModalFooter>
               <CButton
