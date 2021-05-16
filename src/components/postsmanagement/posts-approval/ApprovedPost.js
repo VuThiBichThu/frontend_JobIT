@@ -11,7 +11,7 @@ import {
   CRow,
   CPagination,
   CButton,
-  CTooltip
+  CTooltip,
 } from "@coreui/react";
 const ApprovedPost = () => {
   const [posts, setPosts] = useState([]);
@@ -20,20 +20,21 @@ const ApprovedPost = () => {
 
   const [page, setPage] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
+  const [success, setSuccess] = useState(0);
 
   const [numPages, setNumPages] = useState(1);
   const take = 10; // rows in table
   const query = "";
   useEffect(() => {
-    getPosts(page, query, (item) => {
-      setPosts(item.data.posts);
-      setNumPages(item.data.numPages);
-      setPage(item.data.currentPage);
+    getPosts(page, query, (result) => {
+      setPosts(result.data.posts);
+      setNumPages(result.data.numPages);
+      setPage(result.data.currentPage);
     });
-  }, [page]);
+  }, [page, success]);
 
   const pageChange = (newPage) => {
-    getPosts(newPage, (data) => {
+    getPosts(newPage, query, (data) => {
       setPosts(data.data.posts);
       setNumPages(data.data.numPages);
       setCurrentPage(data.data.currentPage);
@@ -50,7 +51,7 @@ const ApprovedPost = () => {
               fields={[
                 { key: "_id", _classes: "font-weight-bold" },
                 "companyName",
-                "salary",
+                "title",
                 "Actions",
               ]}
               hover
@@ -69,14 +70,22 @@ const ApprovedPost = () => {
                       <CButton
                         color="danger"
                         onClick={() => {
-                          setPosts(
-                            posts.filter((itemCom) => itemCom._id !== item._id)
-                          );
+                          // setPosts(
+                          //   posts.filter((itemCom) => itemCom._id !== item._id)
+                          // );
                           deletePost(item._id, (data) => {
                             if (data.status === 200) {
+                              setSuccess(success + 1);
                               toast.success("Delete post successfully !", {
                                 position: toast.POSITION.BOTTOM_LEFT,
                               });
+                            } else if (data.status === 401) {
+                              toast.warning(
+                                "You are not allowed to do this action! ",
+                                {
+                                  position: toast.POSITION.BOTTOM_LEFT,
+                                }
+                              );
                             } else {
                               toast.error("Fail to delete! " + data.msg, {
                                 position: toast.POSITION.BOTTOM_LEFT,

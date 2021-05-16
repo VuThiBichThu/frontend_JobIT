@@ -2,6 +2,7 @@
   background: url("../../assets/images/aboutus.png") $white no-repeat 90%;
   overflow: hidden;
   padding-top: 20px;
+  margin-top: 20px;
 
   @media only screen and (min-width: 1400px) {
     background-size: contain;
@@ -173,7 +174,7 @@
   position: relative;
   background: white;
   padding-bottom: 40px;
-
+  margin-bottom: 40px;
   &__inner {
     padding: 15px;
     align-items: center;

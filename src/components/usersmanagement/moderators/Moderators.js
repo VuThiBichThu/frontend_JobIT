@@ -90,12 +90,10 @@ const Moderators = () => {
     if (isValid) {
       addMod(mod, (data) => {
         if (data.status === 200) {
-          setPrimary(!primary);
+          setSuccess(success + 1);
           toast.success("Create Mod Successfully !", {
             position: toast.POSITION.BOTTOM_LEFT,
           });
-          setSuccess(success + 1);
-          // window.location.reload();
         } else {
           alert(data.msg);
         }
@@ -117,7 +115,7 @@ const Moderators = () => {
   return (
     <CRow>
       <CCol xl={6}>
-        <CCard>
+        <CCard className="card-content">
           {getAuth().role === "admin" ? (
             <>
               <CCardHeader>
@@ -138,12 +136,15 @@ const Moderators = () => {
                   <CModalHeader closeButton>
                     <CModalTitle>New moderator</CModalTitle>
                   </CModalHeader>
-                  <CModalBody>
+                  <CModalBody
+                    style={{ display: "flex", justifyContent: "center" }}
+                  >
                     <CForm
+                      style={{ width: "400px" }}
                       id="form"
                       action=""
                       method="post"
-                      className="form-horizontal was-validated"
+                      className="form-horizontal was-validated mt-2"
                     >
                       <CFormGroup>
                         <CInputGroup>
@@ -237,7 +238,6 @@ const Moderators = () => {
                       onClick={() => {
                         setPrimary(!primary);
                         document.getElementById("form").reset();
-                        // window.location.reload();
                       }}
                     >
                       Cancel
@@ -277,10 +277,10 @@ const Moderators = () => {
                               );
                               deleteMod(item._id, (data) => {
                                 if (data.status === 200) {
+                                  setSuccess(success + 1);
                                   toast.success("Delete Mod Successfully !", {
                                     position: toast.POSITION.BOTTOM_LEFT,
                                   });
-                                  setSuccess(success + 1);
                                 } else {
                                   toast.error("Failed to delete," + data.msg, {
                                     position: toast.POSITION.BOTTOM_LEFT,

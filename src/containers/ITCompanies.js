@@ -42,7 +42,6 @@ const ITCompanies = () => {
       setNumPages(item.data.numPages);
       setPage(item.data.page);
     });
-
   }, [page, query]);
 
   const pageChange = (newPage) => {
@@ -65,12 +64,17 @@ const ITCompanies = () => {
       active={loadingList}
       spinner
       text="Loading..."
-      style={{ position: "fixed", width: "100%", height: "100%" }}
+      style={{
+        position: "fixed",
+        width: "100%",
+        height: "100%",
+        zIndex: "9999",
+      }}
     >
       <CContainer>
         <CRow style={{ justifyContent: "center" }}>
           <CCol md="6" className="mb-4">
-            <CInputGroup className="input-prepend">
+            <CInputGroup className="input-prepend mt-4">
               <CInputGroupPrepend>
                 <CInputGroupText>
                   <CIcon name="cil-magnifying-glass" />

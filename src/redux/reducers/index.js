@@ -18,7 +18,9 @@ import updateUserPermissions from "./updateUserPermissions";
 
 import login from "./login";
 import register from "./register";
-import forgotPassword from "./forgotPassword";
+import resetPassword from "./resetPassword";
+import confirmCode from "./confirmCode";
+import changePassword from "./changePassword";
 import apply from "./apply";
 import getPostsComp from "./getPostsComp";
 import getAppliers from "./getAppliers";
@@ -38,7 +40,6 @@ import getFeedback from "./getFeedback";
 import getCompany from "./getCompany";
 import getPostList from "./getPostList";
 import setInfo from "./setInfo";
-
 
 export default combineReducers({
   loginAdmin,
@@ -61,7 +62,9 @@ export default combineReducers({
   login,
   setShowSidebar,
   register,
-  forgotPassword,
+  resetPassword,
+  confirmCode,
+  changePassword,
   apply,
   getPostsComp,
   getAppliers,
@@ -79,5 +82,5 @@ export default combineReducers({
   getFeedback,
   getCompany,
   getPostList,
-  setInfo
+  setInfo,
 });

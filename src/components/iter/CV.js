@@ -55,6 +55,16 @@ const StyledCV = styled.div`
       padding-left: 30px;
     }
   }
+  .no-cv {
+    margin-top: 20px;
+    height: 350px;
+    .content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+  }
 `;
 
 const CV = () => {
@@ -65,6 +75,7 @@ const CV = () => {
   const [cv, setCV] = useState({});
   const [image, setImage] = useState("");
   const [curBirthday, setCurBirthday] = useState("");
+  const [success, setSuccess] = useState(0);
 
   const [form, setForm] = React.useState({
     name: "",
@@ -99,7 +110,8 @@ const CV = () => {
         setAvatar(result.cv.image);
       }
     });
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [success]);
 
   const techSkill = cv.skill ? cv.skill : [];
 
@@ -131,7 +143,6 @@ const CV = () => {
       ...form,
       image,
     };
-    
     form.skill = [];
     if (selected) {
       selected.map((item) => form.skill.push(item.value));
@@ -147,13 +158,14 @@ const CV = () => {
     if (isValid) {
       createCV(cv, (data) => {
         if (data.status === 200) {
-          setOpen(!isOpen);
+          setSuccess(success + 1);
           toast.success("Create CV Successfully !", {
             position: toast.POSITION.BOTTOM_LEFT,
           });
-          window.location.reload();
         } else {
-          alert(data.msg);
+          toast.error("Fail!", {
+            position: toast.POSITION.BOTTOM_LEFT,
+          });
         }
       });
       setOpen(!isOpen);
@@ -240,13 +252,14 @@ const CV = () => {
     if (isValid) {
       updateCV(cv, (data) => {
         if (data.status === 200) {
+          setSuccess(success + 1);
           toast.success("Update CV Successfully !", {
             position: toast.POSITION.BOTTOM_LEFT,
           });
-
-          window.location.reload();
         } else {
-          alert(data.msg);
+          toast.error("Fail!", {
+            position: toast.POSITION.BOTTOM_LEFT,
+          });
         }
       });
       setUpdate(!isUpdate);
@@ -265,7 +278,7 @@ const CV = () => {
             <CCard>
               <CCardBody>
                 <div className="layout-cv">
-                  <CForm action="" method="cv" className="form-horizontal">
+                  <CForm action="" method="" className="form-horizontal">
                     <CRow xs="12" md="12" className="cv-header">
                       <CCol md="3">
                         <img
@@ -367,8 +380,8 @@ const CV = () => {
       ) : (
         <CRow style={{ alignItems: "center", textAlign: "center" }}>
           <CCol xs="12" className="mb-4">
-            <CCard>
-              <CCardBody>
+            <CCard className="no-cv">
+              <CCardBody className="content">
                 <div style={{ color: "#ed4444" }}>YOUR CV IS MISSING!</div>
                 <div>
                   Create a CV to apply for jobs faster and get attractive
@@ -394,19 +407,19 @@ const CV = () => {
         </CModalHeader>
         <CModalBody>
           <CForm
+            id="create-form"
             action=""
             method="cv"
             className="form-horizontal was-validated"
-            id="create-form"
           >
             <CRow xs="12" md="12">
-              <CCol md="4">
+              <CCol md="4" style={{ textAlign: "center" }}>
                 <img
                   src={avatar}
                   alt="avatar"
                   width=" 150px"
                   height="150px"
-                  style={{ border: "1px solid black" }}
+                  style={{ border: "1px solid #cccccc" }}
                 ></img>
                 <input
                   className="file-upload"
@@ -424,7 +437,7 @@ const CV = () => {
                   <CCol xs="12" md="9">
                     <CInput
                       name="name"
-                      defaultValue={form.name}
+                      value={form.name}
                       onChange={handleChange}
                       required
                     />
@@ -458,7 +471,7 @@ const CV = () => {
                     <CInput
                       name="email"
                       type="text"
-                      defaultValue={form.email}
+                      value={form.email}
                       onChange={handleChange}
                       required
                     />
@@ -472,7 +485,7 @@ const CV = () => {
             <CRow xs="12" md="12" className="mb-2">
               <CCol md="4" style={{ textAlign: "center" }}>
                 <CButton
-                  style={{ textAlign: "center", marginLeft: "15px" }}
+                  style={{ textAlign: "center" }}
                   color="primary"
                   onClick={handleClick}
                 >
@@ -489,7 +502,7 @@ const CV = () => {
                 <CTextarea
                   rows="5"
                   name="experience"
-                  defaultValue={form.experience}
+                  value={form.experience}
                   onChange={handleChange}
                   required
                 />
@@ -519,7 +532,7 @@ const CV = () => {
                 <CTextarea
                   name="softSkill"
                   rows="5"
-                  defaultValue={form.softSkill}
+                  value={form.softSkill}
                   onChange={handleChange}
                   required
                 />
@@ -538,7 +551,7 @@ const CV = () => {
                   name="description"
                   rows="5"
                   placeholder=""
-                  defaultValue={form.description}
+                  value={form.description}
                   onChange={handleChange}
                   required
                 />
@@ -558,7 +571,16 @@ const CV = () => {
             onClick={() => {
               document.getElementById("create-form").reset();
               setOpen(!isOpen);
-            
+              setForm({
+                name: "",
+                birthday: "",
+                email: "",
+                experience: "",
+                skill: [],
+                softSkill: "",
+                description: "",
+              });
+              setAvatar("/avatars/avatar.png");
             }}
           >
             Cancel
@@ -605,7 +627,7 @@ const CV = () => {
                   <CCol xs="12" md="9">
                     <CInput
                       name="name"
-                      defaultValue={cv.name}
+                      value={cv.name}
                       onChange={handleChange}
                       required
                     />
@@ -622,7 +644,7 @@ const CV = () => {
                     <CInput
                       name="birthday"
                       type="date"
-                      defaultValue={curBirthday}
+                      value={curBirthday}
                       onChange={handleChange}
                       required
                     />
@@ -639,7 +661,7 @@ const CV = () => {
                     <CInput
                       name="email"
                       type="text"
-                      defaultValue={cv.email}
+                      value={cv.email}
                       onChange={handleChange}
                       required
                     />
@@ -670,7 +692,7 @@ const CV = () => {
                 <CTextarea
                   rows="5"
                   name="experience"
-                  defaultValue={cv.experience}
+                  value={cv.experience}
                   onChange={handleChange}
                   required
                 />
@@ -700,7 +722,7 @@ const CV = () => {
                 <CTextarea
                   name="softSkill"
                   rows="5"
-                  defaultValue={cv.softSkill}
+                  value={cv.softSkill}
                   onChange={handleChange}
                   required
                 />
@@ -719,7 +741,7 @@ const CV = () => {
                   name="description"
                   rows="5"
                   placeholder=""
-                  defaultValue={cv.description}
+                  value={cv.description}
                   onChange={handleChange}
                   required
                 />

@@ -62,7 +62,7 @@ const UserPermissions = ({ match }) => {
   return (
     <CRow>
       <CCol>
-        <CCard>
+        <CCard className="card-content">
           <CCardHeader>
             <p>User ID: {match.params.id}</p>
             {match.params.role === "moderator" && <label>Username:</label>}

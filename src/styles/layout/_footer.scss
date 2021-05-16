@@ -1,7 +1,7 @@
 .footer {
   background: white;
   &__inner {
-    padding: 24px 50px;
+    padding: 10px 30px;
     text-align: center;
     display: flex;
     justify-content: space-between;
@@ -13,13 +13,14 @@
         cursor: pointer;
       }
       img {
-        width: 180px;
-        height: 80px;
+        width: 120px;
+        height: 54px;
       }
     }
     &__links {
       display: flex;
       flex-wrap: wrap;
+      margin-right: 30px;
       &__item {
         margin: 0 50px;
         text-align: left;
@@ -27,7 +28,7 @@
           text-transform: capitalize;
         }
         li {
-          margin: 5px 0;
+          margin: 1px 0;
         }
         a {
           color: $black;

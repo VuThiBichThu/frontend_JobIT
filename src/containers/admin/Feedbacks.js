@@ -28,10 +28,16 @@ const Feedbacks = () => {
   const [take, setTake] = useState(10);
   // const take = 10; // rows in table
 
+  const [isRole, setIsRole] = useState(null);
   useEffect(() => {
     getFeedback((result) => {
-      setFeedbacks(result.feedbacks);
-      setTake(result.feedbacks.length);
+      if (result.status === 401) {
+        setIsRole(false);
+      } else {
+        setIsRole(true);
+        setFeedbacks(result.feedbacks);
+        setTake(result.feedbacks.length);
+      }
     });
   }, []);
 
@@ -46,65 +52,79 @@ const Feedbacks = () => {
   return (
     <CRow>
       <CCol xs="12" className="mb-4">
-        <CCard>
-          <CCardHeader>All feedbacks from users</CCardHeader>
-          <CCardBody>
-            <CDataTable
-              items={feedbacks}
-              fields={[
-                { key: "_id", _classes: "font-weight-bold" },
-                "userId",
-                "content",
-                "Actions",
-              ]}
-              hover
-              loading={loadingList}
-              striped
-              itemsPerPage={take}
-              // activePage={page}
-              scopedSlots={{
-                Actions: (item) => (
-                  <td>
-                    <CTooltip
-                      content="delete this company"
-                      placement="bottom-start"
-                    >
-                      <CButton
-                        color="danger"
-                        onClick={() => {
-                          setFeedbacks(
-                            feedbacks.filter(
-                              (itemCom) => itemCom._id !== item._id
-                            )
-                          );
-                          deleteFeedback(item._id, (data) => {
-                            if (data.status === 200) {
-                              toast.success("Delete feedback successfully !", {
-                                position: toast.POSITION.BOTTOM_LEFT,
+        <CCard className="card-content">
+          {isRole ? (
+            <>
+              {" "}
+              <CCardHeader>All feedbacks from users</CCardHeader>
+              <CCardBody>
+                <CDataTable
+                  items={feedbacks}
+                  fields={[
+                    { key: "_id", _classes: "font-weight-bold" },
+                    "userId",
+                    "content",
+                    "Actions",
+                  ]}
+                  hover
+                  loading={loadingList}
+                  striped
+                  itemsPerPage={take}
+                  // activePage={page}
+                  scopedSlots={{
+                    Actions: (item) => (
+                      <td>
+                        <CTooltip
+                          content="delete this company"
+                          placement="bottom-start"
+                        >
+                          <CButton
+                            color="danger"
+                            onClick={() => {
+                              setFeedbacks(
+                                feedbacks.filter(
+                                  (itemCom) => itemCom._id !== item._id
+                                )
+                              );
+                              deleteFeedback(item._id, (data) => {
+                                if (data.status === 200) {
+                                  toast.success(
+                                    "Delete feedback successfully !",
+                                    {
+                                      position: toast.POSITION.BOTTOM_LEFT,
+                                    }
+                                  );
+                                } else {
+                                  toast.error("Fail to delete! " + data.msg, {
+                                    position: toast.POSITION.BOTTOM_LEFT,
+                                  });
+                                }
                               });
-                            } else {
-                              toast.error("Fail to delete! " + data.msg, {
-                                position: toast.POSITION.BOTTOM_LEFT,
-                              });
-                            }
-                          });
-                        }}
-                      >
-                        <i className="cil-trash"></i>
-                      </CButton>
-                    </CTooltip>{" "}
-                  </td>
-                ),
-              }}
-            />
-            {/* <CPagination
+                            }}
+                          >
+                            <i className="cil-trash"></i>
+                          </CButton>
+                        </CTooltip>{" "}
+                      </td>
+                    ),
+                  }}
+                />
+                {/* <CPagination
               activePage={currentPage}
               onActivePageChange={pageChange}
               pages={numPages}
               doubleArrows={false}
               align="center"
             /> */}
-          </CCardBody>
+              </CCardBody>
+            </>
+          ) : (
+            <CCardBody className="center-admin">
+              <div style={{ fontSize: "x-large" }}>
+                You don't have permission to control this management!{" "}
+              </div>
+            </CCardBody>
+          )}
         </CCard>
       </CCol>
     </CRow>

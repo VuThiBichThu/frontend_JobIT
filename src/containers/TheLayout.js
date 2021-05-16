@@ -14,7 +14,7 @@ const TheLayout = (Component) => (props) => {
       <div className="c-wrapper">
         <TheHeader />
         <div className="c-body">
-          <main className="c-main">
+          <main className="c-main" style={{ paddingTop: "0" }}>
             <CContainer fluid>
               <CFade>
                 <Component {...props} />
@@ -30,7 +30,7 @@ const TheLayout = (Component) => (props) => {
       <div className="c-wrapper">
         <TheHeaderUser />
         <div className="c-body">
-          <main className="c-main">
+          <main className="c-main"  style={{ paddingTop: "0" }}>
             <CContainer fluid>
               <CFade>
                 <Component {...props} />

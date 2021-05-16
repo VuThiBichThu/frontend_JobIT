@@ -50,10 +50,9 @@ const Companies = () => {
   return (
     <CRow>
       <CCol xl={6}>
-        <CCard>
+        <CCard className="card-content">
           {getAuth().role === "admin" ? (
-            <CCard>
-              {" "}
+            <>
               <CCardHeader>COMPANIES</CCardHeader>
               <CCardBody>
                 <CDataTable
@@ -130,7 +129,7 @@ const Companies = () => {
                   align="center"
                 />
               </CCardBody>
-            </CCard>
+            </>
           ) : (
             <CCardBody className="center-admin">
               <div style={{ fontSize: "x-large" }}>

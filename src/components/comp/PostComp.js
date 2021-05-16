@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-// import { toast } from "react-toastify";
-// import LoadingOverlay from "react-loading-overlay";
 import { ApprovingPost, ApprovedPost, ExpiredPost } from "./index";
 import MultiSelect from "react-multi-select-component";
 import { technicalSkill } from "../common/constants";
@@ -38,7 +36,7 @@ const PostComp = () => {
   const [isOpen, setOpen] = useState(false);
   const loading = useSelector((store) => store.addPost.loading);
   const [endTime, setEndTime] = useState("");
-  //const [skill, setSkill] = useState([]);
+
   const [form, setForm] = React.useState({
     title: "",
     salary: "",
@@ -54,9 +52,6 @@ const PostComp = () => {
         date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear()
       );
     }
-    // if (event.target.name === "skill") {
-    //   setSkill(event.target.value.split(","));
-    // }
     setForm({ ...form, [event.target.name]: event.target.value.trim() });
   };
 
@@ -244,7 +239,7 @@ const PostComp = () => {
       </CRow>
       <CRow>
         <CCol xs="12" className="mb-4">
-          <CCard>
+          <CCard style={{ marginTop: "20px" }}>
             <CCardBody>
               <CTabs>
                 <div style={{ display: "flex" }}>
