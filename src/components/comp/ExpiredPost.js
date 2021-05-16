@@ -20,8 +20,6 @@ import {
   CModalBody,
   CForm,
   CLabel,
-  CInput,
-  CTextarea,
   CModalFooter,
   CTooltip,
 } from "@coreui/react";
@@ -34,23 +32,28 @@ const StyleLabel = styled.section`
 `;
 
 const ExpiredPost = () => {
+  const abortController = new AbortController();
   const [posts, setPosts] = useState([]);
   const storeGetPosts = useSelector((store) => store.getPosts);
   const loadingList = storeGetPosts.loading;
   const [isOpen, setOpen] = useState(false);
+  const [success, setSuccess] = useState(0);
 
   useEffect(() => {
     getPostsComp((item) => {
       setPosts(item.posts.filter((post) => post.status === "DONE"));
     });
+    return function cleanup() {
+      abortController.abort();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [success]);
 
   posts.map((item) => {
     const getTime = item.endTime.split("/");
     if (getTime[0] < 10) getTime[0] = "0" + getTime[0];
     if (getTime[1] < 10) getTime[1] = "0" + getTime[1];
-    item.endTime = getTime.reverse().join("-");
+    return (item.endTime = getTime.reverse().join("-"));
   });
 
   const [currentPost, setCurrentPost] = useState({});
@@ -98,11 +101,10 @@ const ExpiredPost = () => {
                       <CButton
                         color="danger"
                         onClick={() => {
-                          setPosts(
-                            posts.filter((itemCom) => itemCom._id !== item._id)
-                          );
                           deletePost(item._id, (data) => {
                             if (data.status === 200) {
+                              setSuccess(success + 1);
+
                               toast.success("Delete post successfully !", {
                                 position: toast.POSITION.BOTTOM_LEFT,
                               });

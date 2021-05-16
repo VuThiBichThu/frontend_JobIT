@@ -20,8 +20,6 @@ import {
   CModalBody,
   CForm,
   CLabel,
-  CInput,
-  CTextarea,
   CModalFooter,
   CButton,
 } from "@coreui/react";

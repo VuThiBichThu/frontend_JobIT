@@ -6,7 +6,7 @@ import { getAuth } from "src/utils/helpers";
 import { createFeedback } from "src/redux/actions/createFeedback";
 import image from "../../assets/images/feedback";
 import { useHistory } from "react-router";
-function Feedback(props) {
+function Feedback() {
   const history = useHistory();
 
   const [content, setContent] = useState("");

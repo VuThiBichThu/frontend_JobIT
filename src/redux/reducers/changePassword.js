@@ -8,19 +8,19 @@ const initialState = {
 
 export default function reducer(state = initialState, actions) {
   switch (actions.type) {
-    case types.FORGOT_PASSWORD_API:
+    case types.CHANGE_PASSWORD:
       return {
         ...state,
         loading: true,
         error: {},
       };
-    case types.FORGOT_PASSWORD_API_SUCCEED:
+    case types.CHANGE_PASSWORD_SUCCEED:
       return {
         ...state,
         data: actions.payload,
         loading: false,
       };
-    case types.FORGOT_PASSWORD_API_FAILED:
+    case types.CHANGE_PASSWORD_FAILED:
       return {
         ...state,
         error: actions.payload,

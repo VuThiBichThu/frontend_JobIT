@@ -44,15 +44,16 @@ const ApprovingPost = () => {
 
   const [numPages, setNumPages] = useState(1);
   const take = 10; // rows in table
+  const [success, setSuccess] = useState(0);
 
   const [items, setItems] = useState([]);
   useEffect(() => {
-    getUnacceptedPosts(page, (item) => {
-      setPosts(item.posts);
-      setNumPages(item.numPages);
-      setPage(item.currentPage);
+    getUnacceptedPosts(page, (result) => {
+      setPosts(result.posts);
+      setNumPages(result.numPages);
+      setPage(result.currentPage);
     });
-  }, [page]);
+  }, [page, success]);
 
   const pageChange = (newPage) => {
     getUnacceptedPosts(newPage, (data) => {
@@ -105,10 +106,11 @@ const ApprovingPost = () => {
 
     approveMultiPosts(selectedPosts, (data) => {
       if (data.status === 200) {
+        setSuccess(success + 1);
         toast.success("Approve selected posts successfully !", {
           position: toast.POSITION.BOTTOM_LEFT,
         });
-        // window.location.reload();
+        window.location.reload();
       } else {
         toast.error("Fail to approve ! " + data.msg, {
           position: toast.POSITION.BOTTOM_LEFT,
@@ -127,7 +129,7 @@ const ApprovingPost = () => {
               fields={[
                 { key: "_id", _classes: "font-weight-bold" },
                 "companyName",
-                "salary",
+                "title",
                 "Actions",
                 "More",
               ]}
@@ -147,14 +149,19 @@ const ApprovingPost = () => {
                       <CButton
                         color="danger"
                         onClick={() => {
-                          setPosts(
-                            posts.filter((itemCom) => itemCom._id !== item._id)
-                          );
                           deletePost(item._id, (data) => {
                             if (data.status === 200) {
+                              setSuccess(success + 1);
                               toast.success("Delete post successfully !", {
                                 position: toast.POSITION.BOTTOM_LEFT,
                               });
+                            } else if (data.status === 401) {
+                              toast.warning(
+                                "You are not allowed to do this action! ",
+                                {
+                                  position: toast.POSITION.BOTTOM_LEFT,
+                                }
+                              );
                             } else {
                               toast.error("Fail to delete! " + data.msg, {
                                 position: toast.POSITION.BOTTOM_LEFT,
@@ -181,15 +188,20 @@ const ApprovingPost = () => {
                       <CButton
                         color="success"
                         onClick={() => {
-                          setPosts(
-                            posts.filter((itemCom) => itemCom._id !== item._id)
-                          );
                           approvePost(item._id, (data) => {
                             if (data.status === 200) {
+                              setSuccess(success + 1);
                               toast.success("Approve post successfully !", {
                                 position: toast.POSITION.BOTTOM_LEFT,
                               });
                               window.location.reload();
+                            } else if (data.status === 401) {
+                              toast.warning(
+                                "You are not allowed to do this action! ",
+                                {
+                                  position: toast.POSITION.BOTTOM_LEFT,
+                                }
+                              );
                             } else {
                               toast.error("Fail to approve ! " + data.msg, {
                                 position: toast.POSITION.BOTTOM_LEFT,

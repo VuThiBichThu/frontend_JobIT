@@ -150,6 +150,9 @@ a {
 .modal-width {
   max-width: 600px;
 }
+.modal-dialog {
+  max-width: 600px;
+}
 .c-header.c-header-fixed {
   z-index: 9 !important;
 }
@@ -161,9 +164,17 @@ a {
   align-items: center;
   display: flex;
 }
-.center {
+.center-admin {
   height: 500px;
   justify-content: center;
   align-items: center;
   display: flex;
+}
+.c-app {
+  min-height: 75vh !important;
+}
+
+.card-content {
+  min-height: 500px;
+  margin-top: 20px;
 }

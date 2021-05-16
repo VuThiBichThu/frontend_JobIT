@@ -60,11 +60,21 @@ const HomePage = () => {
     setQuery(query);
   };
   return (
-    <LoadingOverlay active={loadingList} spinner text="Loading..." s>
+    <LoadingOverlay
+      active={loadingList}
+      spinner
+      text="Loading..."
+      style={{
+        position: "fixed",
+        width: "100%",
+        height: "100%",
+        zIndex: "9999",
+      }}
+    >
       <CContainer>
         <CRow style={{ justifyContent: "center" }}>
           <CCol md="6" className="mb-4">
-            <CInputGroup className="input-prepend">
+            <CInputGroup className="input-prepend mt-4">
               <CInputGroupPrepend>
                 <CInputGroupText>
                   <CIcon name="cil-magnifying-glass" />
@@ -112,9 +122,7 @@ const HomePage = () => {
             <CCard className="no-result">
               {" "}
               <img src={notfound} alt=""></img>
-              <div>
-                Sorry, we couldn't find any results for your search!{" "}
-              </div>
+              <div>Sorry, we couldn't find any results for your search! </div>
             </CCard>
           )}
         </div>

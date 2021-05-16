@@ -49,7 +49,7 @@ const ITers = () => {
   return (
     <CRow>
       <CCol xl={6}>
-        <CCard>
+        <CCard className="card-content">
           {getAuth().role === "admin" ? (
             <>
               {" "}

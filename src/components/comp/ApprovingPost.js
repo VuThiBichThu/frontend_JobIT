@@ -31,19 +31,24 @@ import {
 } from "@coreui/react";
 
 const ApprovingPost = () => {
+  const abortController = new AbortController();
   const [posts, setPosts] = useState([]);
   const [updatedPost, setUpdatedPost] = useState({});
   const storeGetPosts = useSelector((store) => store.getPosts);
   const loadingList = storeGetPosts.loading;
   const [isOpen, setOpen] = useState(false);
   const history = useHistory();
+  const [success, setSuccess] = useState(0);
 
   useEffect(() => {
     getPostsComp((item) => {
       setPosts(item.posts.filter((post) => post.status === "WAITING"));
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    return function cleanup() {
+      abortController.abort();
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [success]);
 
   const [time, setTime] = useState("");
 
@@ -108,10 +113,12 @@ const ApprovingPost = () => {
 
                           const curSkill = [];
                           currentPost.skill.map((skill) => {
-                            curSkill.push({ label: skill, value: skill });
+                            return curSkill.push({
+                              label: skill,
+                              value: skill,
+                            });
                           });
                           setSelected(curSkill);
-
                           setUpdatedPost(currentPost);
                           setOpen(!isOpen);
                         }}
@@ -171,7 +178,7 @@ const ApprovingPost = () => {
                     <CCol xs="12" md="9">
                       <CInput
                         name="title"
-                        defaultValue={updatedPost.title}
+                        value={updatedPost.title}
                         onChange={handleChange}
                         required
                       />
@@ -198,7 +205,7 @@ const ApprovingPost = () => {
                     <CCol xs="12" md="9">
                       <CInput
                         name="salary"
-                        defaultValue={updatedPost.salary}
+                        value={updatedPost.salary}
                         onChange={handleChange}
                         required
                       />
@@ -214,8 +221,7 @@ const ApprovingPost = () => {
                     <CCol xs="12" md="9">
                       <CInput
                         name="address"
-                        defaultValue={updatedPost.address}
-                        //disabled="true"
+                        value={updatedPost.address}
                         onChange={handleChange}
                         required
                       />
@@ -232,7 +238,7 @@ const ApprovingPost = () => {
                       <CInput
                         name="endTime"
                         type="date"
-                        defaultValue={time}
+                        value={time}
                         onChange={handleChange}
                         required
                       />
@@ -250,7 +256,7 @@ const ApprovingPost = () => {
                       <CTextarea
                         rows="5"
                         name="description"
-                        defaultValue={updatedPost.description}
+                        value={updatedPost.description}
                         onChange={handleChange}
                         required
                       />
@@ -280,13 +286,14 @@ const ApprovingPost = () => {
                           if (selected) {
                             const selectSkill = [];
                             selected.map((item) => {
-                              selectSkill.push(item.value);
+                              return selectSkill.push(item.value);
                             });
 
                             updatedPost.skill = selectSkill;
                           }
                           updatePost(updatedPost.id, updatedPost, (data) => {
                             if (data.status === 200) {
+                              setSuccess(success + 1);
                               toast.success("Update post successfully !", {
                                 position: toast.POSITION.BOTTOM_LEFT,
                               });
@@ -296,7 +303,6 @@ const ApprovingPost = () => {
                               });
                             }
                             setOpen(!isOpen);
-                            window.location.reload();
                           });
                         }
                       }

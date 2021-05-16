@@ -20,7 +20,7 @@ const GroupPermissions = () => {
   return (
     <CRow>
       <CCol xs="12" className="mb-4">
-        <CCard>
+        <CCard className="card-content">
           {getAuth().role === "admin" ? (
             <>
               {" "}

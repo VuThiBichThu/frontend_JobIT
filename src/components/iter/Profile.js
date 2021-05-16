@@ -170,7 +170,6 @@ const Profile = () => {
         });
         setAuth({ ...getAuth(), image: image, name: name });
         setInfo({ name: name, image: image });
-        // window.location.reload();
       } else {
         alert(data.msg);
       }
@@ -198,7 +197,6 @@ const Profile = () => {
           toast.success("Update password successfully !", {
             position: toast.POSITION.BOTTOM_LEFT,
           });
-          // window.location.reload();
           document.getElementById("pass-form").reset();
         } else {
           toast.error("Fail to update! " + data.msg, {
@@ -211,7 +209,6 @@ const Profile = () => {
         position: toast.POSITION.BOTTOM_LEFT,
       });
     }
-
   };
   return (
     <StyledProfile>

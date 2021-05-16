@@ -32,23 +32,29 @@ const StyleLabel = styled.section`
 `;
 
 const ApprovedPost = () => {
+  const abortController = new AbortController();
+
   const [posts, setPosts] = useState([]);
   const storeGetPosts = useSelector((store) => store.getPosts);
   const loadingList = storeGetPosts.loading;
   const [isOpen, setOpen] = useState(false);
+  const [success, setSuccess] = useState(0);
 
   useEffect(() => {
     getPostsComp((item) => {
       setPosts(item.posts.filter((post) => post.status === "ACCEPTED"));
     });
+    return function cleanup() {
+      abortController.abort();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [success]);
 
   posts.map((item) => {
     const getTime = item.endTime.split("/");
     if (getTime[0] < 10) getTime[0] = "0" + getTime[0];
     if (getTime[1] < 10) getTime[1] = "0" + getTime[1];
-    item.endTime = getTime.reverse().join("-");
+    return (item.endTime = getTime.reverse().join("-"));
   });
 
   const [currentPost, setCurrentPost] = useState({});
@@ -75,11 +81,9 @@ const ApprovedPost = () => {
                       <CButton
                         color="success"
                         onClick={() => {
-                          setPosts(
-                            posts.filter((itemCom) => itemCom._id !== item._id)
-                          );
                           completePost(item._id, (data) => {
                             if (data.status === 200) {
+                              setSuccess(success + 1);
                               toast.success("Complete post successfully !", {
                                 position: toast.POSITION.BOTTOM_LEFT,
                               });
@@ -123,11 +127,9 @@ const ApprovedPost = () => {
                       <CButton
                         color="danger"
                         onClick={() => {
-                          setPosts(
-                            posts.filter((itemCom) => itemCom._id !== item._id)
-                          );
                           deletePost(item._id, (data) => {
                             if (data.status === 200) {
+                              setSuccess(success + 1);
                               toast.success("Delete post successfully !", {
                                 position: toast.POSITION.BOTTOM_LEFT,
                               });
@@ -168,54 +170,54 @@ const ApprovedPost = () => {
                 <CModalTitle>{currentPost.title}</CModalTitle>
               </CModalHeader>
               <CModalBody>
-               <StyleLabel>
-               <CForm className="form-horizontal">
-                  <CFormGroup row>
-                    <CCol md="3">
-                      <CLabel className="label">Skills</CLabel>
-                    </CCol>
-                    <CCol xs="12" md="9">
-                      <span>{currentPost.skill}</span>
-                    </CCol>
-                  </CFormGroup>
-                  <hr></hr>
-                  <CFormGroup row>
-                    <CCol md="3">
-                      <CLabel className="label">Salary</CLabel>
-                    </CCol>
-                    <CCol xs="12" md="9">
-                      <span>{currentPost.salary}</span>
-                    </CCol>
-                  </CFormGroup>
-                  <hr></hr>
-                  <CFormGroup row>
-                    <CCol md="3">
-                      <CLabel className="label">Address</CLabel>
-                    </CCol>
-                    <CCol xs="12" md="9">
-                      <span> {currentPost.address}</span>
-                    </CCol>
-                  </CFormGroup>
-                  <hr></hr>
-                  <CFormGroup row>
-                    <CCol md="3">
-                      <CLabel className="label">End time</CLabel>
-                    </CCol>
-                    <CCol>
-                      <span> {currentPost.endTime}</span>
-                    </CCol>
-                  </CFormGroup>
-                  <hr></hr>
-                  <CFormGroup row>
-                    <CCol md="3">
-                      <CLabel className="label">Description</CLabel>
-                    </CCol>
-                    <CCol xs="12" md="9">
-                      <span>{currentPost.description}</span>
-                    </CCol>
-                  </CFormGroup>
-                </CForm>
-               </StyleLabel>
+                <StyleLabel>
+                  <CForm className="form-horizontal">
+                    <CFormGroup row>
+                      <CCol md="3">
+                        <CLabel className="label">Skills</CLabel>
+                      </CCol>
+                      <CCol xs="12" md="9">
+                        <span>{currentPost.skill}</span>
+                      </CCol>
+                    </CFormGroup>
+                    <hr></hr>
+                    <CFormGroup row>
+                      <CCol md="3">
+                        <CLabel className="label">Salary</CLabel>
+                      </CCol>
+                      <CCol xs="12" md="9">
+                        <span>{currentPost.salary}</span>
+                      </CCol>
+                    </CFormGroup>
+                    <hr></hr>
+                    <CFormGroup row>
+                      <CCol md="3">
+                        <CLabel className="label">Address</CLabel>
+                      </CCol>
+                      <CCol xs="12" md="9">
+                        <span> {currentPost.address}</span>
+                      </CCol>
+                    </CFormGroup>
+                    <hr></hr>
+                    <CFormGroup row>
+                      <CCol md="3">
+                        <CLabel className="label">End time</CLabel>
+                      </CCol>
+                      <CCol>
+                        <span> {currentPost.endTime}</span>
+                      </CCol>
+                    </CFormGroup>
+                    <hr></hr>
+                    <CFormGroup row>
+                      <CCol md="3">
+                        <CLabel className="label">Description</CLabel>
+                      </CCol>
+                      <CCol xs="12" md="9">
+                        <span>{currentPost.description}</span>
+                      </CCol>
+                    </CFormGroup>
+                  </CForm>
+                </StyleLabel>
               </CModalBody>
               <CModalFooter>
                 <CButton

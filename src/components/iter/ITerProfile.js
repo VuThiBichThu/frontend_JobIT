@@ -63,7 +63,7 @@ const ITerProfile = () => {
     <>
       <CRow>
         <CCol xs="12" className="mb-4">
-          <CCard>
+          <CCard className="card-content">
             <CCardBody>
               <CTabs>
                 <div style={{ display: "flex" }}>

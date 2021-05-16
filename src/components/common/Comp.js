@@ -50,7 +50,7 @@ function Comp({ compName, address, image, recruitingPost, auth, compId }) {
               alt="avatar"
             />
           </div>
-          <h4 className="text-primary mt-4">{compName}</h4>
+          <h4 className="text-primary mt-4">{compName || ""}</h4>
           <div className="flex  margin-top">
             <CLink
               className="text-success mr-2"
@@ -63,7 +63,7 @@ function Comp({ compName, address, image, recruitingPost, auth, compId }) {
 
             <p className="ml-2">
               <i className="cil-location-pin"></i>
-              {" " + address}
+              {address || "Address"}
             </p>
           </div>
         </CCardBody>

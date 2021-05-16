@@ -14,7 +14,7 @@ const Dashboard = () => {
   return (
     <CRow>
       <CCol xs="12" className="mb-4">
-        <CCard style={{ height: "500px" }}>
+        <CCard className="card-content">
           <CCardHeader style={{ fontSize: "x-large" }}>
             SYSTEM MANAGEMENT
           </CCardHeader>
