@@ -20,6 +20,8 @@ import ITCompanies from "./containers/ITCompanies";
 import AboutUs from "./containers/AboutUs";
 import ConfirmCode from "./components/pages/ConfirmCode";
 import ChangePassword from "./components/pages/ChangePassword";
+import DetailPost from "./components/common/DetailPost";
+
 // Containers
 // const TheLayout = React.lazy(() => import("./containers/TheLayout"));
 // const LogInAdmin = React.lazy(() => import("./containers/LogInAdmin"));
@@ -54,6 +56,11 @@ function App() {
         />
         <Route path="/it-companies" exact component={TheLayout(ITCompanies)} />
         <Route path="/about-us" exact component={TheLayout(AboutUs)} />
+        <Route
+          path="/posts/id"
+          exact
+          component={TheLayout(DetailPost)}
+        />
 
         <Route path={ROUTER_ADMIN} component={LogInAdmin} exact />
         {routes.map((route, idx) => {

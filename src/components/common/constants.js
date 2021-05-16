@@ -2,7 +2,7 @@ export const technicalSkill = [
     { label: "Java", value: "Java" },
     { label: "Javascript", value: "Javascript" },
     { label: "Python", value: "Python" },
-    { label: "PHP", value: "Typescript" },
+    { label: "PHP", value: "PHP" },
     { label: "ReactJS", value: "ReactJS" },
     { label: "NodeJS", value: "NodeJS" },
     { label: "Spring", value: "Spring" },

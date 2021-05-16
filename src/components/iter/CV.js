@@ -82,7 +82,7 @@ const CV = () => {
     birthday: "",
     email: "",
     experience: "",
-    skill: "",
+    skill: [],
     softSkill: "",
     description: "",
   });
@@ -110,7 +110,7 @@ const CV = () => {
         setAvatar(result.cv.image);
       }
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [success]);
 
   const techSkill = cv.skill ? cv.skill : [];
@@ -120,7 +120,6 @@ const CV = () => {
   const handleChange = (event) => {
     if (event.target.name === "birthday") {
       const date = new Date(event.target.value);
-
       setForm({
         ...form,
         birthday:
@@ -139,22 +138,24 @@ const CV = () => {
     console.log("create cv");
     event.preventDefault();
 
+    form.skill = [];
+    selected.map((item) => {
+      form.skill.push(item.value);
+    });
+
     const cv = {
       ...form,
       image,
     };
-    form.skill = [];
-    if (selected) {
-      selected.map((item) => form.skill.push(item.value));
-    }
 
     let isValid = true;
     for (var key in cv) {
-      if (cv[key] === "") {
+      if (cv[key] === "" || cv["skill".length === 0]) {
         isValid = false;
         break;
       }
     }
+
     if (isValid) {
       createCV(cv, (data) => {
         if (data.status === 200) {
@@ -243,7 +244,7 @@ const CV = () => {
     };
     let isValid = true;
     for (var key in cv) {
-      if (cv[key] === "") {
+      if (cv[key] === "" || cv["skill"].length === 0) {
         isValid = false;
         break;
       }
@@ -257,7 +258,7 @@ const CV = () => {
             position: toast.POSITION.BOTTOM_LEFT,
           });
         } else {
-          toast.error("Fail!", {
+          toast.error("Fail! " + data.msg, {
             position: toast.POSITION.BOTTOM_LEFT,
           });
         }
