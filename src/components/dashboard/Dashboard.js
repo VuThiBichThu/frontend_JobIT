@@ -19,7 +19,7 @@ const Dashboard = () => {
             SYSTEM MANAGEMENT
           </CCardHeader>
           <CCardBody>
-            <CJumbotron className="border">
+            <CJumbotron className="border" style={{background: "linear-gradient(#e66465, #9198e5)"}}>
               <h1 className="display-3">IT JOBS</h1>
               <hr className="my-2" />
 

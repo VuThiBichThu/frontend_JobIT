@@ -22,6 +22,7 @@ import CIcon from "@coreui/icons-react";
 import { getAuth } from "src/utils/helpers";
 import Post from "src/components/common/Post";
 import notfound from "../assets/icons/not-found.png";
+
 const HomePage = () => {
   const [posts, setPosts] = useState([]);
   const storeGetPosts = useSelector((store) => store.getPosts);

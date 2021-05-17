@@ -15,7 +15,7 @@ import Applier from "./components/comp/Applier";
 import ITerProfile from "./components/iter/ITerProfile";
 import Feedbacks from "./containers/admin/Feedbacks";
 import Company from "./components/comp/Company";
-
+import DetailPost from "./components/common/DetailPost";
 
 const routes = [
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
@@ -39,6 +39,7 @@ const routes = [
   { path: '/post-management', component: PostComp, exact: true },
   { path: '/post/appliers/:id', component: Applier, exact: true },
   { path: '/posts/company/:companyId', component: Company, exact: true },
+  { path: '/posts/:id', component: DetailPost, exact: true },
 
   { path: '/profile', component: ITerProfile, exact: true },
 
