@@ -1,12 +1,12 @@
 import { getAuth } from "../../utils/helpers";
 import * as types from "../constants";
 import store from "../store";
-export function getCompany(page,  resolve = () => {}) {
+export function getCompany(page, query, resolve = () => {}) {
   store.dispatch({
     type: types.GET_LIST_COMPANY,
   });
   return fetch(
-    `${process.env.REACT_APP_API_URL}/companies/info?page=${page}`,
+    `${process.env.REACT_APP_API_URL}/companies/info?page=${page}&query=${query}`,
     {
       method: "GET",
       headers: {
@@ -15,7 +15,7 @@ export function getCompany(page,  resolve = () => {}) {
         Authorization: "Bearer " + getAuth().token,
         // "Access-Control-Allow-Origin": "*"
       },
-    //  body: JSON.stringify(data),
+      //  body: JSON.stringify(data),
     }
   )
     .then((response) => response.json())

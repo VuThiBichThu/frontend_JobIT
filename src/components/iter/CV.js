@@ -130,7 +130,7 @@ const CV = () => {
           date.getFullYear(),
       });
     } else {
-      setForm({ ...form, [event.target.name]: event.target.value.trim() });
+      setForm({ ...form, [event.target.name]: event.target.value });
     }
   };
 
@@ -139,9 +139,7 @@ const CV = () => {
     event.preventDefault();
 
     form.skill = [];
-    selected.map((item) => {
-      form.skill.push(item.value);
-    });
+    selected.map((item) => form.skill.push(item.value));
 
     const cv = {
       ...form,
@@ -150,7 +148,7 @@ const CV = () => {
 
     let isValid = true;
     for (var key in cv) {
-      if (cv[key] === "" || cv["skill".length === 0]) {
+      if (cv[key] === "" || cv["skill"].length === 0) {
         isValid = false;
         break;
       }
@@ -218,7 +216,9 @@ const CV = () => {
           timestamp: data.payload.timestamp,
         });
       } else {
-        alert(data.msg);
+        toast.error("Error! " + data.msg, {
+          position: toast.POSITION.BOTTOM_LEFT,
+        });
       }
     });
   };
@@ -308,7 +308,7 @@ const CV = () => {
                     <hr></hr>
                     <CFormGroup row>
                       <CCol>
-                        <span>{cv.experience}</span>
+                        <pre>{cv.experience}</pre>
                       </CCol>
                     </CFormGroup>
                     <CFormGroup row>
@@ -581,6 +581,7 @@ const CV = () => {
                 softSkill: "",
                 description: "",
               });
+              setSelected([]);
               setAvatar("/avatars/avatar.png");
             }}
           >
@@ -603,14 +604,14 @@ const CV = () => {
             method="cv"
             className="form-horizontal was-validated"
           >
-            <CRow xs="12" md="12">
+            <CRow xs="12" md="12" style={{ textAlign: "center" }}>
               <CCol md="4">
                 <img
                   src={avatar}
                   alt="avatar"
                   width=" 150px"
                   height="150px"
-                  style={{ border: "1px solid black" }}
+                  style={{ border: "1px solid #cccccc" }}
                 ></img>
                 <input
                   className="file-upload"
@@ -628,7 +629,7 @@ const CV = () => {
                   <CCol xs="12" md="9">
                     <CInput
                       name="name"
-                      value={cv.name}
+                      defaultValue={cv.name}
                       onChange={handleChange}
                       required
                     />
@@ -645,7 +646,7 @@ const CV = () => {
                     <CInput
                       name="birthday"
                       type="date"
-                      value={curBirthday}
+                      defaultValue={curBirthday}
                       onChange={handleChange}
                       required
                     />
@@ -662,7 +663,7 @@ const CV = () => {
                     <CInput
                       name="email"
                       type="text"
-                      value={cv.email}
+                      defaultValue={cv.email}
                       onChange={handleChange}
                       required
                     />
@@ -676,7 +677,7 @@ const CV = () => {
             <CRow xs="12" md="12" className="mb-2">
               <CCol md="4" style={{ textAlign: "center" }}>
                 <CButton
-                  style={{ textAlign: "center", marginLeft: "15px" }}
+                  style={{ textAlign: "center" }}
                   color="primary"
                   onClick={handleClick}
                 >
@@ -693,7 +694,7 @@ const CV = () => {
                 <CTextarea
                   rows="5"
                   name="experience"
-                  value={cv.experience}
+                  defaultValue={cv.experience}
                   onChange={handleChange}
                   required
                 />
@@ -723,7 +724,7 @@ const CV = () => {
                 <CTextarea
                   name="softSkill"
                   rows="5"
-                  value={cv.softSkill}
+                  defaultValue={cv.softSkill}
                   onChange={handleChange}
                   required
                 />
@@ -742,7 +743,7 @@ const CV = () => {
                   name="description"
                   rows="5"
                   placeholder=""
-                  value={cv.description}
+                  defaultValue={cv.description}
                   onChange={handleChange}
                   required
                 />

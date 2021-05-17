@@ -29,6 +29,9 @@ const ITers = () => {
 
   const [numPages, setNumPages] = useState(1);
   const take = 10; // rows in table
+
+  const [success, setSuccess] = useState(0);
+
   const role = "iter";
   useEffect(() => {
     listITer(page, (item) => {
@@ -36,7 +39,7 @@ const ITers = () => {
       setNumPages(item.data.numPages);
       setPage(item.data.page);
     });
-  }, [page]);
+  }, [page, success]);
 
   const pageChange = (newPage) => {
     listITer(newPage, (data) => {
@@ -78,13 +81,9 @@ const ITers = () => {
                           <CButton
                             color="danger"
                             onClick={() => {
-                              setITers(
-                                iters.filter(
-                                  (itemIT) => itemIT._id !== item._id
-                                )
-                              );
                               deleteITer(item._id, (data) => {
                                 if (data.status === 200) {
+                                  setSuccess(success + 1);
                                   toast.success("Delete ITer Successfully !", {
                                     position: toast.POSITION.BOTTOM_LEFT,
                                   });

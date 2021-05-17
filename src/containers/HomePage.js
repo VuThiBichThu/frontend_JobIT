@@ -35,7 +35,8 @@ const HomePage = () => {
   // const take = 10; // rows in table
 
   const [query, setQuery] = useState("");
-  // const [searchInput, setSearchInput] = useState("");
+  const [searchInput, setSearchInput] = useState("");
+  const [reset, setReset] = useState(false);
 
   useEffect(() => {
     getPosts(page, query, (item) => {
@@ -43,7 +44,7 @@ const HomePage = () => {
       setNumPages(item.data.numPages);
       setPage(item.data.currentPage);
     });
-  }, [page, query]);
+  }, [page, query, reset]);
 
   const pageChange = (newPage) => {
     getPosts(newPage, query, (data) => {
@@ -54,11 +55,15 @@ const HomePage = () => {
   };
 
   const handleChange = (event) => {
-    setQuery(event.target.value);
+    if (event.target.value === "") {
+      setReset(true);
+      setQuery("");
+    }
+    setSearchInput(event.target.value);
   };
 
   const search = () => {
-    setQuery(query);
+    setQuery(searchInput);
   };
   return (
     <LoadingOverlay
@@ -89,7 +94,7 @@ const HomePage = () => {
                 onChange={handleChange}
               />
               <CInputGroupAppend>
-                <CButton color="info" onClick={search}>
+                <CButton color="info" onClick={search} disabled={!searchInput}>
                   Search
                 </CButton>
               </CInputGroupAppend>

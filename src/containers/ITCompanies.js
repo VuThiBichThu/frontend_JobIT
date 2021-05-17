@@ -17,7 +17,6 @@ import {
   CContainer,
 } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
-import { getAuth } from "src/utils/helpers";
 import { getCompany } from "src/redux/actions/getCompany";
 import Comp from "src/components/common/Comp";
 
@@ -34,15 +33,16 @@ const ITCompanies = () => {
 
   const [query, setQuery] = useState("");
   const [searchInput, setSearchInput] = useState("");
+  const [reset, setReset] = useState(false);
 
   useEffect(() => {
-    getCompany(page, (item) => {
+    getCompany(page, query, (item) => {
       setCompanies(item.data.result);
 
       setNumPages(item.data.numPages);
       setPage(item.data.page);
     });
-  }, [page, query]);
+  }, [page, query, reset]);
 
   const pageChange = (newPage) => {
     getCompany(newPage, query, (data) => {
@@ -53,6 +53,10 @@ const ITCompanies = () => {
   };
 
   const handleChange = (event) => {
+    if (event.target.value === "") {
+      setReset(true);
+      setQuery("");
+    }
     setSearchInput(event.target.value);
   };
 
@@ -88,7 +92,7 @@ const ITCompanies = () => {
                 onChange={handleChange}
               />
               <CInputGroupAppend>
-                <CButton color="info" onClick={search}>
+                <CButton color="info" onClick={search} disabled={!searchInput}>
                   Search
                 </CButton>
               </CInputGroupAppend>
@@ -105,7 +109,6 @@ const ITCompanies = () => {
                   compName={item.name}
                   address={item.address}
                   image={item.image ? item.image : defaultImage}
-                  auth={getAuth}
                   recruitingPost={item.recruitingPost}
                   compId={item.accountId}
                 />

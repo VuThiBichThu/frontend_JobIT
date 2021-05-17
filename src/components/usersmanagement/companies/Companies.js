@@ -29,6 +29,7 @@ const Companies = () => {
 
   const [numPages, setNumPages] = useState(1);
   const take = 10; // rows in table
+  const [success, setSuccess] = useState(0);
 
   const role = "company";
   useEffect(() => {
@@ -37,7 +38,7 @@ const Companies = () => {
       setNumPages(item.data.numPages);
       setPage(item.data.page);
     });
-  }, [page]);
+  }, [page, success]);
 
   const pageChange = (newPage) => {
     listCompany(newPage, (data) => {
@@ -78,13 +79,9 @@ const Companies = () => {
                           <CButton
                             color="danger"
                             onClick={() => {
-                              setCompanies(
-                                companies.filter(
-                                  (itemCom) => itemCom._id !== item._id
-                                )
-                              );
                               deleteCompany(item._id, (data) => {
                                 if (data.status === 200) {
+                                  setSuccess(success + 1);
                                   toast.success(
                                     "Delete Company Successfully !",
                                     {

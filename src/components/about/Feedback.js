@@ -42,7 +42,7 @@ function Feedback() {
     <section className="feedback">
       <div className="ds-primary feedback__inner">
         <div className="fb-img">
-          <img src={image} alt="" />
+          <img src={image} alt="" width="600px" />
         </div>
         <div className="feedback__text" style={{ width: "100%" }}>
           <h2 className="h2">

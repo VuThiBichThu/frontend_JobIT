@@ -229,6 +229,7 @@ const PostComp = () => {
               onClick={() => {
                 setOpen(!isOpen);
                 document.getElementById("post-form").reset();
+                setSelected([]);
               }}
             >
               Cancel

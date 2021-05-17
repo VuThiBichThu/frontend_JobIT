@@ -21,6 +21,7 @@ import {
 import { getAppliers } from "../../redux/actions/getAppliers";
 import { getCV } from "../../redux/actions/getCV";
 import styled from "styled-components";
+import { toast } from "react-toastify";
 
 const StyledCV = styled.div`
   .layout-cv {
@@ -77,7 +78,9 @@ const Applier = ({ match }) => {
         setOpen(!isOpen);
         setCV(data.cv);
       } else {
-        alert(data.msg);
+        toast.error("Error! " + data.msg, {
+          position: toast.POSITION.BOTTOM_LEFT,
+        });
       }
     });
   };

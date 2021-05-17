@@ -47,7 +47,7 @@ const ApprovingPost = () => {
     return function cleanup() {
       abortController.abort();
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [success]);
 
   const [time, setTime] = useState("");
@@ -112,12 +112,12 @@ const ApprovingPost = () => {
                           setTime(getTime.reverse().join("-"));
 
                           const curSkill = [];
-                          currentPost.skill.map((skill) => {
-                            return curSkill.push({
+                          currentPost.skill.map((skill) =>
+                            curSkill.push({
                               label: skill,
                               value: skill,
-                            });
-                          });
+                            })
+                          );
                           setSelected(curSkill);
                           setUpdatedPost(currentPost);
                           setOpen(!isOpen);
@@ -285,10 +285,9 @@ const ApprovingPost = () => {
                         if (getAuth().role === "company") {
                           if (selected) {
                             const selectSkill = [];
-                            selected.map((item) => {
-                              return selectSkill.push(item.value);
-                            });
-
+                            selected.map((item) =>
+                              selectSkill.push(item.value)
+                            );
                             updatedPost.skill = selectSkill;
                           }
                           updatePost(updatedPost.id, updatedPost, (data) => {

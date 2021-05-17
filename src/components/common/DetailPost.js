@@ -83,6 +83,7 @@ function DetailPost() {
       setCompany(item.post.company[0]);
       setSkill(item.post.skill);
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

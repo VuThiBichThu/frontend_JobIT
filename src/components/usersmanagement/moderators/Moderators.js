@@ -91,11 +91,17 @@ const Moderators = () => {
       addMod(mod, (data) => {
         if (data.status === 200) {
           setSuccess(success + 1);
+          document.getElementById("form").reset();
+          setUserName("");
+          setPassword("");
+          setConfirmPassword("");
           toast.success("Create Mod Successfully !", {
             position: toast.POSITION.BOTTOM_LEFT,
           });
         } else {
-          alert(data.msg);
+          toast.error("Create Mod Unsuccessfully !", {
+            position: toast.POSITION.BOTTOM_LEFT,
+          });
         }
       });
       setPrimary(!primary);
@@ -237,6 +243,9 @@ const Moderators = () => {
                       color="secondary"
                       onClick={() => {
                         setPrimary(!primary);
+                        setUserName("");
+                        setPassword("");
+                        setConfirmPassword("");
                         document.getElementById("form").reset();
                       }}
                     >

@@ -194,7 +194,7 @@ const ApprovingPost = () => {
                               toast.success("Approve post successfully !", {
                                 position: toast.POSITION.BOTTOM_LEFT,
                               });
-                              window.location.reload();
+                              // window.location.reload();
                             } else if (data.status === 401) {
                               toast.warning(
                                 "You are not allowed to do this action! ",

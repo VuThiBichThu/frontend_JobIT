@@ -3,8 +3,16 @@ import { Form } from "../components/login";
 import { loginAdmin } from "../redux/actions/loginAdmin";
 import { useHistory } from "react-router-dom";
 import { setAuth } from "../utils/helpers";
-import { ROUTER_ADMIN_DASHBOARD } from "../utils/routes"
+import { ROUTER_ADMIN_DASHBOARD } from "../utils/routes";
 import { toast } from "react-toastify";
+import logo from "../assets/images/logo.png";
+import {
+  CHeader,
+  CHeaderNav,
+  CHeaderNavItem,
+  CHeaderNavLink,
+} from "@coreui/react";
+
 const LogInAdmin = () => {
   const history = useHistory();
   const handleLogin = (formData) => {
@@ -23,7 +31,20 @@ const LogInAdmin = () => {
     });
   };
 
-  return <Form handleSubmit={handleLogin} />;
+  return (
+    <>
+      <CHeader>
+        <CHeaderNav className="d-md-down-none mr-auto">
+          <CHeaderNavItem className="px-3">
+            <CHeaderNavLink>
+              <img src={logo} alt="" width="120px"></img>
+            </CHeaderNavLink>
+          </CHeaderNavItem>
+        </CHeaderNav>
+      </CHeader>
+      <Form handleSubmit={handleLogin} />
+    </>
+  );
 };
 
 export default LogInAdmin;

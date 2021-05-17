@@ -127,7 +127,9 @@ const Profile = () => {
           timestamp: data.payload.timestamp,
         });
       } else {
-        alert(data.msg);
+        toast.error("Error! " + data.msg, {
+          position: toast.POSITION.BOTTOM_LEFT,
+        });
       }
     });
   };
@@ -171,7 +173,9 @@ const Profile = () => {
         setAuth({ ...getAuth(), image: image, name: name });
         setInfo({ name: name, image: image });
       } else {
-        alert(data.msg);
+        toast.error("Error! " + data.msg, {
+          position: toast.POSITION.BOTTOM_LEFT,
+        });
       }
     });
   };
@@ -228,7 +232,6 @@ const Profile = () => {
                 ref={hiddenFileInput}
               />
               <CButton
-                // style={{ marginBottom: "5px", marginTop: "10px" }}
                 color="primary"
                 onClick={handleClick}
               >

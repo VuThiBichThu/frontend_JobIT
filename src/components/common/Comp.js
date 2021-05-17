@@ -34,7 +34,7 @@ const StyledComp = styled.section`
   }
 `;
 
-function Comp({ compName, address, image, recruitingPost, auth, compId }) {
+function Comp({ compName, address, image, recruitingPost, compId }) {
   return (
     <StyledComp>
       <CCard accentColor="primary" className="card">
