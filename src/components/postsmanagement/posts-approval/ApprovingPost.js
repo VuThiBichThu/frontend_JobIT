@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import styled from "styled-components";
-
+import _ from "lodash";
 import { getUnacceptedPosts } from "../../../redux/actions/getUnacceptedPosts";
 import { deletePost } from "../../../redux/actions/deletePost";
 import { approvePost } from "../../../redux/actions/approvePost";
@@ -139,7 +139,7 @@ const ApprovingPost = () => {
               itemsPerPage={take}
               activePage={page}
               scopedSlots={{
-                companyName: (item) => <td>{item.company[0].name}</td>,
+                companyName: (item) => <td>{_.get(item.company[0],"name")}</td>,
                 Actions: (item) => (
                   <td md="4" className="py-4" key={"bottom-start"}>
                     <CTooltip

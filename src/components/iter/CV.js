@@ -90,8 +90,8 @@ const CV = () => {
   useEffect(() => {
     getITerCV((result) => {
       if (result.cv) {
-        setIsCV(true);
         setCV(result.cv);
+        setIsCV(true);
         const getTime = result.cv.birthday.split("/");
         if (getTime[0] < 10) getTime[0] = "0" + getTime[0];
         if (getTime[1] < 10) getTime[1] = "0" + getTime[1];
@@ -112,8 +112,6 @@ const CV = () => {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [success]);
-
-  const techSkill = cv.skill ? cv.skill : [];
 
   const [selected, setSelected] = useState([]);
 
@@ -321,10 +319,7 @@ const CV = () => {
                       <CCol>
                         <ul className="ul-list">
                           {
-                            //cv.skill.map((item)=>(<li>{item}</li>))
-                            techSkill.map((item) => (
-                              <li>{item}</li>
-                            ))
+                            cv.skill.map((item)=>(<li>{item}</li>))
                           }
                         </ul>
                       </CCol>
@@ -365,7 +360,7 @@ const CV = () => {
                 disabled={loading}
                 onClick={() => {
                   const curSkill = [];
-                  techSkill.map((skill) =>
+                  cv.skill.map((skill) =>
                     curSkill.push({ label: skill, value: skill })
                   );
                   setSelected(curSkill);

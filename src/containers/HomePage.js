@@ -4,6 +4,7 @@ import { getPosts } from "src/redux/actions/getPosts";
 // import { toast } from "react-toastify";
 import LoadingOverlay from "react-loading-overlay";
 // import ReactLoading from "react-loading";
+import _ from "lodash";
 
 import {
   CRow,
@@ -107,13 +108,13 @@ const HomePage = () => {
               return (
                 <Post
                   key={index}
-                  compName={item.company[0].name}
+                  compName={_.get(item.company[0],"name")}
                   title={item.title}
                   address={item.address}
                   skill={item.skill.join(", ")}
                   endTime={item.endTime}
                   salary={item.salary}
-                  image={item.company[0].image}
+                  image={_.get(item.company[0],"image")}
                   auth={getAuth}
                   postId={item._id}
                   compId={item.companyId}
