@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { getPosts } from "../../../redux/actions/getPosts";
 import { deletePost } from "../../../redux/actions/deletePost";
+import _ from "lodash";
 import {
   CCard,
   CCardBody,
@@ -60,7 +61,7 @@ const ApprovedPost = () => {
               itemsPerPage={take}
               activePage={page}
               scopedSlots={{
-                companyName: (item) => <td>{item.company[0].name}</td>,
+                companyName: (item) => <td>{_.get(item.company[0],"name")}</td>,
                 Actions: (item) => (
                   <td>
                     <CTooltip
