@@ -5,6 +5,8 @@ import styled from "styled-components";
 import { getPostsComp } from "../../../src/redux/actions/getPostsComp";
 import { deletePost } from "../../../src/redux/actions/deletePost";
 import { completePost } from "../../../src/redux/actions/completePost";
+import { setPost } from "src/redux/actions/setPost";
+
 import {
   CCard,
   CCardBody,
@@ -32,23 +34,16 @@ const StyleLabel = styled.section`
 `;
 
 const ApprovedPost = () => {
-  const abortController = new AbortController();
-
-  const [posts, setPosts] = useState([]);
-  const storeGetPosts = useSelector((store) => store.getPosts);
-  const loadingList = storeGetPosts.loading;
   const [isOpen, setOpen] = useState(false);
-  const [success, setSuccess] = useState(0);
+  const [posts, setPosts] = useState([]);
+  const storePosts = useSelector((state) => state.setPost);
+  const loadingList = storePosts.loading;
+  const [currentPost, setCurrentPost] = useState({});
 
   useEffect(() => {
-    getPostsComp((item) => {
-      setPosts(item.posts.filter((post) => post.status === "ACCEPTED"));
-    });
-    return function cleanup() {
-      abortController.abort();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [success]);
+    if (!storePosts.data.length) return;
+    setPosts(storePosts.data.filter((post) => post.status === "ACCEPTED"));
+  }, [storePosts]);
 
   posts.map((item) => {
     const getTime = item.endTime.split("/");
@@ -56,8 +51,6 @@ const ApprovedPost = () => {
     if (getTime[1] < 10) getTime[1] = "0" + getTime[1];
     return (item.endTime = getTime.reverse().join("-"));
   });
-
-  const [currentPost, setCurrentPost] = useState({});
 
   return (
     <CRow>
@@ -83,13 +76,14 @@ const ApprovedPost = () => {
                         onClick={() => {
                           completePost(item._id, (data) => {
                             if (data.status === 200) {
-                              setSuccess(success + 1);
+                              getPostsComp((item) => {
+                                setPost(item.posts);
+                              });
                               toast.success("Complete post successfully !", {
                                 position: toast.POSITION.BOTTOM_LEFT,
                               });
-                              window.location.reload();
                             } else {
-                              toast.error("Fail to delete! " + data.msg, {
+                              toast.error("Fail to complete! " + data.msg, {
                                 position: toast.POSITION.BOTTOM_LEFT,
                               });
                             }
@@ -129,10 +123,14 @@ const ApprovedPost = () => {
                         onClick={() => {
                           deletePost(item._id, (data) => {
                             if (data.status === 200) {
-                              setSuccess(success + 1);
                               toast.success("Delete post successfully !", {
                                 position: toast.POSITION.BOTTOM_LEFT,
                               });
+                              setPosts(
+                                posts.filter(
+                                  (itemCom) => itemCom._id !== item._id
+                                )
+                              );
                             } else {
                               toast.error("Fail to delete! " + data.msg, {
                                 position: toast.POSITION.BOTTOM_LEFT,

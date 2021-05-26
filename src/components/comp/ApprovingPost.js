@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
-import { getPostsComp } from "../../../src/redux/actions/getPostsComp";
 import { deletePost } from "../../../src/redux/actions/deletePost";
 import { getAuth } from "src/utils/helpers";
 import { updatePost } from "../../redux/actions/updatePost";
@@ -29,28 +28,23 @@ import {
   CInvalidFeedback,
   CTooltip,
 } from "@coreui/react";
+import { getPostsComp } from "src/redux/actions/getPostsComp";
+import { setPost } from "src/redux/actions/setPost";
 
 const ApprovingPost = () => {
-  const abortController = new AbortController();
-  const [posts, setPosts] = useState([]);
-  const [updatedPost, setUpdatedPost] = useState({});
-  const storeGetPosts = useSelector((store) => store.getPosts);
-  const loadingList = storeGetPosts.loading;
-  const [isOpen, setOpen] = useState(false);
   const history = useHistory();
-  const [success, setSuccess] = useState(0);
+  const [isOpen, setOpen] = useState(false);
+  const [posts, setPosts] = useState([]);
+  const [time, setTime] = useState("");
+  const [selected, setSelected] = useState([]);
+  const [updatedPost, setUpdatedPost] = useState({});
+  const storePosts = useSelector((state) => state.setPost);
+  const loadingList = storePosts.loading;
 
   useEffect(() => {
-    getPostsComp((item) => {
-      setPosts(item.posts.filter((post) => post.status === "WAITING"));
-    });
-    return function cleanup() {
-      abortController.abort();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [success]);
-
-  const [time, setTime] = useState("");
+    if (!storePosts.data.length) return;
+    setPosts(storePosts.data.filter((post) => post.status === "WAITING"));
+  }, [storePosts]);
 
   const handleChange = (event) => {
     if (event.target.name === "endTime") {
@@ -71,8 +65,6 @@ const ApprovingPost = () => {
       });
     }
   };
-
-  const [selected, setSelected] = useState([]);
 
   return (
     <CRow>
@@ -133,14 +125,16 @@ const ApprovingPost = () => {
                       <CButton
                         color="danger"
                         onClick={() => {
-                          setPosts(
-                            posts.filter((itemCom) => itemCom._id !== item._id)
-                          );
                           deletePost(item._id, (data) => {
                             if (data.status === 200) {
                               toast.success("Delete post successfully !", {
                                 position: toast.POSITION.BOTTOM_LEFT,
                               });
+                              setPosts(
+                                posts.filter(
+                                  (itemCom) => itemCom._id !== item._id
+                                )
+                              );
                             } else {
                               toast.error("Fail to delete! " + data.msg, {
                                 position: toast.POSITION.BOTTOM_LEFT,
@@ -292,7 +286,9 @@ const ApprovingPost = () => {
                           }
                           updatePost(updatedPost.id, updatedPost, (data) => {
                             if (data.status === 200) {
-                              setSuccess(success + 1);
+                              getPostsComp((item) => {
+                                setPost(item.posts);
+                              });
                               toast.success("Update post successfully !", {
                                 position: toast.POSITION.BOTTOM_LEFT,
                               });

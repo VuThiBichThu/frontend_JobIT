@@ -40,7 +40,8 @@ import getFeedback from "./getFeedback";
 import getCompany from "./getCompany";
 import getPostList from "./getPostList";
 import setInfo from "./setInfo";
-
+import analyzePost from "./analyzePost";
+import setPost from "./setPost";
 export default combineReducers({
   loginAdmin,
   listModerator,
@@ -83,4 +84,6 @@ export default combineReducers({
   getCompany,
   getPostList,
   setInfo,
+  analyzePost,
+  setPost,
 });

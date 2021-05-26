@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { ApprovingPost, ApprovedPost, ExpiredPost } from "./index";
 import MultiSelect from "react-multi-select-component";
@@ -30,19 +30,26 @@ import {
 } from "@coreui/react";
 import { toast } from "react-toastify";
 import { addPost } from "../../redux/actions/addPost";
+import { getPostsComp } from "src/redux/actions/getPostsComp";
+import { setPost } from "src/redux/actions/setPost";
 // import ReactLoading from "react-loading";
 
 const PostComp = () => {
   const [isOpen, setOpen] = useState(false);
   const loading = useSelector((store) => store.addPost.loading);
   const [endTime, setEndTime] = useState("");
-
   const [form, setForm] = React.useState({
     title: "",
     salary: "",
     address: "",
     description: "",
   });
+
+  useEffect(() => {
+    getPostsComp((item) => {
+      setPost(item.posts);
+    });
+  }, []);
 
   const handleChange = (event) => {
     let date;
@@ -80,11 +87,14 @@ const PostComp = () => {
     if (isValid) {
       addPost(post, (data) => {
         if (data.status === 200) {
-          setOpen(!isOpen);
+          document.getElementById("post-form").reset();
+          setSelected([]);
+          getPostsComp((item) => {
+            setPost(item.posts);
+          });
           toast.success("create post successfully !", {
             position: toast.POSITION.BOTTOM_LEFT,
           });
-          window.location.reload();
         } else {
           toast.error("fail to create post !", data.msg, {
             position: toast.POSITION.BOTTOM_LEFT,

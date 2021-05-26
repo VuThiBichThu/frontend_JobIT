@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { getPostsComp } from "../../../src/redux/actions/getPostsComp";
 import { deletePost } from "../../../src/redux/actions/deletePost";
 import styled from "styled-components";
 
@@ -32,22 +31,16 @@ const StyleLabel = styled.section`
 `;
 
 const ExpiredPost = () => {
-  const abortController = new AbortController();
-  const [posts, setPosts] = useState([]);
-  const storeGetPosts = useSelector((store) => store.getPosts);
-  const loadingList = storeGetPosts.loading;
   const [isOpen, setOpen] = useState(false);
-  const [success, setSuccess] = useState(0);
+  const [posts, setPosts] = useState([]);
+  const storePosts = useSelector((state) => state.setPost);
+  const loadingList = storePosts.loading;
+  const [currentPost, setCurrentPost] = useState({});
 
   useEffect(() => {
-    getPostsComp((item) => {
-      setPosts(item.posts.filter((post) => post.status === "DONE"));
-    });
-    return function cleanup() {
-      abortController.abort();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [success]);
+    if (!storePosts.data.length) return;
+    setPosts(storePosts.data.filter((post) => post.status === "DONE"));
+  }, [storePosts]);
 
   posts.map((item) => {
     const getTime = item.endTime.split("/");
@@ -55,8 +48,6 @@ const ExpiredPost = () => {
     if (getTime[1] < 10) getTime[1] = "0" + getTime[1];
     return (item.endTime = getTime.reverse().join("-"));
   });
-
-  const [currentPost, setCurrentPost] = useState({});
 
   return (
     <CRow>
@@ -103,11 +94,14 @@ const ExpiredPost = () => {
                         onClick={() => {
                           deletePost(item._id, (data) => {
                             if (data.status === 200) {
-                              setSuccess(success + 1);
-
                               toast.success("Delete post successfully !", {
                                 position: toast.POSITION.BOTTOM_LEFT,
                               });
+                              setPosts(
+                                posts.filter(
+                                  (itemCom) => itemCom._id !== item._id
+                                )
+                              );
                             } else {
                               toast.error("Fail to delete! " + data.msg, {
                                 position: toast.POSITION.BOTTOM_LEFT,

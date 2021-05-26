@@ -45,7 +45,7 @@ const UserPermissions = ({ match }) => {
   };
 
   const cancelUpdatedPermissionsHandler = () => {
-    window.location.reload();
+    // window.location.reload();
   };
 
   const changePermissions = (event) => {
