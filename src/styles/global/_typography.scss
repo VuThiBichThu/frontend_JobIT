@@ -83,11 +83,14 @@ body {
   }
 
   &--primary {
-    color: $primary-color;
+    color: $orange;
   }
 
   &--secondary {
-    color: $secondary-color;
+    color: $black;
+  }
+  &--underline {
+    text-decoration: underline;
   }
 }
 

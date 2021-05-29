@@ -5,6 +5,7 @@ import {
   CHeaderNavItem,
   CHeaderNavLink,
   CButton,
+  CLink,
 } from "@coreui/react";
 import { Link } from "react-router-dom";
 import { getAuth } from "src/utils/helpers";
@@ -18,21 +19,31 @@ const TheHeaderUser = () => {
   const storeSetInfo = useSelector((store) => store.setInfo);
 
   return getAuth().token && getAuth().role === "company" ? (
-    <CHeader>
-      <CHeaderNav className="d-md-down-none mr-auto">
+    <CHeader className="header">
+      <CHeaderNav className="d-md-down-none mr-auto header__inner">
         <CHeaderNavItem className="px-3">
           <CHeaderNavLink to="/">
-            <img src={logo} alt="" width="120px"></img>
+            <img src={logo} alt="" width="50px"></img>
           </CHeaderNavLink>
         </CHeaderNavItem>
-        <CHeaderNavItem className="px-3">
-          <CHeaderNavLink to="/post-management">Post management</CHeaderNavLink>
+        <CHeaderNavItem className="header__inner__menu">
+          <CLink activeClassName="--active" to="/post-management">
+            POSTS MANAGEMENT
+          </CLink>
         </CHeaderNavItem>
-        <CHeaderNavItem className="px-3">
-          <CHeaderNavLink to="/it-companies">IT Companies</CHeaderNavLink>
+        <CHeaderNavItem className="header__inner__menu">
+          <CLink
+            activeClassName="--active"
+            className="header__inner__menu__middle"
+            to="/it-companies"
+          >
+            IT COMPANIES
+          </CLink>
         </CHeaderNavItem>
-        <CHeaderNavItem className="px-3">
-          <CHeaderNavLink to="/about-us">About Us</CHeaderNavLink>
+        <CHeaderNavItem className="header__inner__menu">
+          <CLink activeClassName="--active" to="/about-us">
+            ABOUT US
+          </CLink>
         </CHeaderNavItem>
       </CHeaderNav>
       {getAuth().role ? (
@@ -43,29 +54,37 @@ const TheHeaderUser = () => {
       ) : (
         <CHeaderNav className="px-3">
           <Link to="/login">
-            <CButton color="primary" className="px-4">
-              Login
-            </CButton>
+            <CButton className="px-4 btn--primary">Login</CButton>
           </Link>
         </CHeaderNav>
       )}
     </CHeader>
   ) : (
-    <CHeader>
-      <CHeaderNav className="d-md-down-none mr-auto">
-        <CHeaderNavItem className="px-3">
+    <CHeader className="header">
+      <CHeaderNav className="d-md-down-none mr-auto header__inner">
+        <CHeaderNavItem>
           <CHeaderNavLink to="/">
-            <img src={logo} alt="" width="120px"></img>
+            <img src={logo} alt="" width="50px"></img>
           </CHeaderNavLink>
         </CHeaderNavItem>
-        <CHeaderNavItem className="px-3">
-          <CHeaderNavLink to="/">All jobs</CHeaderNavLink>
+        <CHeaderNavItem className="header__inner__menu">
+          <CLink activeClassName="--active" exact to="/">
+            ALL JOBS
+          </CLink>
         </CHeaderNavItem>
-        <CHeaderNavItem className="px-3">
-          <CHeaderNavLink to="/it-companies">IT Companies</CHeaderNavLink>
+        <CHeaderNavItem className="header__inner__menu">
+          <CLink
+            activeClassName="--active"
+            className="header__inner__menu__middle"
+            to="/it-companies"
+          >
+            IT COMPANIES
+          </CLink>
         </CHeaderNavItem>
-        <CHeaderNavItem className="px-3">
-          <CHeaderNavLink to="/about-us">About Us</CHeaderNavLink>
+        <CHeaderNavItem className="header__inner__menu">
+          <CLink activeClassName="--active" to="/about-us">
+            ABOUT US
+          </CLink>
         </CHeaderNavItem>
       </CHeaderNav>
       {getAuth().role ? (
@@ -76,7 +95,9 @@ const TheHeaderUser = () => {
       ) : (
         <CHeaderNav className="px-3">
           <Link to="/login">
-            <CButton color="primary" className="px-4">
+            <CButton
+              className="px-4 btn--primary"
+            >
               Login
             </CButton>
           </Link>

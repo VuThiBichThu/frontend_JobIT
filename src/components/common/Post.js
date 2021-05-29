@@ -28,8 +28,8 @@ import CIcon from "@coreui/icons-react";
 const StyledPost = styled.section`
   .label {
     font-weight: 800;
-    color: #321fdb;
-    font-size: 14px;
+    color: #2EB85C;
+    font-size: 15px;
   }
 
   .card {
@@ -40,8 +40,8 @@ const StyledPost = styled.section`
     margin: 10px;
     margin-top: 5px;
   }
-  .margin-top {
-    margin-top: 1px;
+  .card--footer {
+    margin-top: 8px;
   }
   .image {
     width: 110px;
@@ -60,7 +60,7 @@ const StyledPost = styled.section`
     max-width: 300px;
   }
   .notify {
-    color: #59a0e6;
+    color: gray;
     font-weight: lighter;
     font-style: italic;
   }
@@ -87,7 +87,7 @@ function Post({
   const [isOpen, setOpen] = useState(false);
   return (
     <StyledPost>
-      <CCard accentColor="primary" className="card">
+      <CCard style={{ borderLeft: "3px solid #f25340" }} className="card">
         <CCardHeader>
           <span className="job-title ellipsis-text text-truncate">
             {" "}
@@ -115,7 +115,7 @@ function Post({
 
           <div className="info">
             <div className="flex space-between align-item">
-              <h4 className="text-primary">{compName}</h4>
+              <h4 className="text--primary">{compName}</h4>
               <p>
                 <i className="cil-location-pin"></i>
                 {address}
@@ -138,9 +138,9 @@ function Post({
               {" " + skill}
             </p>
 
-            <div className="flex space-between margin-top">
-              <CLink className="text-success" onClick={() => setOpen(!isOpen)}>
-                See More
+            <div className="flex space-between card--footer">
+              <CLink onClick={() => setOpen(!isOpen)}>
+                <span className="btn--secondary">See More</span>
               </CLink>
               <p>
                 <i className="cil-history"></i>
@@ -151,7 +151,7 @@ function Post({
           <CModal
             show={isOpen}
             onClose={() => setOpen(!isOpen)}
-            color="primary"
+            color="success"
           >
             <CModalHeader closeButton>
               <CModalTitle>{title}</CModalTitle>
@@ -161,7 +161,7 @@ function Post({
                 <CFormGroup row>
                   <CCol md="3">
                     <CLabel className="label">
-                      <i className="cil-people"></i> Company Name
+                      <i className="cil-people"></i> Comp's Name
                     </CLabel>
                   </CCol>
                   <CCol xs="12" md="9">

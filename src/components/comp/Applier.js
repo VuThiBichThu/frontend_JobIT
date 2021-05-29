@@ -30,7 +30,7 @@ const StyledCV = styled.div`
       flex-direction: column;
       align-content: center;
       align-items: center;
-      background: #5b9cd6;
+      background: #2EB85C;
       padding: 20px 0px;
       color: white;
       line-height: 30px;
@@ -146,7 +146,7 @@ const Applier = ({ match }) => {
                 <h4>This post doesn't have any appliers!</h4>
               </div>
             )}
-            <CModal show={isOpen} onClose={() => setOpen(!isOpen)} color="info">
+            <CModal show={isOpen} onClose={() => setOpen(!isOpen)} color="success">
               <CModalHeader closeButton>
                 <CModalTitle>{cv.iterId}</CModalTitle>
               </CModalHeader>
@@ -181,7 +181,7 @@ const Applier = ({ match }) => {
                       <hr></hr>
                       <CFormGroup row>
                         <CCol>
-                          <span>{cv.experience}</span>
+                          <pre>{cv.experience}</pre>
                         </CCol>
                       </CFormGroup>
                       <CFormGroup row>
@@ -222,13 +222,13 @@ const Applier = ({ match }) => {
                       </CFormGroup>
                       <CFormGroup row>
                         <CCol>
-                          <span>{cv.description}</span>
+                          <pre>{cv.description}</pre>
                         </CCol>
                       </CFormGroup>
                       <CFormGroup
                         row
                         style={{
-                          background: "#5B9CD6",
+                          background: "#2EB85C",
                           height: "30px",
                         }}
                       ></CFormGroup>

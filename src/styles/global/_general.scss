@@ -194,3 +194,25 @@ a {
   min-height: 500px;
   margin-top: 20px;
 }
+
+.btn--primary {
+  color:white;
+  background:#f25430;
+}
+.btn--secondary {
+  background: #d9d2c5;
+  padding: 5px;
+  border-radius: 3px;
+  color: #73706C;
+}
+.page{
+  &--paddingTop {
+    padding-top: 20px;
+  }
+  &--paddingBottom {
+    padding-bottom: 100px;
+  }
+  &--paddingBottom--200 {
+    padding-bottom: 200px;
+  }
+}

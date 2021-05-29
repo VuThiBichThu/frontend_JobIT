@@ -36,14 +36,14 @@ const StyledCV = styled.div`
   .layout-cv {
     .cv-header {
       align-items: center;
-      background: #5b9cd6;
+      background: #D9D2C5;
       padding: 20px 0px;
       margin-bottom: 20px;
     }
     .cv-header-info {
       padding: 10px 100px;
       line-height: 30px;
-      color: white;
+      color: #73706C;
     }
     .label {
       font-weight: bold;
@@ -348,7 +348,7 @@ const CV = () => {
                     </CFormGroup>
                     <CFormGroup
                       row
-                      style={{ background: "#5B9CD6", height: "30px" }}
+                      style={{ background: "#D9D2C5", height: "30px" }}
                     ></CFormGroup>
                   </CForm>
                 </div>
@@ -356,7 +356,7 @@ const CV = () => {
             </CCard>
             <div style={{ textAlign: "center" }}>
               <CButton
-                color="primary"
+               style={{background:"#f25430",color:"white"}}
                 disabled={loading}
                 onClick={() => {
                   const curSkill = [];

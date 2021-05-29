@@ -18,7 +18,7 @@ const TheFooter = () => {
     <footer className="footer">
       <div className="footer__inner">
         <div className="footer__inner__logo">
-          <img src={logo} alt="" />
+          <img src={logo} alt=""/>
           <p className="margin-t-s">© IT Jobs, Inc. 2021</p>
         </div>
         <div className="footer__inner__links">

@@ -17,7 +17,7 @@ const StyledCompany = styled.div`
   }
   .rating {
     font-size: 40px;
-    color: #f6ad29;
+    color: #f25430;
   }
   .paddingRight {
     padding-right: 100px;
@@ -44,7 +44,7 @@ const StyledCompany = styled.div`
     margin-left: 40px;
   }
   .post-header {
-    border-bottom: 4px solid #321fdb;
+    border-bottom: 4px solid;
     margin-bottom: 20px;
     margin-top: 40px;
   }
@@ -87,9 +87,7 @@ const Company = ({ match }) => {
                 </div>
                 <div className="flex comp-info">
                   <div className="flex space-between align-item">
-                    <h2 className="h2">
-                      <span style={{ color: "#f6ad29" }}>{company.name}</span>
-                    </h2>
+                    <h2 className="h2 text--primary">{company.name}</h2>
                     <p className="paddingRight">
                       <i className="cil-star rating"></i>
                       <i className="cil-star rating"></i>
@@ -143,7 +141,9 @@ const Company = ({ match }) => {
                       </span>
                       <span className="span">
                         <i className="cil-external-link mr-2"></i>
-                        <a href="/">Website</a>
+                        <a href="/" className="text--primary">
+                          Website
+                        </a>
                       </span>
                     </p>
                   </div>

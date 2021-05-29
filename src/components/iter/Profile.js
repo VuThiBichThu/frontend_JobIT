@@ -232,7 +232,7 @@ const Profile = () => {
                 ref={hiddenFileInput}
               />
               <CButton
-                color="primary"
+                className="btn--secondary"
                 onClick={handleClick}
               >
                 Choose avatar

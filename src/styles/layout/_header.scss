@@ -1,6 +1,7 @@
 .header {
   width: 100%;
-  background-color: $white;
+  color: $white;
+  background-color: $black;
   position: sticky;
   box-shadow: 1px 1px 10px $light-grey;
   top: 0;
@@ -14,20 +15,21 @@
       }
     }
     &__menu {
+      &__middle {
+        padding: 0px 25px;
+      }
       a {
-        font-size: 20px;
-        &:not(:last-child) {
-          color: $purple;
+        color: $white;
+          text-decoration: none;
+          font-size: 16px;
+          line-height: 20px;
+          transition: 0.3s ease;
           &:hover,
           &.--active {
-            color: #e6962e;
-            span {
-              border-bottom: 2px solid $purple;
-            }
+            color: $orange;
           }
-        }
-        margin: 0 12px;
       }
+      margin: 0 12px;
     }
     .button--login {
       height: 40px;

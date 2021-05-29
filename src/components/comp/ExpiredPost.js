@@ -26,7 +26,7 @@ import {
 const StyleLabel = styled.section`
   .label {
     font-weight: 800;
-    color: #321fdb;
+    color: #F25430;
   }
 `;
 
@@ -118,12 +118,13 @@ const ExpiredPost = () => {
                 ListApplications: (item) => (
                   <td>
                     <CLink
-                      className="text-primary"
                       to={`/post/appliers/${item._id}`}
                       target="_blank"
                       params={{ id: item._id }}
                     >
-                      Details
+                      <span className="text--primary text--underline">
+                        Details
+                      </span>
                     </CLink>
                   </td>
                 ),
@@ -133,9 +134,8 @@ const ExpiredPost = () => {
             <CModal
               show={isOpen}
               onClose={() => setOpen(!isOpen)}
-              color="primary"
             >
-              <CModalHeader closeButton>
+              <CModalHeader closeButton className="btn--primary">
                 <CModalTitle>{currentPost.title}</CModalTitle>
               </CModalHeader>
               <CModalBody>

@@ -33,11 +33,11 @@ const LogInAdmin = () => {
 
   return (
     <>
-      <CHeader>
+      <CHeader style={{background:"#1c1d26"}}>
         <CHeaderNav className="d-md-down-none mr-auto">
           <CHeaderNavItem className="px-3">
             <CHeaderNavLink>
-              <img src={logo} alt="" width="120px"></img>
+              <img src={logo} alt="" width="50px"></img>
             </CHeaderNavLink>
           </CHeaderNavItem>
         </CHeaderNav>

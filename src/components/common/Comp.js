@@ -9,6 +9,8 @@ const StyledComp = styled.section`
     margin: 10px;
     text-align: center;
     align-items: center;
+    border-left:4px solid #d9d2c5;
+    border-bottom:2px solid #d9d2c5;
   }
   .center-comp {
     align-items: center;
@@ -16,9 +18,6 @@ const StyledComp = styled.section`
   .align {
     margin: 10px;
     margin-top: 5px;
-  }
-  .margin-top {
-    margin-top: 1px;
   }
   .image {
     width: 110px;
@@ -28,16 +27,12 @@ const StyledComp = styled.section`
     margin: 0px 10px;
     width: 100%;
   }
-  .button {
-    background-color: white;
-    color: green;
-  }
 `;
 
 function Comp({ compName, address, image, recruitingPost, compId }) {
   return (
     <StyledComp>
-      <CCard accentColor="primary" className="card">
+      <CCard className="card">
         <CCardBody
           className="flex center-comp"
           style={{ flexDirection: "column" }}
@@ -50,15 +45,15 @@ function Comp({ compName, address, image, recruitingPost, compId }) {
               alt="avatar"
             />
           </div>
-          <h4 className="text-primary mt-4">{compName || ""}</h4>
+          <h4 className="mt-4 text--secondary text--large">{compName || ""}</h4>
           <div className="flex  margin-top">
             <CLink
-              className="text-success mr-2"
+              className="mr-2"
               to={`/posts/company/${compId}`}
               target="_blank"
               params={{ companyId: compId }}
             >
-              {recruitingPost + " jobs"}
+             <span className="text--primary text--underline"> {recruitingPost + " jobs"}</span>
             </CLink>
 
             <p className="ml-2">

@@ -29,7 +29,7 @@
           line-height: 18px;
           margin: 25px 0 40px;
           font-family: "GT-Walsheim-Bold";
-          color: #321fdb;
+          color: $orange;
         }
       }
       .form-box {
@@ -47,13 +47,13 @@
       button {
         width: 30%;
         height: 40px;
-        background-color: #321fdb;
+        background-color: $orange;
         border-radius: 5px;
       }
       a {
         font-size: 14px;
         line-height: 17px;
-        color: #321fdb;
+        color: $orange;
       }
     }
   }

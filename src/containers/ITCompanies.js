@@ -92,7 +92,7 @@ const ITCompanies = () => {
                 onChange={handleChange}
               />
               <CInputGroupAppend>
-                <CButton color="info" onClick={search} disabled={!searchInput}>
+                <CButton style={{opacity:"1"}} className="btn--primary" onClick={search} disabled={!searchInput}>
                   Search
                 </CButton>
               </CInputGroupAppend>
@@ -117,7 +117,7 @@ const ITCompanies = () => {
         </div>
 
         <CPagination
-          className="mb-2"
+          className="mb-2 page--paddingTop page--paddingBottom"
           activePage={currentPage}
           onActivePageChange={pageChange}
           pages={numPages}

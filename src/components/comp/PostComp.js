@@ -114,9 +114,9 @@ const PostComp = () => {
   return (
     <>
       <CRow>
-        <CModal show={isOpen} onClose={() => setOpen(!isOpen)} color="primary">
+        <CModal show={isOpen} onClose={() => setOpen(!isOpen)} color="success">
           <CModalHeader closeButton>
-            <CModalTitle>New post</CModalTitle>
+            <CModalTitle>NEW POST</CModalTitle>
           </CModalHeader>
           <CModalBody>
             <CForm
@@ -231,7 +231,7 @@ const PostComp = () => {
             </CForm>
           </CModalBody>
           <CModalFooter>
-            <CButton color="primary" disabled={loading} onClick={handleSubmit}>
+            <CButton color="success" disabled={loading} onClick={handleSubmit}>
               Create
             </CButton>{" "}
             <CButton
@@ -248,7 +248,7 @@ const PostComp = () => {
         </CModal>
         {/*  */}
       </CRow>
-      <CRow>
+      <CRow  className="page--paddingBottom--200">
         <CCol xs="12" className="mb-4">
           <CCard style={{ marginTop: "20px" }}>
             <CCardBody>
@@ -257,19 +257,18 @@ const PostComp = () => {
                   {" "}
                   <CNav variant="tabs" style={{ width: "90%" }}>
                     <CNavItem>
-                      <CNavLink>Approving Posts</CNavLink>
+                      <CNavLink className="text--secondary">Approving Posts</CNavLink>
                     </CNavItem>
                     <CNavItem>
-                      <CNavLink>Approved Posts</CNavLink>
+                      <CNavLink className="text--secondary">Approved Posts</CNavLink>
                     </CNavItem>
                     <CNavItem>
-                      <CNavLink>Expired Posts</CNavLink>
+                      <CNavLink className="text--secondary">Expired Posts</CNavLink>
                     </CNavItem>
                   </CNav>
                   <CButton
-                    style={{ marginBottom: "5px" }}
-                    color="primary"
-                    className="mr-1 right-btn"
+                    style={{ marginBottom: "5px"}}
+                    className="mr-1 right-btn btn--primary"
                     onClick={() => setOpen(!isOpen)}
                   >
                     <i className="cil-note-add"></i> New Post

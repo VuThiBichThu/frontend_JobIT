@@ -95,7 +95,12 @@ const HomePage = () => {
                 onChange={handleChange}
               />
               <CInputGroupAppend>
-                <CButton color="info" onClick={search} disabled={!searchInput}>
+                <CButton
+                  style={{ opacity: "1" }}
+                  className="btn--primary"
+                  onClick={search}
+                  disabled={!searchInput}
+                >
                   Search
                 </CButton>
               </CInputGroupAppend>
@@ -108,13 +113,13 @@ const HomePage = () => {
               return (
                 <Post
                   key={index}
-                  compName={_.get(item.company[0],"name")}
+                  compName={_.get(item.company[0], "name")}
                   title={item.title}
                   address={item.address}
                   skill={item.skill.join(", ")}
                   endTime={item.endTime}
                   salary={item.salary}
-                  image={_.get(item.company[0],"image")}
+                  image={_.get(item.company[0], "image")}
                   auth={getAuth}
                   postId={item._id}
                   compId={item.companyId}
@@ -135,7 +140,7 @@ const HomePage = () => {
         </div>
 
         <CPagination
-          className="mb-2"
+          className="mb-2 page--paddingTop page--paddingBottom"
           activePage={currentPage}
           onActivePageChange={pageChange}
           pages={numPages}

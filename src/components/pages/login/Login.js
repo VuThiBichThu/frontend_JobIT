@@ -114,8 +114,7 @@ const Login = () => {
                     <CRow>
                       <CCol xs="6">
                         <CButton
-                          color="primary"
-                          className="px-4"
+                          className="px-4 btn--primary"
                           onClick={handleLogin}
                           disabled={!form.email || !form.password}
                         >
@@ -124,7 +123,7 @@ const Login = () => {
                       </CCol>
                       <CCol xs="6" className="text-right">
                         <Link to="/forgot-password">
-                          <CButton color="link" className="px-0">
+                          <CButton className="px-0 text--primary">
                             Forgot password?
                           </CButton>
                         </Link>
@@ -134,10 +133,10 @@ const Login = () => {
                 </CCardBody>
               </CCard>
               <CCard
-                className="text-white bg-primary py-5 d-md-down-none"
-                style={{ width: "44%" }}
+                className="text-white py-5 d-md-down-none"
+                style={{ width: "44%", background:"#1C1D26" }}
               >
-                <CCardBody className="text-center mt-4">
+                <CCardBody className="text-center mt-4" >
                   <div>
                     <p style={{ paddingBottom: "12px" }}>
                       Sign up now to access your account on ITJobs for applying
@@ -145,8 +144,7 @@ const Login = () => {
                     </p>
                     <Link to="/register">
                       <CButton
-                        style={{ backgroundColor: "white", color: "#321fdb" }}
-                        className="mt-2 mb-3"
+                        className="mt-2 mb-3 btn--primary"
                         active
                         tabIndex={-1}
                       >
@@ -158,7 +156,7 @@ const Login = () => {
                     <span>______________or______________</span>
 
                     <Link to="/register-company">
-                      <p style={{ paddingBottom: "12px", color: "white" }}>
+                      <p className="text--primary page--paddingTop">
                         Sign up for recruitment!
                       </p>
                     </Link>
