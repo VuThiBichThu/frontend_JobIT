@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { getRolePermissions } from "../../redux/actions/getRolePermissions";
-import { CFormGroup, CInputRadio, CLabel, CButton } from "@coreui/react";
+import {
+  CFormGroup,
+  CInputRadio,
+  CLabel,
+  CButton,
+  CDataTable,
+} from "@coreui/react";
 import { toast } from "react-toastify";
 
 import { updateRolePermissions } from "../../redux/actions/updateRolePermissions";
+import { useSelector } from "react-redux";
 
 const StyledTabs = styled.section`
   .bg {
@@ -16,11 +23,14 @@ const StyledTabs = styled.section`
   }
 `;
 
-const Moderator = () => {
-  const role = "moderator";
+const GroupPermission = ({ role }) => {
   let apply = false;
   const [permissions, setPermissions] = useState([]);
+  const storeList = useSelector((store) => store.getRolePermissions);
+  const storeUpdate = useSelector((store) => store.updateRolePermissions);
 
+  const loadingList = storeList.loading;
+  const loadingUpdate = storeUpdate.loading;
   useEffect(() => {
     getRolePermissions(role, (result) => {
       setPermissions(result.permissions);
@@ -74,7 +84,7 @@ const Moderator = () => {
 
   return (
     <StyledTabs>
-      <table className="table table-striped table-hover">
+      {/* <table className="table table-striped table-hover">
         <thead>
           <tr>
             <th>PERMISSIONS</th>
@@ -125,7 +135,54 @@ const Moderator = () => {
               );
             })}
         </tbody>
-      </table>
+      </table> */}
+      <CDataTable
+        items={permissions}
+        fields={["PERMISSIONS", "OPTIONS"]}
+        hover
+        loading={loadingList || loadingUpdate}
+        striped
+        itemsPerPage={permissions.length}
+        scopedSlots={{
+          PERMISSIONS: (item) => <td>{item.perName}</td>,
+          OPTIONS: (permission) => (
+            <td>
+              <CFormGroup variant="custom-radio" inline>
+                <CInputRadio
+                  custom
+                  id={permission._id + "y"}
+                  name={permission._id + "name"}
+                  value={permission._id + "y"}
+                  defaultChecked={permission.check}
+                  onChange={changePermissions}
+                />
+                <CLabel
+                  variant="custom-checkbox"
+                  htmlFor={permission._id + "y"}
+                >
+                  Yes
+                </CLabel>
+              </CFormGroup>
+              <CFormGroup variant="custom-radio" inline>
+                <CInputRadio
+                  custom
+                  id={permission._id + "n"}
+                  name={permission._id + "name"}
+                  value={permission._id + "n"}
+                  defaultChecked={!permission.check}
+                  onChange={changePermissions}
+                />
+                <CLabel
+                  variant="custom-checkbox"
+                  htmlFor={permission._id + "n"}
+                >
+                  No
+                </CLabel>
+              </CFormGroup>
+            </td>
+          ),
+        }}
+      />
       <div className="flex flex-end">
         <CButton
           color="primary"
@@ -146,4 +203,4 @@ const Moderator = () => {
   );
 };
 
-export default Moderator;
+export default GroupPermission;

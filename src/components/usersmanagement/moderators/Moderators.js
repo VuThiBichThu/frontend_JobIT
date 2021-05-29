@@ -36,7 +36,13 @@ import { getAuth } from "src/utils/helpers";
 const Moderators = () => {
   const [moderators, setModerators] = useState([]);
   const storeListModerator = useSelector((store) => store.listModerator);
+  const storeAddModerator = useSelector((store) => store.addMod);
+  const storeDelModerator = useSelector((store) => store.deleteMod);
+
   const loadingList = storeListModerator.loading;
+  const loadingAdd = storeAddModerator.loading;
+  const loadingDel = storeDelModerator.loading;
+
   const history = useHistory();
 
   const [page, setPage] = useState(1);
@@ -74,10 +80,7 @@ const Moderators = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // const errorState = validate();
-    // if (Object.keys(errorState).length > 0) {
-    //   return setError(errorState);
-    // }
+
     const mod = {
       userName,
       password,
@@ -264,7 +267,7 @@ const Moderators = () => {
                     "Actions",
                   ]}
                   hover
-                  loading={loadingList}
+                  loading={loadingList || loadingAdd || loadingDel}
                   striped
                   itemsPerPage={take}
                   activePage={page}
@@ -279,17 +282,16 @@ const Moderators = () => {
                             color="danger"
                             // disabled={item.status}
                             onClick={() => {
-                              setModerators(
-                                moderators.filter(
-                                  (itemMod) => itemMod._id !== item._id
-                                )
-                              );
                               deleteMod(item._id, (data) => {
                                 if (data.status === 200) {
-                                  setSuccess(success + 1);
                                   toast.success("Delete Mod Successfully !", {
                                     position: toast.POSITION.BOTTOM_LEFT,
                                   });
+                                  setModerators(
+                                    moderators.filter(
+                                      (itemMod) => itemMod._id !== item._id
+                                    )
+                                  );
                                 } else {
                                   toast.error("Failed to delete," + data.msg, {
                                     position: toast.POSITION.BOTTOM_LEFT,

@@ -1,5 +1,4 @@
 import React from "react";
-import { Moderator, Company, ITer } from "../../components/grouppermissions";
 
 import {
   CCol,
@@ -15,6 +14,7 @@ import {
   CCardHeader,
 } from "@coreui/react";
 import { getAuth } from "src/utils/helpers";
+import GroupPermission from "src/components/grouppermissions/GroupPermission";
 
 const GroupPermissions = () => {
   return (
@@ -40,13 +40,13 @@ const GroupPermissions = () => {
                   </CNav>
                   <CTabContent>
                     <CTabPane>
-                      <Moderator />
+                      <GroupPermission role="moderator" />
                     </CTabPane>
                     <CTabPane>
-                      <Company />
+                      <GroupPermission role="company" />
                     </CTabPane>
                     <CTabPane>
-                      <ITer />
+                      <GroupPermission role="iter" />
                     </CTabPane>
                   </CTabContent>
                 </CTabs>

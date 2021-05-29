@@ -7,6 +7,7 @@ import { getUnacceptedPosts } from "../../../redux/actions/getUnacceptedPosts";
 import { deletePost } from "../../../redux/actions/deletePost";
 import { approvePost } from "../../../redux/actions/approvePost";
 import { approveMultiPosts } from "../../../redux/actions/approveMultiPosts";
+import { getPosts } from "../../../redux/actions/getPosts";
 import {
   CCard,
   CCardBody,
@@ -26,6 +27,7 @@ import {
   CLabel,
   CModalFooter,
 } from "@coreui/react";
+import { setPostAdmin } from "src/redux/actions/setPostAdmin";
 
 const StyleLabel = styled.section`
   .label {
@@ -37,6 +39,13 @@ const ApprovingPost = () => {
   const [posts, setPosts] = useState([]);
   const storeGetPosts = useSelector((store) => store.getPosts);
   const loadingList = storeGetPosts.loading;
+  const storeDelPost = useSelector((store) => store.deletePost);
+  const loadingDel = storeDelPost.loading;
+  const storeApprovePost = useSelector((store) => store.approvePost);
+  const loadingApprove = storeApprovePost.loading;
+  const storeApproveMul = useSelector((store) => store.approveMultiPosts);
+  const loadingApproveMul = storeApproveMul.loading;
+
   const [isOpen, setOpen] = useState(false);
 
   const [page, setPage] = useState(1);
@@ -110,7 +119,7 @@ const ApprovingPost = () => {
         toast.success("Approve selected posts successfully !", {
           position: toast.POSITION.BOTTOM_LEFT,
         });
-        window.location.reload();
+        // window.location.reload();
       } else {
         toast.error("Fail to approve ! " + data.msg, {
           position: toast.POSITION.BOTTOM_LEFT,
@@ -134,12 +143,16 @@ const ApprovingPost = () => {
                 "More",
               ]}
               hover
-              loading={loadingList}
+              loading={
+                loadingList || loadingDel || loadingApprove || loadingApproveMul
+              }
               striped
               itemsPerPage={take}
               activePage={page}
               scopedSlots={{
-                companyName: (item) => <td>{_.get(item.company[0],"name")}</td>,
+                companyName: (item) => (
+                  <td>{_.get(item.company[0], "name")}</td>
+                ),
                 Actions: (item) => (
                   <td md="4" className="py-4" key={"bottom-start"}>
                     <CTooltip
@@ -151,10 +164,10 @@ const ApprovingPost = () => {
                         onClick={() => {
                           deletePost(item._id, (data) => {
                             if (data.status === 200) {
-                              setSuccess(success + 1);
                               toast.success("Delete post successfully !", {
                                 position: toast.POSITION.BOTTOM_LEFT,
                               });
+                              setPosts(posts.filter((i) => i._id !== item._id));
                             } else if (data.status === 401) {
                               toast.warning(
                                 "You are not allowed to do this action! ",
@@ -190,11 +203,13 @@ const ApprovingPost = () => {
                         onClick={() => {
                           approvePost(item._id, (data) => {
                             if (data.status === 200) {
-                              setSuccess(success + 1);
                               toast.success("Approve post successfully !", {
                                 position: toast.POSITION.BOTTOM_LEFT,
                               });
-                              // window.location.reload();
+                              setPosts(posts.filter((i) => i._id !== item._id));
+                              getPosts(1, "", (result) => {
+                                setPostAdmin(result.data.numPages);
+                              });
                             } else if (data.status === 401) {
                               toast.warning(
                                 "You are not allowed to do this action! ",

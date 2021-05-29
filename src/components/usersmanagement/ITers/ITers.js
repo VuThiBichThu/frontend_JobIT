@@ -21,7 +21,11 @@ import { getAuth } from "src/utils/helpers";
 const ITers = () => {
   const [iters, setITers] = useState([]);
   const storeListITer = useSelector((store) => store.listITer);
+  const storeDelITer = useSelector((store) => store.deleteITer);
+
   const loadingList = storeListITer.loading;
+  const loadingDel = storeDelITer.loading;
+
   const history = useHistory();
 
   const [page, setPage] = useState(1);
@@ -30,8 +34,6 @@ const ITers = () => {
   const [numPages, setNumPages] = useState(1);
   const take = 10; // rows in table
 
-  const [success, setSuccess] = useState(0);
-
   const role = "iter";
   useEffect(() => {
     listITer(page, (item) => {
@@ -39,7 +41,7 @@ const ITers = () => {
       setNumPages(item.data.numPages);
       setPage(item.data.page);
     });
-  }, [page, success]);
+  }, [page]);
 
   const pageChange = (newPage) => {
     listITer(newPage, (data) => {
@@ -67,7 +69,7 @@ const ITers = () => {
                     "Actions",
                   ]}
                   hover
-                  loading={loadingList}
+                  loading={loadingList || loadingDel}
                   striped
                   itemsPerPage={take}
                   activePage={page}
@@ -83,10 +85,14 @@ const ITers = () => {
                             onClick={() => {
                               deleteITer(item._id, (data) => {
                                 if (data.status === 200) {
-                                  setSuccess(success + 1);
                                   toast.success("Delete ITer Successfully !", {
                                     position: toast.POSITION.BOTTOM_LEFT,
                                   });
+                                  setITers(
+                                    iters.filter(
+                                      (itemITer) => itemITer._id !== item._id
+                                    )
+                                  );
                                 } else {
                                   toast.error("Fail to delete! " + data.msg, {
                                     position: toast.POSITION.BOTTOM_LEFT,

@@ -10,12 +10,20 @@ import {
   CInputRadio,
   CLabel,
   CButton,
+  CDataTable,
 } from "@coreui/react";
 import { listUserPermissions } from "../../redux/actions/listUserPermissions";
 import { updateUserPermissions } from "../../redux/actions/updateUserPermissions";
+import { useSelector } from "react-redux";
 
 const UserPermissions = ({ match }) => {
   const [userPermissions, setUserPermissions] = useState([]);
+
+  const storeList = useSelector((store) => store.listUserPermissions);
+  const storeUpdate = useSelector((store) => store.updateUserPermissions);
+
+  const loadingList = storeList.loading;
+  const loadingUpdate = storeUpdate.loading;
 
   useEffect(() => {
     listUserPermissions(match.params.id, (result) => {
@@ -45,7 +53,7 @@ const UserPermissions = ({ match }) => {
   };
 
   const cancelUpdatedPermissionsHandler = () => {
-    // window.location.reload();
+    window.location.reload();
   };
 
   const changePermissions = (event) => {
@@ -71,58 +79,53 @@ const UserPermissions = ({ match }) => {
             <span> {match.params.name}</span>
           </CCardHeader>
           <CCardBody>
-            <table className="table table-striped table-hover">
-              <thead>
-                <tr>
-                  <th>PERMISSIONS</th>
-                  <th>OPTIONS</th>
-                </tr>
-              </thead>
-              <tbody>
-                {userPermissions &&
-                  userPermissions.map((permission) => {
-                    return (
-                      <tr key={permission._id}>
-                        <td>{permission.perName}</td>
-                        <td>
-                          <CFormGroup variant="custom-radio" inline>
-                            <CInputRadio
-                              custom
-                              id={permission._id + "y"}
-                              name={permission._id + "name"}
-                              value={permission._id + "y"}
-                              defaultChecked={permission.check}
-                              onChange={changePermissions}
-                            />
-                            <CLabel
-                              variant="custom-checkbox"
-                              htmlFor={permission._id + "y"}
-                            >
-                              Yes
-                            </CLabel>
-                          </CFormGroup>
-                          <CFormGroup variant="custom-radio" inline>
-                            <CInputRadio
-                              custom
-                              id={permission._id + "n"}
-                              name={permission._id + "name"}
-                              value={permission._id + "n"}
-                              defaultChecked={!permission.check}
-                              onChange={changePermissions}
-                            />
-                            <CLabel
-                              variant="custom-checkbox"
-                              htmlFor={permission._id + "n"}
-                            >
-                              No
-                            </CLabel>
-                          </CFormGroup>
-                        </td>
-                      </tr>
-                    );
-                  })}
-              </tbody>
-            </table>
+            <CDataTable
+              items={userPermissions}
+              fields={["PERMISSIONS", "OPTIONS"]}
+              hover
+              loading={loadingList || loadingUpdate}
+              striped
+              itemsPerPage={userPermissions.length}
+              scopedSlots={{
+                PERMISSIONS: (item) => <td>{item.perName}</td>,
+                OPTIONS: (permission) => (
+                  <td>
+                    <CFormGroup variant="custom-radio" inline>
+                      <CInputRadio
+                        custom
+                        id={permission._id + "y"}
+                        name={permission._id + "name"}
+                        value={permission._id + "y"}
+                        defaultChecked={permission.check}
+                        onChange={changePermissions}
+                      />
+                      <CLabel
+                        variant="custom-checkbox"
+                        htmlFor={permission._id + "y"}
+                      >
+                        Yes
+                      </CLabel>
+                    </CFormGroup>
+                    <CFormGroup variant="custom-radio" inline>
+                      <CInputRadio
+                        custom
+                        id={permission._id + "n"}
+                        name={permission._id + "name"}
+                        value={permission._id + "n"}
+                        defaultChecked={!permission.check}
+                        onChange={changePermissions}
+                      />
+                      <CLabel
+                        variant="custom-checkbox"
+                        htmlFor={permission._id + "n"}
+                      >
+                        No
+                      </CLabel>
+                    </CFormGroup>
+                  </td>
+                ),
+              }}
+            />
           </CCardBody>
           <div className="flex flex-end">
             <CButton

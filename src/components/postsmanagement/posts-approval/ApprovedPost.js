@@ -18,10 +18,12 @@ const ApprovedPost = () => {
   const [posts, setPosts] = useState([]);
   const storeGetPosts = useSelector((store) => store.getPosts);
   const loadingList = storeGetPosts.loading;
+  const storeDelPost = useSelector((store) => store.deletePost);
+  const loadingDel = storeDelPost.loading;
+  const storeReload = useSelector((state) => state.setPostAdmin);
 
   const [page, setPage] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-  const [success, setSuccess] = useState(0);
 
   const [numPages, setNumPages] = useState(1);
   const take = 10; // rows in table
@@ -32,7 +34,7 @@ const ApprovedPost = () => {
       setNumPages(result.data.numPages);
       setPage(result.data.currentPage);
     });
-  }, [page, success]);
+  }, [page, storeReload]);
 
   const pageChange = (newPage) => {
     getPosts(newPage, query, (data) => {
@@ -56,12 +58,14 @@ const ApprovedPost = () => {
                 "Actions",
               ]}
               hover
-              loading={loadingList}
+              loading={loadingList || loadingDel}
               striped
               itemsPerPage={take}
               activePage={page}
               scopedSlots={{
-                companyName: (item) => <td>{_.get(item.company[0],"name")}</td>,
+                companyName: (item) => (
+                  <td>{_.get(item.company[0], "name")}</td>
+                ),
                 Actions: (item) => (
                   <td>
                     <CTooltip
@@ -71,15 +75,12 @@ const ApprovedPost = () => {
                       <CButton
                         color="danger"
                         onClick={() => {
-                          // setPosts(
-                          //   posts.filter((itemCom) => itemCom._id !== item._id)
-                          // );
                           deletePost(item._id, (data) => {
                             if (data.status === 200) {
-                              setSuccess(success + 1);
                               toast.success("Delete post successfully !", {
                                 position: toast.POSITION.BOTTOM_LEFT,
                               });
+                              setPosts(posts.filter((i) => i._id !== item._id));
                             } else if (data.status === 401) {
                               toast.warning(
                                 "You are not allowed to do this action! ",

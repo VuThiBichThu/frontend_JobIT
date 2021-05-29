@@ -171,20 +171,26 @@ a {
   display: flex;
 }
 .statistic {
-  height: 1000px;
+  min-height: 70vh;
+  max-height: 180vh;
   justify-content: center;
   align-items: center;
   background: white;
   margin: 20px 0;
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
+  .title {
+    margin: 50px 0 30px;
+    font-size: 30px;
+  }
 }
 
 .pie-posts {
   width: 100%;
-  height: 50vh;
+  height: 70vh;
   position: relative;
-  margin: 20px 0;
+  margin: 10px 0 20px;
 }
 .c-app {
   min-height: 75vh !important;
@@ -196,16 +202,16 @@ a {
 }
 
 .btn--primary {
-  color:white;
-  background:#f25430;
+  color: white;
+  background: #f25430;
 }
 .btn--secondary {
   background: #d9d2c5;
   padding: 5px;
   border-radius: 3px;
-  color: #73706C;
+  color: #73706c;
 }
-.page{
+.page {
   &--paddingTop {
     padding-top: 20px;
   }
@@ -215,4 +221,16 @@ a {
   &--paddingBottom--200 {
     padding-bottom: 200px;
   }
+}
+.user-statistic {
+  height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.year-select {
+  width: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

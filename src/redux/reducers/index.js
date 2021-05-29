@@ -14,6 +14,8 @@ import getPosts from "./getPosts";
 import getUnacceptedPosts from "./getUnacceptedPosts";
 import deletePost from "./deletePost";
 import approvePost from "./approvePost";
+import approveMultiPosts from "./approveMultiPosts";
+
 import updateUserPermissions from "./updateUserPermissions";
 
 import login from "./login";
@@ -41,7 +43,11 @@ import getCompany from "./getCompany";
 import getPostList from "./getPostList";
 import setInfo from "./setInfo";
 import analyzePost from "./analyzePost";
+import analyzeSkill from "./analyzeSkill";
+import analyzeUser from "./analyzeUser";
 import setPost from "./setPost";
+import setPostAdmin from "./setPostAdmin";
+
 export default combineReducers({
   loginAdmin,
   listModerator,
@@ -58,6 +64,8 @@ export default combineReducers({
   getUnacceptedPosts,
   deletePost,
   approvePost,
+  approveMultiPosts,
+
   updateUserPermissions,
 
   login,
@@ -85,5 +93,8 @@ export default combineReducers({
   getPostList,
   setInfo,
   analyzePost,
+  analyzeSkill,
+  analyzeUser,
+  setPostAdmin,
   setPost,
 });

@@ -21,7 +21,11 @@ import { getAuth } from "src/utils/helpers";
 const Companies = () => {
   const [companies, setCompanies] = useState([]);
   const storeListCompany = useSelector((store) => store.listCompany);
+  const storeDelComp = useSelector((store) => store.deleteCompany);
+
   const loadingList = storeListCompany.loading;
+  const loadingDel = storeDelComp.loading;
+
   const history = useHistory();
 
   const [page, setPage] = useState(1);
@@ -29,7 +33,6 @@ const Companies = () => {
 
   const [numPages, setNumPages] = useState(1);
   const take = 10; // rows in table
-  const [success, setSuccess] = useState(0);
 
   const role = "company";
   useEffect(() => {
@@ -38,7 +41,7 @@ const Companies = () => {
       setNumPages(item.data.numPages);
       setPage(item.data.page);
     });
-  }, [page, success]);
+  }, [page]);
 
   const pageChange = (newPage) => {
     listCompany(newPage, (data) => {
@@ -65,7 +68,7 @@ const Companies = () => {
                     "Actions",
                   ]}
                   hover
-                  loading={loadingList}
+                  loading={loadingList || loadingDel}
                   striped
                   itemsPerPage={take}
                   activePage={page}
@@ -81,12 +84,16 @@ const Companies = () => {
                             onClick={() => {
                               deleteCompany(item._id, (data) => {
                                 if (data.status === 200) {
-                                  setSuccess(success + 1);
                                   toast.success(
                                     "Delete Company Successfully !",
                                     {
                                       position: toast.POSITION.BOTTOM_LEFT,
                                     }
+                                  );
+                                  setCompanies(
+                                    companies.filter(
+                                      (itemComp) => itemComp._id !== item._id
+                                    )
                                   );
                                 } else {
                                   toast.error("Fail to delete! " + data.msg, {
