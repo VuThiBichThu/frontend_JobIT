@@ -12,9 +12,13 @@ import {
   CHeaderNavItem,
   CHeaderNavLink,
 } from "@coreui/react";
+import { useSelector } from "react-redux";
+import LoadingOverlay from "react-loading-overlay";
 
 const LogInAdmin = () => {
   const history = useHistory();
+  const loading = useSelector((store) => store.loginAdmin.loading);
+
   const handleLogin = (formData) => {
     loginAdmin(formData, (data) => {
       if (data.status === 200) {
@@ -32,8 +36,18 @@ const LogInAdmin = () => {
   };
 
   return (
-    <>
-      <CHeader style={{background:"#1c1d26"}}>
+    <LoadingOverlay
+      active={loading}
+      spinner
+      text="Loading..."
+      style={{
+        position: "fixed",
+        width: "100%",
+        height: "100%",
+        zIndex: "9999",
+      }}
+    >
+      <CHeader style={{ background: "#1c1d26" }}>
         <CHeaderNav className="d-md-down-none mr-auto">
           <CHeaderNavItem className="px-3">
             <CHeaderNavLink>
@@ -43,7 +57,7 @@ const LogInAdmin = () => {
         </CHeaderNav>
       </CHeader>
       <Form handleSubmit={handleLogin} />
-    </>
+    </LoadingOverlay>
   );
 };
 

@@ -26,7 +26,7 @@ import {
 const StyleLabel = styled.section`
   .label {
     font-weight: 800;
-    color: #F25430;
+    color: #f25430;
   }
 `;
 
@@ -34,7 +34,9 @@ const ExpiredPost = () => {
   const [isOpen, setOpen] = useState(false);
   const [posts, setPosts] = useState([]);
   const storePosts = useSelector((state) => state.setPost);
-  const loadingList = storePosts.loading;
+  const loading = storePosts.loading;
+  const loadingDel = useSelector((store) => store.deletePost.loading);
+
   const [currentPost, setCurrentPost] = useState({});
 
   useEffect(() => {
@@ -58,7 +60,7 @@ const ExpiredPost = () => {
               items={posts}
               fields={["_id", "title", "Actions", "ListApplications"]}
               hover
-              loading={loadingList}
+              loading={loading || loadingDel}
               striped
               itemsPerPage={posts.length}
               scopedSlots={{
@@ -131,10 +133,7 @@ const ExpiredPost = () => {
               }}
             />
 
-            <CModal
-              show={isOpen}
-              onClose={() => setOpen(!isOpen)}
-            >
+            <CModal show={isOpen} onClose={() => setOpen(!isOpen)}>
               <CModalHeader closeButton className="btn--primary">
                 <CModalTitle>{currentPost.title}</CModalTitle>
               </CModalHeader>

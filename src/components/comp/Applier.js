@@ -22,6 +22,8 @@ import { getAppliers } from "../../redux/actions/getAppliers";
 import { getCV } from "../../redux/actions/getCV";
 import styled from "styled-components";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+import LoadingOverlay from "react-loading-overlay";
 
 const StyledCV = styled.div`
   .layout-cv {
@@ -30,7 +32,7 @@ const StyledCV = styled.div`
       flex-direction: column;
       align-content: center;
       align-items: center;
-      background: #2EB85C;
+      background: #2eb85c;
       padding: 20px 0px;
       color: white;
       line-height: 30px;
@@ -58,6 +60,8 @@ const Applier = ({ match }) => {
   const [cv, setCV] = useState({ skill: [] });
   const [title, setTitle] = useState("");
   const [isOpen, setOpen] = useState(false);
+  const loading = useSelector((store) => store.getAppliers.loading);
+  const loadingCV = useSelector((store) => store.getCV.loading);
 
   const id = match.params.id;
 
@@ -87,6 +91,17 @@ const Applier = ({ match }) => {
   const softSkill = cv.softSkill ? cv.softSkill.split(",") : [];
 
   return (
+    <LoadingOverlay
+      active={loading || loadingCV}
+      spinner
+      text="Loading..."
+      style={{
+        position: "fixed",
+        width: "100%",
+        height: "100%",
+        zIndex: "9999",
+      }}
+    >
     <CRow>
       <CCol>
         <CCard className="card-content">
@@ -146,7 +161,11 @@ const Applier = ({ match }) => {
                 <h4>This post doesn't have any appliers!</h4>
               </div>
             )}
-            <CModal show={isOpen} onClose={() => setOpen(!isOpen)} color="success">
+            <CModal
+              show={isOpen}
+              onClose={() => setOpen(!isOpen)}
+              color="success"
+            >
               <CModalHeader closeButton>
                 <CModalTitle>{cv.iterId}</CModalTitle>
               </CModalHeader>
@@ -251,6 +270,7 @@ const Applier = ({ match }) => {
         </CCard>
       </CCol>
     </CRow>
+    </LoadingOverlay>
   );
 };
 

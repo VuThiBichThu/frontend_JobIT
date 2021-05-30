@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-// import LoadingOverlay from "react-loading-overlay";
-// import ReactLoading from "react-loading";
 
 import { Profile, CV } from "./index";
 
@@ -22,7 +20,13 @@ import {
 import { getITerCV } from "src/redux/actions/getITerCV";
 import { receiveEmail } from "src/redux/actions/receiveEmail";
 import { getAuth } from "src/utils/helpers";
+import LoadingOverlay from "react-loading-overlay";
+import { useSelector } from "react-redux";
 const ITerProfile = () => {
+  const storeProfile = useSelector((store) => store.getITerCV);
+  const loading = storeProfile.loading;
+  const storeMail = useSelector((store) => store.receiveEmail);
+  const loadingMail = storeMail.loading;
   const [isReceive, setIsReceive] = useState(null);
 
   useEffect(() => {
@@ -60,7 +64,17 @@ const ITerProfile = () => {
     setIsReceive(!isReceive);
   };
   return (
-    <>
+    <LoadingOverlay
+      active={loading || loadingMail}
+      spinner
+      text="Loading..."
+      style={{
+        position: "fixed",
+        width: "100%",
+        height: "100%",
+        zIndex: "9999",
+      }}
+    >
       <CRow>
         <CCol xs="12" className="mb-4">
           <CCard className="card-content">
@@ -70,7 +84,9 @@ const ITerProfile = () => {
                   {" "}
                   <CNav variant="tabs" style={{ width: "86%" }}>
                     <CNavItem>
-                      <CNavLink className="text--secondary">My Profile</CNavLink>
+                      <CNavLink className="text--secondary">
+                        My Profile
+                      </CNavLink>
                     </CNavItem>
                     {getAuth().role === "iter" && (
                       <CNavItem>
@@ -111,7 +127,7 @@ const ITerProfile = () => {
           </CCard>
         </CCol>
       </CRow>
-    </>
+    </LoadingOverlay>
   );
 };
 

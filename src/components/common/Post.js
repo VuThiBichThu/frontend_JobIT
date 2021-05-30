@@ -24,11 +24,13 @@ import {
   CButton,
 } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
+import { useSelector } from "react-redux";
+// import LoadingOverlay from "react-loading-overlay";
 
 const StyledPost = styled.section`
   .label {
     font-weight: 800;
-    color: #2EB85C;
+    color: #2eb85c;
     font-size: 15px;
   }
 
@@ -85,7 +87,20 @@ function Post({
 }) {
   const history = useHistory();
   const [isOpen, setOpen] = useState(false);
+  const storeApply = useSelector((store) => store.apply);
+  const loading = storeApply.loading;
   return (
+    // <LoadingOverlay
+    //   active={loading}
+    //   spinner
+    //   text="Loading..."
+    //   style={{
+    //     position: "fixed",
+    //     width: "100%",
+    //     height: "100%",
+    //     zIndex: "9999",
+    //   }}
+    // >
     <StyledPost>
       <CCard style={{ borderLeft: "3px solid #f25340" }} className="card">
         <CCardHeader>
@@ -127,7 +142,7 @@ function Post({
               {getAuth().token ? (
                 " " + salary
               ) : (
-                <a href="/login" style={{ color: "#9c9595" }}>
+                <a href="#/login" style={{ color: "#9c9595" }}>
                   {" "}
                   Login to view
                 </a>
@@ -227,6 +242,7 @@ function Post({
             </CModalBody>
             <CModalFooter>
               <CButton
+                disabled={loading}
                 color="success"
                 onClick={() => {
                   if (!getAuth().token) {
@@ -268,6 +284,7 @@ function Post({
         </CCardBody>
       </CCard>
     </StyledPost>
+    // </LoadingOverlay>
   );
 }
 

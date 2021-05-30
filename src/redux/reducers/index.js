@@ -47,6 +47,10 @@ import analyzeSkill from "./analyzeSkill";
 import analyzeUser from "./analyzeUser";
 import setPost from "./setPost";
 import setPostAdmin from "./setPostAdmin";
+import receiveEmail from "./receiveEmail";
+import updatePass from "./updatePass";
+import updatePost from "./updatePost";
+import completePost from "./completePost";
 
 export default combineReducers({
   loginAdmin,
@@ -97,4 +101,8 @@ export default combineReducers({
   analyzeUser,
   setPostAdmin,
   setPost,
+  receiveEmail,
+  updatePass,
+  updatePost,
+  completePost,
 });

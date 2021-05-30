@@ -29,7 +29,7 @@ import {
 const StyleLabel = styled.section`
   .label {
     font-weight: 800;
-    color: #F25430;
+    color: #f25430;
   }
 `;
 
@@ -37,7 +37,10 @@ const ApprovedPost = () => {
   const [isOpen, setOpen] = useState(false);
   const [posts, setPosts] = useState([]);
   const storePosts = useSelector((state) => state.setPost);
-  const loadingList = storePosts.loading;
+  const loadingDel = useSelector((store) => store.deletePost.loading);
+  const loadingComplete = useSelector((store) => store.completePost.loading);
+  const loadingPost = useSelector((store) => store.getPostsComp.loading);
+
   const [currentPost, setCurrentPost] = useState({});
 
   useEffect(() => {
@@ -61,7 +64,7 @@ const ApprovedPost = () => {
               items={posts}
               fields={["_id", "title", "Actions", "ListApplications"]}
               hover
-              loading={loadingList}
+              loading={loadingPost || loadingDel || loadingComplete}
               striped
               itemsPerPage={posts.length}
               scopedSlots={{
@@ -151,17 +154,17 @@ const ApprovedPost = () => {
                       target="_blank"
                       params={{ id: item._id }}
                     >
-                     <span  className="text--primary text--underline"> Details </span>
+                      <span className="text--primary text--underline">
+                        {" "}
+                        Details{" "}
+                      </span>
                     </CLink>
                   </td>
                 ),
               }}
             />
 
-            <CModal
-              show={isOpen}
-              onClose={() => setOpen(!isOpen)}
-            >
+            <CModal show={isOpen} onClose={() => setOpen(!isOpen)}>
               <CModalHeader closeButton className="btn--primary">
                 <CModalTitle>{currentPost.title}</CModalTitle>
               </CModalHeader>

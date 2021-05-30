@@ -39,8 +39,8 @@ const ApprovingPost = () => {
   const [selected, setSelected] = useState([]);
   const [updatedPost, setUpdatedPost] = useState({});
   const storePosts = useSelector((state) => state.setPost);
-  const loadingList = storePosts.loading;
-
+  const loadingDel = useSelector((store) => store.deletePost.loading);
+  const loadingUpdate = useSelector((store) => store.updatePost.loading);
   useEffect(() => {
     if (!storePosts.data.length) return;
     setPosts(storePosts.data.filter((post) => post.status === "WAITING"));
@@ -75,7 +75,7 @@ const ApprovingPost = () => {
               items={posts}
               fields={["_id", "title", "Actions"]}
               hover
-              loading={loadingList}
+              loading={loadingDel || loadingUpdate}
               striped
               itemsPerPage={posts.length}
               scopedSlots={{
@@ -307,6 +307,7 @@ const ApprovingPost = () => {
                       });
                     }
                   }}
+                  disabled={loadingUpdate}
                 >
                   Update
                 </CButton>{" "}

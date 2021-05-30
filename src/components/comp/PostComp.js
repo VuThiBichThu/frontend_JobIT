@@ -32,11 +32,13 @@ import { toast } from "react-toastify";
 import { addPost } from "../../redux/actions/addPost";
 import { getPostsComp } from "src/redux/actions/getPostsComp";
 import { setPost } from "src/redux/actions/setPost";
-// import ReactLoading from "react-loading";
+import LoadingOverlay from "react-loading-overlay";
 
 const PostComp = () => {
   const [isOpen, setOpen] = useState(false);
-  const loading = useSelector((store) => store.addPost.loading);
+  const loadingAdd = useSelector((store) => store.addPost.loading);
+  const loadingPost = useSelector((store) => store.getPostsComp.loading);
+
   const [endTime, setEndTime] = useState("");
   const [form, setForm] = React.useState({
     title: "",
@@ -87,11 +89,12 @@ const PostComp = () => {
     if (isValid) {
       addPost(post, (data) => {
         if (data.status === 200) {
-          document.getElementById("post-form").reset();
-          setSelected([]);
           getPostsComp((item) => {
             setPost(item.posts);
           });
+          document.getElementById("post-form").reset();
+          setSelected([]);
+
           toast.success("create post successfully !", {
             position: toast.POSITION.BOTTOM_LEFT,
           });
@@ -112,7 +115,17 @@ const PostComp = () => {
   const [selected, setSelected] = useState([]);
 
   return (
-    <>
+    <LoadingOverlay
+      active={loadingPost || loadingAdd}
+      spinner
+      text="Loading..."
+      style={{
+        position: "fixed",
+        width: "100%",
+        height: "100%",
+        zIndex: "9999",
+      }}
+    >
       <CRow>
         <CModal show={isOpen} onClose={() => setOpen(!isOpen)} color="success">
           <CModalHeader closeButton>
@@ -231,7 +244,11 @@ const PostComp = () => {
             </CForm>
           </CModalBody>
           <CModalFooter>
-            <CButton color="success" disabled={loading} onClick={handleSubmit}>
+            <CButton
+              color="success"
+              onClick={handleSubmit}
+              disabled={loadingPost || loadingAdd}
+            >
               Create
             </CButton>{" "}
             <CButton
@@ -248,7 +265,7 @@ const PostComp = () => {
         </CModal>
         {/*  */}
       </CRow>
-      <CRow  className="page--paddingBottom--200">
+      <CRow className="page--paddingBottom--200">
         <CCol xs="12" className="mb-4">
           <CCard style={{ marginTop: "20px" }}>
             <CCardBody>
@@ -257,19 +274,26 @@ const PostComp = () => {
                   {" "}
                   <CNav variant="tabs" style={{ width: "90%" }}>
                     <CNavItem>
-                      <CNavLink className="text--secondary">Approving Posts</CNavLink>
+                      <CNavLink className="text--secondary">
+                        Approving Posts
+                      </CNavLink>
                     </CNavItem>
                     <CNavItem>
-                      <CNavLink className="text--secondary">Approved Posts</CNavLink>
+                      <CNavLink className="text--secondary">
+                        Approved Posts
+                      </CNavLink>
                     </CNavItem>
                     <CNavItem>
-                      <CNavLink className="text--secondary">Expired Posts</CNavLink>
+                      <CNavLink className="text--secondary">
+                        Expired Posts
+                      </CNavLink>
                     </CNavItem>
                   </CNav>
                   <CButton
-                    style={{ marginBottom: "5px"}}
+                    style={{ marginBottom: "5px" }}
                     className="mr-1 right-btn btn--primary"
                     onClick={() => setOpen(!isOpen)}
+                    disabled={loadingPost || loadingAdd}
                   >
                     <i className="cil-note-add"></i> New Post
                   </CButton>
@@ -291,7 +315,7 @@ const PostComp = () => {
           </CCard>
         </CCol>
       </CRow>
-    </>
+    </LoadingOverlay>
   );
 };
 

@@ -24,6 +24,7 @@ import { updatePass } from "src/redux/actions/updatePass";
 import { getAuth, setAuth } from "src/utils/helpers";
 import { useSelector } from "react-redux";
 import { setInfo } from "src/redux/actions/setInfo";
+import LoadingOverlay from "react-loading-overlay";
 const StyledProfile = styled.section`
   .avatar-wrapper {
     position: relative;
@@ -65,6 +66,11 @@ const Profile = () => {
   // const loading = useSelector((store) => store.getProfile.loading);
   const [error, setError] = useState("");
   const storeSetInfo = useSelector((store) => store.setInfo);
+  const loading = storeSetInfo.loading;
+  const storeUpdate = useSelector((store) => store.updateProfile);
+  const loadingUpdate = storeUpdate.loading;
+  const storePass = useSelector((store) => store.updatePass);
+  const loadingPass = storePass.loading;
 
   const [avatar, setAvatar] = useState(storeSetInfo.data.image);
   const [email, setEmail] = useState("");
@@ -215,192 +221,201 @@ const Profile = () => {
     }
   };
   return (
-    <StyledProfile>
-      <CRow className="mt-4">
-        <CCol xs="12" className="mb-4" md="3">
-          <CCard>
-            <CCardBody style={{ display: "flex", flexDirection: "column" }}>
-              <div className="avatar-wrapper">
-                <img className="profile-pic" src={avatar} alt="avatar" />
-              </div>
+    <LoadingOverlay
+      active={loading || loadingUpdate || loadingPass}
+      spinner
+      text="Loading..."
+      style={{
+        position: "fixed",
+        width: "100%",
+        height: "100%",
+        zIndex: "9999",
+      }}
+    >
+      <StyledProfile>
+        <CRow className="mt-4">
+          <CCol xs="12" className="mb-4" md="3">
+            <CCard>
+              <CCardBody style={{ display: "flex", flexDirection: "column" }}>
+                <div className="avatar-wrapper">
+                  <img className="profile-pic" src={avatar} alt="avatar" />
+                </div>
 
-              <input
-                className="file-upload"
-                type="file"
-                onChange={handleFile}
-                style={{ display: "none" }}
-                ref={hiddenFileInput}
-              />
-              <CButton
-                className="btn--secondary"
-                onClick={handleClick}
-              >
-                Choose avatar
-              </CButton>
-            </CCardBody>
-          </CCard>
-        </CCol>
-        <CCol xs="12" className="mb-4" md="5">
-          <CCard>
-            <CCardBody>
-              <CForm
-                action=""
-                method="post"
-                className="form-horizontal  was-validated"
-                style={{ width: "100%" }}
-              >
-                <CFormGroup row>
-                  <CCol md="3">
-                    <CLabel>Full name</CLabel>
-                  </CCol>
-                  <CCol xs="12" md="9">
-                    <CInput
-                      id="name"
-                      name="name"
-                      value={name}
-                      onChange={handleChange}
-                      required
-                    />
-                    <CInvalidFeedback className="help-block">
-                      Enter a username
-                    </CInvalidFeedback>
-                  </CCol>
-                </CFormGroup>
-                <CFormGroup row>
-                  <CCol md="3">
-                    <CLabel>Phone number</CLabel>
-                  </CCol>
-                  <CCol xs="12" md="9">
-                    <CInput
-                      id="phone"
-                      name="phone"
-                      value={phone}
-                      onChange={handleChange}
-                      required
-                    />
-                    <CInvalidFeedback className="help-block">
-                      Enter a phone number
-                    </CInvalidFeedback>
-                  </CCol>
-                </CFormGroup>
-                <CFormGroup row>
-                  <CCol md="3">
-                    <CLabel>Address</CLabel>
-                  </CCol>
-                  <CCol xs="12" md="9">
-                    <CInput
-                      id="address"
-                      name="address"
-                      value={address}
-                      onChange={handleChange}
-                      required
-                    />
-                    <CInvalidFeedback className="help-block">
-                      Enter a address
-                    </CInvalidFeedback>
-                  </CCol>
-                </CFormGroup>
-                <CFormGroup row>
-                  <CCol md="3">
-                    <CLabel>Email</CLabel>
-                  </CCol>
-                  <CCol xs="12" md="9">
-                    <CInput
-                      id="email"
-                      name="email"
-                      value={email}
-                      disabled={true}
-                    />
-                  </CCol>
-                </CFormGroup>
-                <CButton
-                  color="success"
-                  onClick={saveChanges}
-                  disabled={!name || !phone || !address}
-                >
-                  Save changes
+                <input
+                  className="file-upload"
+                  type="file"
+                  onChange={handleFile}
+                  style={{ display: "none" }}
+                  ref={hiddenFileInput}
+                />
+                <CButton className="btn--secondary" onClick={handleClick}>
+                  Choose avatar
                 </CButton>
-              </CForm>
-            </CCardBody>
-          </CCard>
-        </CCol>
-        <CCol xs="12" className="mb-4" md="4">
-          <CCard>
-            <CCardBody>
-              <CForm
-                action=""
-                method="post"
-                className="form-horizontal"
-                style={{ width: "100%" }}
-                id="pass-form"
-              >
-                <CFormGroup row>
-                  <CCol md="3">
-                    <CLabel>Current password</CLabel>
-                  </CCol>
-                  <CCol xs="12" md="9">
-                    <CInput
-                      type="password"
-                      id="pass"
-                      name="pass"
-                      // value=""
-                      onChange={handleChangePass}
-                    />
-                  </CCol>
-                </CFormGroup>
-                <CFormGroup row>
-                  <CCol md="3">
-                    <CLabel>New password</CLabel>
-                  </CCol>
-                  <CCol xs="12" md="9">
-                    <CInput
-                      type="password"
-                      id="newPass"
-                      name="newPass"
-                      // value=""
-                      onChange={handleChangePass}
-                    />
-                  </CCol>
-                </CFormGroup>
-                <CFormGroup row>
-                  <CCol md="3">
-                    <CLabel>Confirm password</CLabel>
-                  </CCol>
-                  <CCol xs="12" md="9">
-                    <CInput
-                      type="password"
-                      id="newConPass"
-                      name="newConPass"
-                      // value=""
-                      onChange={(event) => {
-                        setNewConPass(event.target.value);
-                        if (event.target.value !== newPass) {
-                          setError("Passwords do not match!");
-                        } else {
-                          setError("");
-                        }
-                      }}
-                    />
-                  </CCol>
-                </CFormGroup>
-                <CFormGroup style={{ textAlign: "center" }}>
-                  <span style={{ color: "#e55353", fontSize: "80%" }}>
-                    {error}
-                  </span>
-                </CFormGroup>
-                <CButton
-                  color="success"
-                  onClick={changePass}
-                  disabled={!pass || !newPass || !newConPass}
+              </CCardBody>
+            </CCard>
+          </CCol>
+          <CCol xs="12" className="mb-4" md="5">
+            <CCard>
+              <CCardBody>
+                <CForm
+                  action=""
+                  method="post"
+                  className="form-horizontal  was-validated"
+                  style={{ width: "100%" }}
                 >
-                  Change password
-                </CButton>
-              </CForm>
-            </CCardBody>
-          </CCard>
-        </CCol>
-      </CRow>
-    </StyledProfile>
+                  <CFormGroup row>
+                    <CCol md="3">
+                      <CLabel>Full name</CLabel>
+                    </CCol>
+                    <CCol xs="12" md="9">
+                      <CInput
+                        id="name"
+                        name="name"
+                        value={name}
+                        onChange={handleChange}
+                        required
+                      />
+                      <CInvalidFeedback className="help-block">
+                        Enter a username
+                      </CInvalidFeedback>
+                    </CCol>
+                  </CFormGroup>
+                  <CFormGroup row>
+                    <CCol md="3">
+                      <CLabel>Phone number</CLabel>
+                    </CCol>
+                    <CCol xs="12" md="9">
+                      <CInput
+                        id="phone"
+                        name="phone"
+                        value={phone}
+                        onChange={handleChange}
+                        required
+                      />
+                      <CInvalidFeedback className="help-block">
+                        Enter a phone number
+                      </CInvalidFeedback>
+                    </CCol>
+                  </CFormGroup>
+                  <CFormGroup row>
+                    <CCol md="3">
+                      <CLabel>Address</CLabel>
+                    </CCol>
+                    <CCol xs="12" md="9">
+                      <CInput
+                        id="address"
+                        name="address"
+                        value={address}
+                        onChange={handleChange}
+                        required
+                      />
+                      <CInvalidFeedback className="help-block">
+                        Enter a address
+                      </CInvalidFeedback>
+                    </CCol>
+                  </CFormGroup>
+                  <CFormGroup row>
+                    <CCol md="3">
+                      <CLabel>Email</CLabel>
+                    </CCol>
+                    <CCol xs="12" md="9">
+                      <CInput
+                        id="email"
+                        name="email"
+                        value={email}
+                        disabled={true}
+                      />
+                    </CCol>
+                  </CFormGroup>
+                  <CButton
+                    color="success"
+                    onClick={saveChanges}
+                    disabled={!name || !phone || !address}
+                  >
+                    Save changes
+                  </CButton>
+                </CForm>
+              </CCardBody>
+            </CCard>
+          </CCol>
+          <CCol xs="12" className="mb-4" md="4">
+            <CCard>
+              <CCardBody>
+                <CForm
+                  action=""
+                  method="post"
+                  className="form-horizontal"
+                  style={{ width: "100%" }}
+                  id="pass-form"
+                >
+                  <CFormGroup row>
+                    <CCol md="3">
+                      <CLabel>Current password</CLabel>
+                    </CCol>
+                    <CCol xs="12" md="9">
+                      <CInput
+                        type="password"
+                        id="pass"
+                        name="pass"
+                        // value=""
+                        onChange={handleChangePass}
+                      />
+                    </CCol>
+                  </CFormGroup>
+                  <CFormGroup row>
+                    <CCol md="3">
+                      <CLabel>New password</CLabel>
+                    </CCol>
+                    <CCol xs="12" md="9">
+                      <CInput
+                        type="password"
+                        id="newPass"
+                        name="newPass"
+                        // value=""
+                        onChange={handleChangePass}
+                      />
+                    </CCol>
+                  </CFormGroup>
+                  <CFormGroup row>
+                    <CCol md="3">
+                      <CLabel>Confirm password</CLabel>
+                    </CCol>
+                    <CCol xs="12" md="9">
+                      <CInput
+                        type="password"
+                        id="newConPass"
+                        name="newConPass"
+                        // value=""
+                        onChange={(event) => {
+                          setNewConPass(event.target.value);
+                          if (event.target.value !== newPass) {
+                            setError("Passwords do not match!");
+                          } else {
+                            setError("");
+                          }
+                        }}
+                      />
+                    </CCol>
+                  </CFormGroup>
+                  <CFormGroup style={{ textAlign: "center" }}>
+                    <span style={{ color: "#e55353", fontSize: "80%" }}>
+                      {error}
+                    </span>
+                  </CFormGroup>
+                  <CButton
+                    color="success"
+                    onClick={changePass}
+                    disabled={!pass || !newPass || !newConPass}
+                  >
+                    Change password
+                  </CButton>
+                </CForm>
+              </CCardBody>
+            </CCard>
+          </CCol>
+        </CRow>
+      </StyledProfile>
+    </LoadingOverlay>
   );
 };
 

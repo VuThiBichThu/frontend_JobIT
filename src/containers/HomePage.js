@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { getPosts } from "src/redux/actions/getPosts";
-// import { toast } from "react-toastify";
 import LoadingOverlay from "react-loading-overlay";
-// import ReactLoading from "react-loading";
 import _ from "lodash";
 
 import {
