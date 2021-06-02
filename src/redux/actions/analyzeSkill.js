@@ -1,12 +1,12 @@
 import { getAuth } from "../../utils/helpers";
 import * as types from "../constants";
 import store from "../store";
-export function analyzeSkill(option, param, resolve = () => {}) {
+export function analyzeSkill(option, year, month, resolve = () => {}) {
   store.dispatch({
     type: types.ANALYZE_SKILL,
   });
   return fetch(
-    `${process.env.REACT_APP_API_URL}/analysis/skill?option=${option}&${option}=${param}`,
+    `${process.env.REACT_APP_API_URL}/analysis/skill?option=${option}&year=${year}&month=${month}`,
     {
       method: "GET",
       headers: {

@@ -173,7 +173,7 @@ a {
 }
 .statistic {
   min-height: 70vh;
-  max-height: 180vh;
+  max-height: 200vh;
   justify-content: center;
   align-items: center;
   background: white;
@@ -184,12 +184,13 @@ a {
   .title {
     margin: 50px 0 30px;
     font-size: 30px;
+    text-align: center;
   }
 }
 
 .pie-posts {
   width: 100%;
-  height: 70vh;
+  height: 60vh;
   position: relative;
   margin: 10px 0 20px;
 }

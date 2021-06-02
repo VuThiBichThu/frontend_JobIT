@@ -134,6 +134,7 @@ const Moderators = () => {
                   color="primary"
                   className="mr-1 right-btn"
                   onClick={() => setPrimary(!primary)}
+                  disabled={loadingAdd}
                 >
                   <i className="cil-user-plus"></i> New Moderator
                 </CButton>
@@ -272,6 +273,20 @@ const Moderators = () => {
                   itemsPerPage={take}
                   activePage={page}
                   scopedSlots={{
+                    createdAt: (item) => (
+                      <td>
+                        {String(new Date(item.createdAt).getDate()).padStart(
+                          2,
+                          "0"
+                        ) +
+                          "/" +
+                          String(
+                            new Date(item.createdAt).getMonth() + 1
+                          ).padStart(2, "0") +
+                          "/" +
+                          new Date(item.createdAt).getFullYear()}
+                      </td>
+                    ),
                     Actions: (item) => (
                       <td>
                         <CTooltip
