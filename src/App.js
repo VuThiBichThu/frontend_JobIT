@@ -21,7 +21,7 @@ import AboutUs from "./containers/AboutUs";
 import ConfirmCode from "./components/pages/ConfirmCode";
 import ChangePassword from "./components/pages/ChangePassword";
 import DetailPost from "./components/common/DetailPost";
-
+import PageNotFound from "./components/pages/404-page";
 // Containers
 // const TheLayout = React.lazy(() => import("./containers/TheLayout"));
 // const LogInAdmin = React.lazy(() => import("./containers/LogInAdmin"));
@@ -77,6 +77,7 @@ function App() {
         })}
 
         {/* <Route path="/" exact component={HomeComp} /> */}
+        <Route component={PageNotFound} />
       </Switch>
       <ToastContainer />
     </Router>

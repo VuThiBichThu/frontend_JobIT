@@ -236,3 +236,11 @@ a {
   align-items: center;
   justify-content: center;
 }
+.center-not-found {
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
