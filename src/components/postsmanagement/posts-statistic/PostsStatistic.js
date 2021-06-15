@@ -29,7 +29,7 @@ const PostsStatistic = () => {
   const currentMonth = new Date().getMonth() + 1;
   const [month, setMonth] = useState("");
   const months = [];
-  for (let i = 0; i <= currentMonth; i++) {
+  for (let i = 0; i < currentMonth; i++) {
     months.push(currentMonth - i);
   }
 

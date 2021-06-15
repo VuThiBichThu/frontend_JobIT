@@ -65,7 +65,12 @@ const ApprovingPost = () => {
       });
     }
   };
-
+  const min =
+    new Date().getFullYear() +
+    "-" +
+    String(new Date().getMonth() + 1).padStart(2, "0") +
+    "-" +
+    String(new Date().getDate()).padStart(2, "0");
   return (
     <CRow>
       <CCol xl={6}>
@@ -235,6 +240,7 @@ const ApprovingPost = () => {
                         value={time}
                         onChange={handleChange}
                         required
+                        min={min}
                       />
                       <CInvalidFeedback className="help-block">
                         Choose end time

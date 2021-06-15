@@ -113,7 +113,12 @@ const PostComp = () => {
   };
 
   const [selected, setSelected] = useState([]);
-
+  const min =
+    new Date().getFullYear() +
+    "-" +
+    String(new Date().getMonth() + 1).padStart(2, "0") +
+    "-" +
+    String(new Date().getDate()).padStart(2, "0");
   return (
     <LoadingOverlay
       active={loadingPost || loadingAdd}
@@ -214,6 +219,7 @@ const PostComp = () => {
                     placeholder="date"
                     onChange={handleChange}
                     required
+                    min={min}
                   />
                 </CCol>
                 <CInvalidFeedback className="help-block">
