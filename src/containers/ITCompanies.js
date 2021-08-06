@@ -15,10 +15,12 @@ import {
   CInput,
   CButton,
   CContainer,
+  CCard,
 } from "@coreui/react";
 import CIcon from "@coreui/icons-react";
 import { getCompany } from "src/redux/actions/getCompany";
 import Comp from "src/components/common/Comp";
+import notfound from "../assets/icons/not-found.png";
 
 const ITCompanies = () => {
   const [companies, setCompanies] = useState([]);
@@ -46,7 +48,7 @@ const ITCompanies = () => {
 
   const pageChange = (newPage) => {
     getCompany(newPage, query, (data) => {
-      setCompanies(data.data.posts);
+      setCompanies(data.data.result);
       setNumPages(data.data.numPages);
       setCurrentPage(data.data.page);
     });
@@ -55,6 +57,7 @@ const ITCompanies = () => {
   const handleChange = (event) => {
     if (event.target.value === "") {
       setReset(true);
+      setCurrentPage(1);
       setQuery("");
     }
     setSearchInput(event.target.value);
@@ -92,7 +95,12 @@ const ITCompanies = () => {
                 onChange={handleChange}
               />
               <CInputGroupAppend>
-                <CButton style={{opacity:"1"}} className="btn--primary" onClick={search} disabled={!searchInput}>
+                <CButton
+                  style={{ opacity: "1" }}
+                  className="btn--primary"
+                  onClick={search}
+                  disabled={!searchInput}
+                >
                   Search
                 </CButton>
               </CInputGroupAppend>
@@ -100,7 +108,7 @@ const ITCompanies = () => {
           </CCol>
         </CRow>
         {/* {loadingList && <ReactLoading type="spinningBubbles" color="#321fdb" />} */}
-        <div className="flex flex-wrap space-between">
+        <div className="flex flex-wrap" style={{ justifyContent: "center" }}>
           {companies &&
             companies.map((item, index) => {
               return (
@@ -114,6 +122,13 @@ const ITCompanies = () => {
                 />
               );
             })}
+          {!companies.length && (
+            <CCard className="no-result">
+              {" "}
+              <img src={notfound} alt=""></img>
+              <div>Sorry, we couldn't find any results for your search! </div>
+            </CCard>
+          )}
         </div>
 
         <CPagination

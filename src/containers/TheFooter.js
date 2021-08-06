@@ -18,7 +18,7 @@ const TheFooter = () => {
     <footer className="footer">
       <div className="footer__inner">
         <div className="footer__inner__logo">
-          <img src={logo} alt=""/>
+          <img src={logo} alt="" />
           <p className="margin-t-s">© IT Jobs, Inc. 2021</p>
         </div>
         <div className="footer__inner__links">
@@ -63,17 +63,17 @@ const TheFooter = () => {
             </p>
             <ul>
               <li>
-                <a href="https://twitter.com/PhanTrongDuc5">
+                <a href="https://twitter.com/it-jobs">
                   <span className="icon-twitter"></span>
                 </a>
               </li>
               <li>
-                <a href="https://www.facebook.com/Provide-tutors-100101211925466">
+                <a href="https://www.facebook.com/it-jobs">
                   <span className="icon-facebook"></span>
                 </a>
               </li>
               <li>
-                <a href="https://www.instagram.com/tutors.matchingservice/?fbclid=IwAR042Gixk0QaIMG1e2wKGJhiE9XK0iq9CCCvquvtJ--nT_L-agSTMjNM1yM">
+                <a href="https://www.instagram.com/it-jobs">
                   <span className="icon-instagram"></span>
                 </a>
               </li>
