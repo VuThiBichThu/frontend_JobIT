@@ -1,7 +1,4 @@
+import ApprovingPost from "./posts-approval/ApprovingPost";
+import ApprovedPost from "./posts-approval/ApprovedPost";
 
-import Buttons from './posts-statistic'
-import BrandButtons from './BrandButtons'
-
-export {
- Buttons, BrandButtons
-}
+export { ApprovingPost, ApprovedPost };

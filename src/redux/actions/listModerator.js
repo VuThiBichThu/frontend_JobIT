@@ -1,20 +1,21 @@
 import { getAuth } from "../../utils/helpers";
 import * as types from "../constants";
 import store from "../store";
-export function listModerator(data, resolve = () => {}) {
+export function listModerator(newPage, resolve = () => {}) {
   store.dispatch({
     type: types.ADMIN_GET_LIST_MOD,
   });
   return fetch(
-    "https://job-it-cnpmp.herokuapp.com/api/v1/moderators",
+    `${process.env.REACT_APP_API_URL}/moderators?page=${newPage}`,
     {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
         Authorization: "Bearer " + getAuth().token,
+        // "Access-Control-Allow-Origin": "*"
       },
-      body: JSON.stringify(data),
+    //  body: JSON.stringify(data),
     }
   )
     .then((response) => response.json())

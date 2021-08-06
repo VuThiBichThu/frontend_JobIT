@@ -28,7 +28,7 @@ body {
 }
 
 .h2 {
-  font-size: 4rem; // 64px
+  font-size: 3rem; // 64px
   letter-spacing: -0.16rem; // ~ -2.6px;
   line-height: 4rem; // 64px
 }
@@ -83,11 +83,14 @@ body {
   }
 
   &--primary {
-    color: $primary-color;
+    color: $orange;
   }
 
   &--secondary {
-    color: $secondary-color;
+    color: $black;
+  }
+  &--underline {
+    text-decoration: underline;
   }
 }
 

@@ -1,7 +1,12 @@
 .footer {
-  background: white;
+  background: $black;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  p{
+    color: $white;
+  }
   &__inner {
-    padding: 24px 50px;
+    padding: 10px 30px;
     text-align: center;
     display: flex;
     justify-content: space-between;
@@ -13,13 +18,13 @@
         cursor: pointer;
       }
       img {
-        width: 180px;
-        height: 80px;
+        width: 120px;
       }
     }
     &__links {
       display: flex;
       flex-wrap: wrap;
+      margin-right: 30px;
       &__item {
         margin: 0 50px;
         text-align: left;
@@ -27,17 +32,17 @@
           text-transform: capitalize;
         }
         li {
-          margin: 5px 0;
+          margin: 1px 0;
         }
         a {
-          color: $black;
+          color: $white;
           text-decoration: none;
           font-size: 16px;
           line-height: 20px;
           transition: 0.3s ease;
           &:hover,
           &.--active {
-            color: $primary-color;
+            color: $orange;
           }
         }
       }

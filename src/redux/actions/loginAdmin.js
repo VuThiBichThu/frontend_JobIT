@@ -5,7 +5,7 @@ export function loginAdmin(data, resolve = () => { }) {
     type: types.LOGIN_API,
   });
   return fetch(
-    "https://job-it-cnpmp.herokuapp.com/api/v1/admin/login",
+    `${process.env.REACT_APP_API_URL}/admin/login`,
     {
       method: "POST",
       headers: {
@@ -26,7 +26,7 @@ export function loginAdmin(data, resolve = () => { }) {
     .catch((error) => {
       store.dispatch({
         payload: error,
-        type: types.LOGIN_API_FAIL,
+        type: types.LOGIN_API_FAILED,
       });
     });
 }

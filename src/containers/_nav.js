@@ -24,6 +24,11 @@ const _nav = [
         name: "ITers",
         to: "/usersmanagement/ITers",
       },
+      {
+        _tag: "CSidebarNavItem",
+        name: "Users Statistic",
+        to: "/usersmanagement/users-statistic",
+      },
     ],
   },
   {

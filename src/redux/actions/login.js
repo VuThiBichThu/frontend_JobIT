@@ -5,7 +5,7 @@ export function login(data, resolve = () => {}) {
     type: types.LOGIN_API,
   });
   return fetch(
-    "http://thuctapcongnhan.australiacentral.cloudapp.azure.com/v1/api/auth/login",
+    `${process.env.REACT_APP_API_URL}/auth/login`,
     {
       method: "POST",
       headers: {
@@ -26,13 +26,13 @@ export function login(data, resolve = () => {}) {
     .catch((error) => {
       store.dispatch({
         payload: error,
-        type: types.LOGIN_API_FAIL,
+        type: types.LOGIN_API_FAILED,
       });
     });
 }
-export function updateRememberedPath(path) {
-  store.dispatch({
-    type: types.UPDATE_REMEMBERED_PATH,
-    payload: path,
-  });
-}
+// export function updateRememberedPath(path) {
+//   store.dispatch({
+//     type: types.UPDATE_REMEMBERED_PATH,
+//     payload: path,
+//   });
+// }

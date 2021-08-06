@@ -1,36 +1,47 @@
-import React from 'react'
-import {
-  TheSidebar,
-  TheFooter,
-  TheHeader
-} from './index';
+import React from "react";
+import { TheSidebar, TheFooter, TheHeader, TheHeaderUser } from "./index";
 import { getAuth } from "../utils/helpers";
-import { Redirect } from 'react-router';
-import { CContainer, CFade } from '@coreui/react';
+import { CContainer, CFade } from "@coreui/react";
 
 const TheLayout = (Component) => (props) => {
   const auth = getAuth();
 
-  return (
-    auth && auth.token ? (
-      <div className="c-app c-default-layout">
-        <TheSidebar />
-        <div className="c-wrapper">
-          <TheHeader />
-          <div className="c-body">
-            <main className="c-main">
-              <CContainer fluid>
-                <CFade>
-                  <Component {...props} />
-                </CFade>
-              </CContainer>
-            </main>
-          </div>
-          <TheFooter />
+  return auth &&
+    auth.token &&
+    (auth.role === "admin" || auth.role === "moderator") ? (
+    <div className="c-app c-default-layout">
+      <TheSidebar />
+      <div className="c-wrapper">
+        <TheHeader />
+        <div className="c-body">
+          <main className="c-main" style={{ paddingTop: "0" }}>
+            <CContainer fluid>
+              <CFade>
+                <Component {...props} />
+              </CFade>
+            </CContainer>
+          </main>
         </div>
+        <TheFooter />
       </div>
-    ) : <Redirect to="/" exact />
-  )
-}
+    </div>
+  ) : (
+    <div className="c-app c-default-layout">
+      <div className="c-wrapper">
+        <TheHeaderUser />
+        <div className="c-body">
+          <main className="c-main"  style={{ paddingTop: "0" }}>
+            <CContainer fluid>
+              <CFade>
+                <Component {...props} />
+              </CFade>
+            </CContainer>
+          </main>
+        </div>
+        <TheFooter />
+      </div>
+    </div>
+  );
+};
 
-export default TheLayout
+export default TheLayout;
