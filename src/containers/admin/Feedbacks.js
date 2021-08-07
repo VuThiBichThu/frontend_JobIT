@@ -107,6 +107,13 @@ const Feedbacks = () => {
                                         (itemCom) => itemCom._id !== item._id
                                       )
                                     );
+                                  } else if (data.status === 401) {
+                                    toast.warning(
+                                      "You are not allowed to do this action! ",
+                                      {
+                                        position: toast.POSITION.BOTTOM_LEFT,
+                                      }
+                                    );
                                   } else {
                                     toast.error("Fail to delete! " + data.msg, {
                                       position: toast.POSITION.BOTTOM_LEFT,

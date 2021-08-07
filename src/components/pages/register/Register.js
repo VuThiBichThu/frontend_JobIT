@@ -207,7 +207,8 @@ const Register = () => {
                     >
                       <p className="text-muted">
                         {" "}
-                        Already have an account? <a href="/login">Login now!</a>
+                        Already have an account?{" "}
+                        <a href="/#/login">Login now!</a>
                       </p>
                     </CCol>
                   </CRow>

@@ -33,8 +33,15 @@ const TheHeaderDropdown = () => {
         </div>
       </CDropdownToggle>
       <CDropdownMenu className="pt-0" placement="bottom-end">
-
-        <CDropdownItem />
+        {getAuth().role === "admin" || getAuth().role === "moderator" ? (
+          <></>
+        ) : (
+          <Link to="/profile" className="dropdown-item">
+            <CIcon name="cil-user" className="mfe-2" />
+            Profile
+          </Link>
+        )}
+        <CDropdownItem divider />
         {getAuth().role === "admin" || getAuth().role === "moderator" ? (
           <CDropdownItem
             onClick={() => {

@@ -369,7 +369,7 @@ const CV = () => {
               </CCard>
               <div style={{ textAlign: "center" }}>
                 <CButton
-                  style={{ background: "#f25430", color: "white" }}
+                  color="success"
                   disabled={loading}
                   onClick={() => {
                     const curSkill = [];
@@ -410,7 +410,7 @@ const CV = () => {
           </CRow>
         )}
 
-        <CModal show={isOpen} onClose={() => setOpen(!isOpen)} color="primary">
+        <CModal show={isOpen} onClose={() => setOpen(!isOpen)} color="success">
           <CModalHeader closeButton>
             <CModalTitle>Your CV</CModalTitle>
           </CModalHeader>
@@ -495,7 +495,7 @@ const CV = () => {
                 <CCol md="4" style={{ textAlign: "center" }}>
                   <CButton
                     style={{ textAlign: "center" }}
-                    color="primary"
+                    color="success"
                     onClick={handleClick}
                   >
                     Choose avatar
@@ -601,7 +601,7 @@ const CV = () => {
         <CModal
           show={isUpdate}
           onClose={() => setUpdate(!isUpdate)}
-          color="primary"
+          color="success"
         >
           <CModalHeader closeButton>
             <CModalTitle>Your CV</CModalTitle>
@@ -686,7 +686,7 @@ const CV = () => {
                 <CCol md="4" style={{ textAlign: "center" }}>
                   <CButton
                     style={{ textAlign: "center" }}
-                    color="primary"
+                    color="success"
                     onClick={handleClick}
                   >
                     Choose image

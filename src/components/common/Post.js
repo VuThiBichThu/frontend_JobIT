@@ -166,16 +166,20 @@ function Post({
           <CModal
             show={isOpen}
             onClose={() => setOpen(!isOpen)}
-            color="success"
+            // color="success"
           >
-            <CModalHeader className="btn--primary" closeButton>
+            <CModalHeader
+              className="btn--primary"
+              closeButton
+              style={{ backgroundColor: "#f25430" }}
+            >
               <CModalTitle>{title}</CModalTitle>
             </CModalHeader>
             <CModalBody>
               <CForm action="" method="post" className="form-horizontal">
                 <CFormGroup row>
                   <CCol md="3">
-                    <CLabel className="label">
+                    <CLabel style={{ color: "#f25430" }}>
                       <i className="cil-people"></i> Comp's Name
                     </CLabel>
                   </CCol>
@@ -186,7 +190,7 @@ function Post({
                 <hr></hr>
                 <CFormGroup row>
                   <CCol md="3">
-                    <CLabel className="label">
+                    <CLabel style={{ color: "#f25430" }}>
                       <i className="cil-code"></i> Skills
                     </CLabel>
                   </CCol>
@@ -197,7 +201,7 @@ function Post({
                 <hr></hr>
                 <CFormGroup row>
                   <CCol md="3">
-                    <CLabel className="label">
+                    <CLabel style={{ color: "#f25430" }}>
                       <i className="cil-money"></i> Salary
                     </CLabel>
                   </CCol>
@@ -208,7 +212,7 @@ function Post({
                 <hr></hr>
                 <CFormGroup row>
                   <CCol md="3">
-                    <CLabel className="label">
+                    <CLabel style={{ color: "#f25430" }}>
                       <i className="cil-location-pin"></i> Address
                     </CLabel>
                   </CCol>
@@ -219,7 +223,7 @@ function Post({
                 <hr></hr>
                 <CFormGroup row>
                   <CCol md="3">
-                    <CLabel className="label">
+                    <CLabel style={{ color: "#f25430" }}>
                       <i className="cil-clock"></i> End Time
                     </CLabel>
                   </CCol>
@@ -230,7 +234,7 @@ function Post({
                 <hr></hr>
                 <CFormGroup row>
                   <CCol md="3">
-                    <CLabel className="label">
+                    <CLabel style={{ color: "#f25430" }}>
                       <i className="cil-description"></i> Description
                     </CLabel>
                   </CCol>
@@ -242,8 +246,9 @@ function Post({
             </CModalBody>
             <CModalFooter>
               <CButton
+                className="btn--primary"
                 disabled={loading}
-                color="success"
+                // color="success"
                 onClick={() => {
                   if (!getAuth().token) {
                     history.push("/login");

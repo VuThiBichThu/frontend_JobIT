@@ -185,7 +185,8 @@ const RegisterComp = () => {
                     <CCol xs="12" style={{ textAlign: "center" }}>
                       <p className="text-muted">
                         {" "}
-                        Already have an account? <a href="/login">Login now!</a>
+                        Already have an account?{" "}
+                        <a href="/#/login">Login now!</a>
                       </p>
                     </CCol>
                   </CRow>
