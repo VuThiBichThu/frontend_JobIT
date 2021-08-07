@@ -65,7 +65,6 @@ const PostComp = () => {
   };
 
   const handleSubmit = (event) => {
-    console.log("create post");
     event.preventDefault();
 
     const skill = [];

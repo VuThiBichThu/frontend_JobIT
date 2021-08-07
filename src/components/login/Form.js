@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { FormBox } from "../common";
 import { Form as ReForm } from "reactstrap";
 import { isEmpty } from "validator";
@@ -78,21 +77,9 @@ const Form = ({ handleSubmit }) => {
             }}
             error={error.password}
           />
-          
-          <div className="flex space-between align-item">
-          <button className="button button--secondary">
-            Login
-          </button>
-            <div>
-              <Link to="/forgot-password" className="primary">
-                Forgot Password?
-              </Link>
-            </div>
-            {/* <div>
-              <Link to="/register" className="primary">
-                Register
-              </Link>
-            </div> */}
+
+          <div className="flex align-item flex-end-login">
+            <button className="button button--secondary">Login</button>
           </div>
         </ReForm>
       </div>

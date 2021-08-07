@@ -121,6 +121,18 @@ const Moderators = () => {
     }
   };
 
+  const resetAll = () => {
+    document.getElementById("form").reset();
+  };
+  
+  const handleOpen = () => {
+    resetAll();
+    setPrimary(!primary);
+    setUserName("");
+    setPassword("");
+    setConfirmPassword("");
+  };
+
   return (
     <CRow>
       <CCol xl={6}>
@@ -133,7 +145,7 @@ const Moderators = () => {
                   style={{ float: "right" }}
                   color="primary"
                   className="mr-1 right-btn"
-                  onClick={() => setPrimary(!primary)}
+                  onClick={handleOpen}
                   disabled={loadingAdd}
                 >
                   <i className="cil-user-plus"></i> New Moderator
@@ -167,6 +179,7 @@ const Moderators = () => {
                             id="username"
                             name="username"
                             placeholder="Username"
+                            autoComplete="off"
                             onChange={(event) =>
                               setUserName(event.target.value)
                             }
@@ -189,6 +202,7 @@ const Moderators = () => {
                             id="password"
                             name="password"
                             placeholder="Password"
+                            autoComplete="off"
                             onChange={(event) =>
                               setPassword(event.target.value)
                             }
@@ -211,6 +225,7 @@ const Moderators = () => {
                             id="confirm-password"
                             name="confirm-password"
                             placeholder="Confirm password"
+                            autoComplete="off"
                             onChange={(event) => {
                               setConfirmPassword(event.target.value);
                               if (event.target.value !== password) {

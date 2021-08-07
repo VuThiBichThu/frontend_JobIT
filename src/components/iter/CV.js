@@ -137,7 +137,6 @@ const CV = () => {
   };
 
   const handleSubmit = (event) => {
-    console.log("create cv");
     event.preventDefault();
 
     form.skill = [];
@@ -232,7 +231,6 @@ const CV = () => {
 
   // update
   const handleUpdate = (event) => {
-    console.log("update cv");
     event.preventDefault();
 
     form.skill = [];

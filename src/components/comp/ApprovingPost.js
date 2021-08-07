@@ -158,7 +158,7 @@ const ApprovingPost = () => {
             <CModal
               show={isOpen}
               onClose={() => setOpen(!isOpen)}
-              color="primary"
+              color="success"
             >
               <CModalHeader closeButton>
                 <CModalTitle>{updatedPost.title}</CModalTitle>

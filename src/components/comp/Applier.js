@@ -75,8 +75,7 @@ const Applier = ({ match }) => {
   }, [id]);
 
   const handleGetCV = (cvId) => {
-    console.log("get CV");
-
+   
     getCV(cvId, (data) => {
       if (data.status === 200) {
         setOpen(!isOpen);

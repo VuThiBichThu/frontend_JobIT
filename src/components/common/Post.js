@@ -168,7 +168,7 @@ function Post({
             onClose={() => setOpen(!isOpen)}
             color="success"
           >
-            <CModalHeader closeButton>
+            <CModalHeader className="btn--primary" closeButton>
               <CModalTitle>{title}</CModalTitle>
             </CModalHeader>
             <CModalBody>

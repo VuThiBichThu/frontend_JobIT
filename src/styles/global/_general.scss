@@ -21,7 +21,10 @@
 .flex-wrap {
   flex-wrap: wrap;
 }
-
+.flex-end-login {
+  justify-content: flex-end;
+  margin: 0;
+}
 .space-between {
   justify-content: space-between;
 }
