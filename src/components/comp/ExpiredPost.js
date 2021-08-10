@@ -21,6 +21,7 @@ import {
   CLabel,
   CModalFooter,
   CTooltip,
+  CBadge,
 } from "@coreui/react";
 
 const StyleLabel = styled.section`
@@ -43,14 +44,7 @@ const ExpiredPost = () => {
     if (!storePosts.data.length) return;
     setPosts(storePosts.data.filter((post) => post.status === "DONE"));
   }, [storePosts]);
-
-  posts.map((item) => {
-    const getTime = item.endTime.split("/");
-    if (getTime[0] < 10) getTime[0] = "0" + getTime[0];
-    if (getTime[1] < 10) getTime[1] = "0" + getTime[1];
-    return (item.endTime = getTime.reverse().join("-"));
-  });
-
+  let count = 1;
   return (
     <CRow>
       <CCol xl={6}>
@@ -58,17 +52,59 @@ const ExpiredPost = () => {
           <CCardBody>
             <CDataTable
               items={posts}
-              fields={["_id", "title", "Actions", "ListApplications"]}
+              fields={[
+                "No.",
+                "title",
+                "DueDate",
+                "status",
+                "ListApplications",
+                "Actions",
+              ]}
               hover
               loading={loading || loadingDel}
               striped
               itemsPerPage={posts.length}
               scopedSlots={{
+                "No.": (item) => <td>{count++}</td>,
+                DueDate: (item) => <td>{item.endTime}</td>,
+                status: (item) => (
+                  <td>
+                    <CBadge
+                      style={{
+                        padding: "6px 12px 4px",
+                        letterSpacing: 2,
+                        borderRadius: 16,
+                      }}
+                      color="danger"
+                    >
+                      EXPIRED
+                    </CBadge>
+                  </td>
+                ),
+                ListApplications: (item) => (
+                  <td>
+                    <CLink
+                      to={`/post/appliers/${item._id}`}
+                      target="_blank"
+                      params={{ id: item._id }}
+                    >
+                      <span className="text--primary text--underline">
+                        Details
+                      </span>
+                    </CLink>
+                  </td>
+                ),
                 Actions: (item) => (
                   <td>
                     <CTooltip content="view details" placement="bottom-start">
-                      <CButton
-                        color="info"
+                      <i
+                        style={{
+                          fontSize: 22,
+                          padding: 4,
+                          fontWeight: 600,
+                          cursor: "pointer",
+                        }}
+                        className="cil-clipboard"
                         onClick={() => {
                           const curPost = {
                             id: item._id,
@@ -83,16 +119,20 @@ const ExpiredPost = () => {
                           setCurrentPost(curPost);
                           setOpen(!isOpen);
                         }}
-                      >
-                        <i className="cil-clipboard"></i>
-                      </CButton>
+                      ></i>
                     </CTooltip>{" "}
                     <CTooltip
                       content="delete this post"
                       placement="bottom-start"
                     >
-                      <CButton
-                        color="danger"
+                      <i
+                        style={{
+                          fontSize: 22,
+                          padding: 4,
+                          fontWeight: 600,
+                          cursor: "pointer",
+                        }}
+                        className="cil-trash"
                         onClick={() => {
                           deletePost(item._id, (data) => {
                             if (data.status === 200) {
@@ -111,23 +151,8 @@ const ExpiredPost = () => {
                             }
                           });
                         }}
-                      >
-                        <i className="cil-trash"></i>
-                      </CButton>
+                      ></i>
                     </CTooltip>
-                  </td>
-                ),
-                ListApplications: (item) => (
-                  <td>
-                    <CLink
-                      to={`/post/appliers/${item._id}`}
-                      target="_blank"
-                      params={{ id: item._id }}
-                    >
-                      <span className="text--primary text--underline">
-                        Details
-                      </span>
-                    </CLink>
                   </td>
                 ),
               }}

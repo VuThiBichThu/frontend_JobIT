@@ -84,6 +84,8 @@ function Post({
   postId,
   compId,
   isApplied,
+  success,
+  setSuccess,
 }) {
   const history = useHistory();
   const [isOpen, setOpen] = useState(false);
@@ -157,6 +159,7 @@ function Post({
               <CLink onClick={() => setOpen(!isOpen)}>
                 <span className="btn--secondary">See More</span>
               </CLink>
+
               <p>
                 <i className="cil-history"></i>
                 {" " + endTime}
@@ -245,37 +248,45 @@ function Post({
               </CForm>
             </CModalBody>
             <CModalFooter>
-              <CButton
-                className="btn--primary"
-                disabled={loading}
-                // color="success"
-                onClick={() => {
-                  if (!getAuth().token) {
-                    history.push("/login");
-                  } else {
-                    if (getAuth().role === "iter") {
-                      apply(postId, (data) => {
-                        if (data.status === 200) {
-                          toast.success("Apply successfully !", {
-                            position: toast.POSITION.BOTTOM_LEFT,
-                          });
-                        } else {
-                          toast.error("Fail to apply! " + data.msg, {
-                            position: toast.POSITION.BOTTOM_LEFT,
-                          });
-                        }
-                        setOpen(!isOpen);
-                      });
+              {getAuth().role === "company" || isApplied ? (
+                <></>
+              ) : (
+                <CButton
+                  className="btn--primary"
+                  disabled={loading}
+                  // color="success"
+                  onClick={() => {
+                    if (!getAuth().token) {
+                      history.push("/login");
                     } else {
-                      toast.warn("Only ITer can apply job! ", {
-                        position: toast.POSITION.BOTTOM_LEFT,
-                      });
+                      if (getAuth().role === "iter") {
+                        apply(postId, (data) => {
+                          if (data.status === 200) {
+                            setSuccess(success + 1);
+                            setOpen(!isOpen);
+                            toast.success("Apply successfully !", {
+                              position: toast.POSITION.BOTTOM_LEFT,
+                            });
+                          } else {
+                            setOpen(!isOpen);
+
+                            toast.error("Fail to apply! " + data.msg, {
+                              position: toast.POSITION.BOTTOM_LEFT,
+                            });
+                          }
+                        });
+                      } else {
+                        toast.warn("Only ITer can apply job! ", {
+                          position: toast.POSITION.BOTTOM_LEFT,
+                        });
+                      }
                     }
-                  }
-                }}
-              >
-                Apply Now
-              </CButton>{" "}
+                  }}
+                >
+                  Apply Now
+                </CButton>
+              )}
+
               <CButton
                 color="secondary"
                 onClick={() => {

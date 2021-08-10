@@ -37,13 +37,15 @@ const HomePage = () => {
   const [searchInput, setSearchInput] = useState("");
   const [reset, setReset] = useState(false);
 
+  const [success, setSuccess] = useState(0);
+
   useEffect(() => {
     getPosts(page, query, (item) => {
       setPosts(item.data.posts);
       setNumPages(item.data.numPages);
       setPage(item.data.currentPage);
     });
-  }, [page, query, reset]);
+  }, [page, query, reset, success]);
 
   const pageChange = (newPage) => {
     getPosts(newPage, query, (data) => {
@@ -125,6 +127,8 @@ const HomePage = () => {
                   isApplied={item.apply.some(
                     (i) => i.iterId === getAuth().userId
                   )}
+                  success={success}
+                  setSuccess={setSuccess}
                 />
               );
             })}

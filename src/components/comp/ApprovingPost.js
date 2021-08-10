@@ -27,6 +27,7 @@ import {
   CModalFooter,
   CInvalidFeedback,
   CTooltip,
+  CBadge,
 } from "@coreui/react";
 import { getPostsComp } from "src/redux/actions/getPostsComp";
 import { setPost } from "src/redux/actions/setPost";
@@ -71,6 +72,8 @@ const ApprovingPost = () => {
     String(new Date().getMonth() + 1).padStart(2, "0") +
     "-" +
     String(new Date().getDate()).padStart(2, "0");
+
+  let count = 1;
   return (
     <CRow>
       <CCol xl={6}>
@@ -78,20 +81,42 @@ const ApprovingPost = () => {
           <CCardBody>
             <CDataTable
               items={posts}
-              fields={["_id", "title", "Actions"]}
+              fields={["No.", "title", "DueDate", "status", "Actions"]}
               hover
               loading={loadingDel || loadingUpdate}
               striped
               itemsPerPage={posts.length}
               scopedSlots={{
+                "No.": (item) => <td>{count++}</td>,
+                DueDate: (item) => <td>{item.endTime}</td>,
+                status: (item) => (
+                  <td>
+                    <CBadge
+                      style={{
+                        padding: "6px 12px 4px",
+                        letterSpacing: 2,
+                        borderRadius: 16,
+                      }}
+                      color="info"
+                    >
+                      PENDING
+                    </CBadge>
+                  </td>
+                ),
                 Actions: (item) => (
                   <td>
                     <CTooltip
                       content="view and update"
                       placement="bottom-start"
                     >
-                      <CButton
-                        color="success"
+                      <i
+                        style={{
+                          fontSize: 22,
+                          padding: 4,
+                          fontWeight: 600,
+                          cursor: "pointer",
+                        }}
+                        className="cil-pen"
                         onClick={() => {
                           const currentPost = {
                             id: item._id,
@@ -119,16 +144,20 @@ const ApprovingPost = () => {
                           setUpdatedPost(currentPost);
                           setOpen(!isOpen);
                         }}
-                      >
-                        <i className="cil-pen"></i>
-                      </CButton>
+                      ></i>
                     </CTooltip>{" "}
                     <CTooltip
                       content="delete this post"
                       placement="bottom-start"
                     >
-                      <CButton
-                        color="danger"
+                      <i
+                        className="cil-trash"
+                        style={{
+                          fontSize: 22,
+                          padding: 4,
+                          fontWeight: 600,
+                          cursor: "pointer",
+                        }}
                         onClick={() => {
                           deletePost(item._id, (data) => {
                             if (data.status === 200) {
@@ -147,9 +176,7 @@ const ApprovingPost = () => {
                             }
                           });
                         }}
-                      >
-                        <i className="cil-trash"></i>
-                      </CButton>
+                      ></i>
                     </CTooltip>
                   </td>
                 ),

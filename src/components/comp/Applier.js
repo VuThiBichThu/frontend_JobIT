@@ -16,6 +16,7 @@ import {
   CLabel,
   CModalFooter,
   CTooltip,
+  CBadge,
 } from "@coreui/react";
 
 import { getAppliers } from "../../redux/actions/getAppliers";
@@ -75,7 +76,6 @@ const Applier = ({ match }) => {
   }, [id]);
 
   const handleGetCV = (cvId) => {
-   
     getCV(cvId, (data) => {
       if (data.status === 200) {
         setOpen(!isOpen);
@@ -101,174 +101,186 @@ const Applier = ({ match }) => {
         zIndex: "9999",
       }}
     >
-    <CRow>
-      <CCol>
-        <CCard className="card-content">
-          <CCardHeader>
-            <p>Post ID: {match.params.id}</p>
+      <CRow>
+        <CCol>
+          <CCard className="card-content">
+            <CCardHeader>
+              <p>Post ID: {match.params.id}</p>
 
-            <span>Post title: {title}</span>
-          </CCardHeader>
-          <CCardBody>
-            {appliers && appliers.length > 0 ? (
-              <div>
-                <table className="table table-striped table-hover">
-                  <thead>
-                    <tr>
-                      <th>Full name</th>
-                      <th>Email</th>
-                      <th>Applied Date</th>
-                      <th>CV</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {appliers &&
-                      appliers.map((applier) => {
-                        let date = new Date(applier.timeApply);
-                        let dd = String(date.getDate()).padStart(2, "0");
-                        let mm = String(date.getMonth() + 1).padStart(2, "0");
-                        let yyyy = date.getFullYear();
-                        let day = dd + "/" + mm + "/" + yyyy;
-                        return (
-                          <tr key={applier._id}>
-                            <td>{applier.name}</td>
-                            <td>{applier.email}</td>
-                            <td>{day}</td>
-                            <td>
-                              <CTooltip
-                                content="view CV"
-                                placement="bottom-start"
-                              >
-                                <CButton
-                                  color="success"
-                                  onClick={() => {
-                                    handleGetCV(applier.cvId);
-                                  }}
+              <span>Post title: {title}</span>
+            </CCardHeader>
+            <CCardBody>
+              {appliers && appliers.length > 0 ? (
+                <div>
+                  <table className="table table-striped table-hover">
+                    <thead>
+                      <tr>
+                        <th>No.</th>
+                        <th>Full name</th>
+                        <th>Email</th>
+                        <th>Applied Date</th>
+                        <th>CV</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {appliers &&
+                        appliers.map((applier, index) => {
+                          let date = new Date(applier.timeApply);
+                          let dd = String(date.getDate()).padStart(2, "0");
+                          let mm = String(date.getMonth() + 1).padStart(2, "0");
+                          let yyyy = date.getFullYear();
+                          let day = dd + "/" + mm + "/" + yyyy;
+                          return (
+                            <tr key={applier._id}>
+                              <td>{++index}</td>
+                              <td>{applier.name}</td>
+                              <td>{applier.email}</td>
+                              <td>{day}</td>
+                              <td>
+                                <CTooltip
+                                  content="view CV"
+                                  placement="bottom-start"
                                 >
-                                  <i className="cil-description"></i>
-                                </CButton>
-                              </CTooltip>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                  </tbody>
-                </table>
-              </div>
-            ) : (
-              <div className="no-result">
-                <h4>This post doesn't have any appliers!</h4>
-              </div>
-            )}
-            <CModal
-              show={isOpen}
-              onClose={() => setOpen(!isOpen)}
-              color="success"
-            >
-              <CModalHeader closeButton>
-                <CModalTitle>{cv.iterId}</CModalTitle>
-              </CModalHeader>
-              <CModalBody>
-                <StyledCV>
-                  <div className="layout-cv">
-                    <CForm action="" method="" className="form-horizontal">
-                      <CRow className="cv-header">
-                        <img
-                          src={cv.image}
-                          alt="avatar"
-                          width=" 200px"
-                          height="200px"
-                          style={{ borderRadius: "50%" }}
-                        ></img>
-                      </CRow>
+                                  <CBadge
+                                    style={{
+                                      padding: "8px 10px 6px",
+                                      letterSpacing: 2,
+                                      cursor: "pointer",
+                                    }}
+                                    color="success"
+                                    onClick={() => {
+                                      handleGetCV(applier.cvId);
+                                    }}
+                                  >
+                                    <i
+                                      className="cil-description"
+                                      style={{
+                                        fontSize: 16,
+                                      }}
+                                    ></i>
+                                  </CBadge>
+                                </CTooltip>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <div className="no-result">
+                  <h4>This post doesn't have any appliers!</h4>
+                </div>
+              )}
+              <CModal
+                show={isOpen}
+                onClose={() => setOpen(!isOpen)}
+                color="success"
+              >
+                <CModalHeader closeButton>
+                  <CModalTitle>{cv.iterId}</CModalTitle>
+                </CModalHeader>
+                <CModalBody>
+                  <StyledCV>
+                    <div className="layout-cv">
+                      <CForm action="" method="" className="form-horizontal">
+                        <CRow className="cv-header">
+                          <img
+                            src={cv.image}
+                            alt="avatar"
+                            width=" 200px"
+                            height="200px"
+                            style={{ borderRadius: "50%" }}
+                          ></img>
+                        </CRow>
 
-                      <CRow className="cv-header mb-2">
-                        <div>
-                          <div style={{ fontSize: "30px" }}>{cv.name}</div>
-                          <div>Birthday: {cv.birthday}</div>
+                        <CRow className="cv-header mb-2">
+                          <div>
+                            <div style={{ fontSize: "30px" }}>{cv.name}</div>
+                            <div>Birthday: {cv.birthday}</div>
 
-                          <div>Email: {cv.email}</div>
-                        </div>
-                      </CRow>
+                            <div>Email: {cv.email}</div>
+                          </div>
+                        </CRow>
 
-                      <CFormGroup row>
-                        <CCol>
-                          <CLabel className="label">Experiences</CLabel>
-                        </CCol>
-                      </CFormGroup>
-                      <hr></hr>
-                      <CFormGroup row>
-                        <CCol>
-                          <pre>{cv.experience}</pre>
-                        </CCol>
-                      </CFormGroup>
-                      <CFormGroup row>
-                        <CCol>
-                          <CLabel className="label">Technical Skills</CLabel>
-                        </CCol>
-                      </CFormGroup>
-                      <hr></hr>
-                      <CFormGroup row>
-                        <CCol>
-                          <ul className="ul-list">
-                            {cv.skill.map((item) => (
-                              <li>{item}</li>
-                            ))}
-                          </ul>
-                        </CCol>
-                      </CFormGroup>
-                      <CFormGroup row>
-                        <CCol>
-                          <CLabel className="label">Soft Skills</CLabel>
-                        </CCol>
-                      </CFormGroup>
-                      <hr></hr>
-                      <CFormGroup row>
-                        <CCol>
-                          <ul className="ul-list">
-                            {softSkill.map((item) => (
-                              <li>{item}</li>
-                            ))}
-                          </ul>
-                        </CCol>
-                      </CFormGroup>
-                      <CFormGroup row>
-                        <CCol>
-                          <CLabel className="label">Descriptions</CLabel>
-                        </CCol>
+                        <CFormGroup row>
+                          <CCol>
+                            <CLabel className="label">Experiences</CLabel>
+                          </CCol>
+                        </CFormGroup>
                         <hr></hr>
-                      </CFormGroup>
-                      <CFormGroup row>
-                        <CCol>
-                          <pre>{cv.description}</pre>
-                        </CCol>
-                      </CFormGroup>
-                      <CFormGroup
-                        row
-                        style={{
-                          background: "#2EB85C",
-                          height: "30px",
-                        }}
-                      ></CFormGroup>
-                    </CForm>
-                  </div>
-                </StyledCV>
-              </CModalBody>
-              <CModalFooter>
-                <CButton
-                  color="secondary"
-                  onClick={() => {
-                    setOpen(!isOpen);
-                  }}
-                >
-                  Cancel
-                </CButton>
-              </CModalFooter>
-            </CModal>
-          </CCardBody>
-        </CCard>
-      </CCol>
-    </CRow>
+                        <CFormGroup row>
+                          <CCol>
+                            <pre>{cv.experience}</pre>
+                          </CCol>
+                        </CFormGroup>
+                        <CFormGroup row>
+                          <CCol>
+                            <CLabel className="label">Technical Skills</CLabel>
+                          </CCol>
+                        </CFormGroup>
+                        <hr></hr>
+                        <CFormGroup row>
+                          <CCol>
+                            <ul className="ul-list">
+                              {cv.skill.map((item) => (
+                                <li>{item}</li>
+                              ))}
+                            </ul>
+                          </CCol>
+                        </CFormGroup>
+                        <CFormGroup row>
+                          <CCol>
+                            <CLabel className="label">Soft Skills</CLabel>
+                          </CCol>
+                        </CFormGroup>
+                        <hr></hr>
+                        <CFormGroup row>
+                          <CCol>
+                            <ul className="ul-list">
+                              {softSkill.map((item) => (
+                                <li>{item}</li>
+                              ))}
+                            </ul>
+                          </CCol>
+                        </CFormGroup>
+                        <CFormGroup row>
+                          <CCol>
+                            <CLabel className="label">Descriptions</CLabel>
+                          </CCol>
+                          <hr></hr>
+                        </CFormGroup>
+                        <CFormGroup row>
+                          <CCol>
+                            <pre>{cv.description}</pre>
+                          </CCol>
+                        </CFormGroup>
+                        <CFormGroup
+                          row
+                          style={{
+                            background: "#2EB85C",
+                            height: "30px",
+                          }}
+                        ></CFormGroup>
+                      </CForm>
+                    </div>
+                  </StyledCV>
+                </CModalBody>
+                <CModalFooter>
+                  <CButton
+                    color="secondary"
+                    onClick={() => {
+                      setOpen(!isOpen);
+                    }}
+                  >
+                    Cancel
+                  </CButton>
+                </CModalFooter>
+              </CModal>
+            </CCardBody>
+          </CCard>
+        </CCol>
+      </CRow>
     </LoadingOverlay>
   );
 };
