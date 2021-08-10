@@ -52,9 +52,10 @@ const ApprovedPost = () => {
             <CDataTable
               items={posts}
               fields={[
-                { key: "_id", _classes: "font-weight-bold" },
+                { key: "No.", _classes: "font-weight-bold" },
                 "companyName",
                 "title",
+                "DueDate",
                 "Actions",
               ]}
               hover
@@ -63,9 +64,12 @@ const ApprovedPost = () => {
               itemsPerPage={take}
               activePage={page}
               scopedSlots={{
+                "No.": (item, index) => <td>{++index}</td>,
+
                 companyName: (item) => (
                   <td>{_.get(item.company[0], "name")}</td>
                 ),
+                DueDate: (item) => <td>{item.endTime}</td>,
                 Actions: (item) => (
                   <td>
                     <CTooltip

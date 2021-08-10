@@ -63,7 +63,7 @@ const ITers = () => {
                 <CDataTable
                   items={iters}
                   fields={[
-                    { key: "_id", _classes: "font-weight-bold" },
+                    { key: "No.", _classes: "font-weight-bold" },
                     "name",
                     "createdAt",
                     "Actions",
@@ -74,6 +74,8 @@ const ITers = () => {
                   itemsPerPage={take}
                   activePage={page}
                   scopedSlots={{
+                    "No.": (item, index) => <td>{++index}</td>,
+
                     createdAt: (item) => (
                       <td>
                         {String(new Date(item.createdAt).getDate()).padStart(

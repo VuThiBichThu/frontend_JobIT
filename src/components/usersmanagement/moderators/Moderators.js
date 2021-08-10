@@ -124,7 +124,7 @@ const Moderators = () => {
   const resetAll = () => {
     document.getElementById("form").reset();
   };
-  
+
   const handleOpen = () => {
     resetAll();
     setPrimary(!primary);
@@ -277,7 +277,7 @@ const Moderators = () => {
                 <CDataTable
                   items={moderators}
                   fields={[
-                    { key: "_id", _classes: "font-weight-bold" },
+                    { key: "No.", _classes: "font-weight-bold" },
                     "userName",
                     "createdAt",
                     "Actions",
@@ -288,6 +288,7 @@ const Moderators = () => {
                   itemsPerPage={take}
                   activePage={page}
                   scopedSlots={{
+                    "No.": (item, index) => <td>{++index}</td>,
                     createdAt: (item) => (
                       <td>
                         {String(new Date(item.createdAt).getDate()).padStart(

@@ -26,6 +26,7 @@ import {
   CForm,
   CLabel,
   CModalFooter,
+  CBadge,
 } from "@coreui/react";
 import { setPostAdmin } from "src/redux/actions/setPostAdmin";
 
@@ -136,9 +137,11 @@ const ApprovingPost = () => {
             <CDataTable
               items={posts}
               fields={[
-                { key: "_id", _classes: "font-weight-bold" },
+                { key: "No.", _classes: "font-weight-bold" },
                 "companyName",
                 "title",
+                "DueDate",
+                // "status",
                 "Actions",
                 "More",
               ]}
@@ -150,11 +153,28 @@ const ApprovingPost = () => {
               itemsPerPage={take}
               activePage={page}
               scopedSlots={{
+                "No.": (item, index) => <td>{++index}</td>,
+
                 companyName: (item) => (
                   <td>{_.get(item.company[0], "name")}</td>
                 ),
+                DueDate: (item) => <td>{item.endTime}</td>,
+                // status: (item) => (
+                //   <td>
+                //     <CBadge
+                //       style={{
+                //         padding: "6px 12px 4px",
+                //         letterSpacing: 2,
+                //         borderRadius: 16,
+                //       }}
+                //       color="info"
+                //     >
+                //       PENDING
+                //     </CBadge>
+                //   </td>
+                // ),
                 Actions: (item) => (
-                  <td md="4" className="py-4" key={"bottom-start"}>
+                  <td key={"bottom-start"}>
                     <CTooltip
                       content="delete this post"
                       placement="bottom-start"

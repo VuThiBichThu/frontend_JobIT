@@ -74,7 +74,7 @@ const Feedbacks = () => {
                   <CDataTable
                     items={feedbacks}
                     fields={[
-                      { key: "_id", _classes: "font-weight-bold" },
+                      { key: "No.", _classes: "font-weight-bold" },
                       "userId",
                       "content",
                       "Actions",
@@ -85,6 +85,8 @@ const Feedbacks = () => {
                     itemsPerPage={take}
                     // activePage={page}
                     scopedSlots={{
+                      "No.": (item, index) => <td>{++index}</td>,
+
                       Actions: (item) => (
                         <td>
                           <CTooltip
