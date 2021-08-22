@@ -14,6 +14,7 @@ import logo from "../assets/images/logo.png";
 
 import { TheHeaderDropdown } from "./index";
 import { useSelector } from "react-redux";
+import TheHeaderDropdownNotif from "./TheHeaderDropdownNotif";
 
 const TheHeaderUser = () => {
   const storeSetInfo = useSelector((store) => store.setInfo);
@@ -89,17 +90,16 @@ const TheHeaderUser = () => {
       </CHeaderNav>
       {getAuth().role ? (
         <CHeaderNav className="px-3">
-          <p>{storeSetInfo.data.name}</p>
+          <TheHeaderDropdownNotif />
+          <p style={{ marginLeft: "16px !important" }}>
+            {storeSetInfo.data.name}
+          </p>
           <TheHeaderDropdown />
         </CHeaderNav>
       ) : (
         <CHeaderNav className="px-3">
           <Link to="/login">
-            <CButton
-              className="px-4 btn--primary"
-            >
-              Login
-            </CButton>
+            <CButton className="px-4 btn--primary">Login</CButton>
           </Link>
         </CHeaderNav>
       )}

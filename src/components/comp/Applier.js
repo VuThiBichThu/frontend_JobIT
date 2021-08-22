@@ -17,6 +17,7 @@ import {
   CModalFooter,
   CTooltip,
   CBadge,
+  CInputRadio,
 } from "@coreui/react";
 
 import { getAppliers } from "../../redux/actions/getAppliers";
@@ -25,6 +26,8 @@ import styled from "styled-components";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import LoadingOverlay from "react-loading-overlay";
+import _ from "lodash";
+import { response } from "src/redux/actions/response";
 
 const StyledCV = styled.div`
   .layout-cv {
@@ -58,6 +61,7 @@ const StyledCV = styled.div`
 `;
 const Applier = ({ match }) => {
   const [appliers, setAppliers] = useState([]);
+  const [statusList, setStatusList] = useState([]);
   const [cv, setCV] = useState({ skill: [] });
   const [title, setTitle] = useState("");
   const [isOpen, setOpen] = useState(false);
@@ -65,15 +69,22 @@ const Applier = ({ match }) => {
   const loadingCV = useSelector((store) => store.getCV.loading);
 
   const id = match.params.id;
+  const [success, setSuccess] = useState(0);
 
   useEffect(() => {
     getAppliers(id, (result) => {
       if (result.applies.length > 0) {
         setAppliers(result.applies);
         setTitle(result.title);
+        setStatusList(
+          result.applies.map((item) => ({
+            iterId: item.iterId,
+            status: item.status,
+          }))
+        );
       }
     });
-  }, [id]);
+  }, [id, success]);
 
   const handleGetCV = (cvId) => {
     getCV(cvId, (data) => {
@@ -89,6 +100,48 @@ const Applier = ({ match }) => {
   };
   const softSkill = cv.softSkill ? cv.softSkill.split(",") : [];
 
+  const isResponse = () => {
+    return (statusList.findIndex((item) => item.status === "agreed" || item.status === "rejected") + 1);
+  };
+
+  const changePermissions = (event) => {
+    const id = event.target.value.slice(0, -1);
+
+    const value = event.target.value.slice(-1);
+    const checkedValue = value === "n" ? "reject" : "agree";
+
+    const tmp = statusList.map((item) => ({
+      ...item,
+      status: item.iterId === id ? checkedValue : item.status,
+    }));
+
+    setStatusList(tmp);
+  };
+
+  const data = {
+    listResponse: statusList,
+  };
+
+  const updateUserPermissionsHandler = (event) => {
+    event.preventDefault();
+
+    response(id, data, (data) => {
+      if (data.status === 200) {
+        setSuccess(success + 1);
+        toast.success("Response successfully !", {
+          position: toast.POSITION.BOTTOM_LEFT,
+        });
+      } else {
+        toast.error("Fail to Response! " + data.msg, {
+          position: toast.POSITION.BOTTOM_LEFT,
+        });
+      }
+    });
+  };
+
+  const cancelUpdatedPermissionsHandler = () => {
+    setSuccess(success + 1);
+  };
   return (
     <LoadingOverlay
       active={loading || loadingCV}
@@ -110,7 +163,7 @@ const Applier = ({ match }) => {
               <span>Post title: {title}</span>
             </CCardHeader>
             <CCardBody>
-              {appliers && appliers.length > 0 ? (
+              {appliers && statusList.length > 0 && appliers.length > 0 ? (
                 <div>
                   <table className="table table-striped table-hover">
                     <thead>
@@ -120,10 +173,13 @@ const Applier = ({ match }) => {
                         <th>Email</th>
                         <th>Applied Date</th>
                         <th>CV</th>
+                        <th>Status</th>
+                        <th>Actions</th>
                       </tr>
                     </thead>
                     <tbody>
                       {appliers &&
+                        statusList &&
                         appliers.map((applier, index) => {
                           let date = new Date(applier.timeApply);
                           let dd = String(date.getDate()).padStart(2, "0");
@@ -132,7 +188,7 @@ const Applier = ({ match }) => {
                           let day = dd + "/" + mm + "/" + yyyy;
                           return (
                             <tr key={applier._id}>
-                              <td>{++index}</td>
+                              <td>{index + 1}</td>
                               <td>{applier.name}</td>
                               <td>{applier.email}</td>
                               <td>{day}</td>
@@ -160,6 +216,77 @@ const Applier = ({ match }) => {
                                     ></i>
                                   </CBadge>
                                 </CTooltip>
+                              </td>
+                              <td>
+                                <CBadge
+                                  style={{
+                                    padding: "6px 12px 4px",
+                                    letterSpacing: 2,
+                                    borderRadius: 16,
+                                  }}
+                                  color={
+                                    _.get(applier, "status") === "pending"
+                                      ? "info"
+                                      : "warning"
+                                  }
+                                >
+                                  {_.get(applier, "status") === "pending"
+                                    ? "PENDING"
+                                    : "RESPONDED"}
+                                </CBadge>
+                              </td>
+                              <td>
+                                {
+                                  <>
+                                    <CFormGroup variant="custom-radio" inline>
+                                      <CInputRadio
+                                        custom
+                                        id={applier.iterId + "y"}
+                                        name={applier.iterId + "name"}
+                                        value={applier.iterId + "y"}
+                                        defaultChecked={
+                                          statusList[index].status === "agreed"
+                                        }
+                                        onChange={changePermissions}
+                                        disabled={
+                                          statusList[index].status ===
+                                            "rejected" ||
+                                          statusList[index].status === "agreed"
+                                        }
+                                      />
+                                      <CLabel
+                                        variant="custom-checkbox"
+                                        htmlFor={applier.iterId + "y"}
+                                      >
+                                        Accept
+                                      </CLabel>
+                                    </CFormGroup>
+                                    <CFormGroup variant="custom-radio" inline>
+                                      <CInputRadio
+                                        custom
+                                        id={applier.iterId + "n"}
+                                        name={applier.iterId + "name"}
+                                        value={applier.iterId + "n"}
+                                        defaultChecked={
+                                          statusList[index].status ===
+                                          "rejected"
+                                        }
+                                        onChange={changePermissions}
+                                        disabled={
+                                          statusList[index].status ===
+                                            "rejected" ||
+                                          statusList[index].status === "agreed"
+                                        }
+                                      />
+                                      <CLabel
+                                        variant="custom-checkbox"
+                                        htmlFor={applier.iterId + "n"}
+                                      >
+                                        Deny
+                                      </CLabel>
+                                    </CFormGroup>
+                                  </>
+                                }
                               </td>
                             </tr>
                           );
@@ -278,6 +405,24 @@ const Applier = ({ match }) => {
                 </CModalFooter>
               </CModal>
             </CCardBody>
+            <div className="flex flex-end">
+              <CButton
+                color="primary"
+                className="mr-1 right-btn"
+                onClick={updateUserPermissionsHandler}
+                disabled={isResponse()}
+              >
+                Save
+              </CButton>
+              <CButton
+                color="warning"
+                className="mr-1 right-btn"
+                onClick={cancelUpdatedPermissionsHandler}
+                disabled={isResponse()}
+              >
+                Cancel
+              </CButton>
+            </div>
           </CCard>
         </CCol>
       </CRow>

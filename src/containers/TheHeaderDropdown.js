@@ -41,6 +41,19 @@ const TheHeaderDropdown = () => {
             Profile
           </Link>
         )}
+
+        {getAuth().role === "iter" ? (
+          <>
+            <CDropdownItem divider />
+            <Link to="/applied-jobs" className="dropdown-item">
+              <CIcon name="cil-task" className="mfe-2" />
+              Applied Jobs
+            </Link>
+          </>
+        ) : (
+          <></>
+        )}
+
         <CDropdownItem divider />
         {getAuth().role === "admin" || getAuth().role === "moderator" ? (
           <CDropdownItem

@@ -26,6 +26,7 @@ import changePassword from "./changePassword";
 import apply from "./apply";
 import getPostsComp from "./getPostsComp";
 import getAppliers from "./getAppliers";
+import getAppliedJobs from "./getAppliedJobs";
 import addPost from "./addPost";
 import getProfile from "./getProfile";
 import updateProfile from "./updateProfile";
@@ -42,6 +43,7 @@ import getFeedback from "./getFeedback";
 import getCompany from "./getCompany";
 import getPostList from "./getPostList";
 import setInfo from "./setInfo";
+import setNoti from "./setNoti";
 import analyzePost from "./analyzePost";
 import analyzeSkill from "./analyzeSkill";
 import analyzeUser from "./analyzeUser";
@@ -51,6 +53,7 @@ import receiveEmail from "./receiveEmail";
 import updatePass from "./updatePass";
 import updatePost from "./updatePost";
 import completePost from "./completePost";
+import response from "./response";
 
 export default combineReducers({
   loginAdmin,
@@ -81,6 +84,7 @@ export default combineReducers({
   apply,
   getPostsComp,
   getAppliers,
+  getAppliedJobs,
   addPost,
   getProfile,
   updateProfile,
@@ -96,6 +100,7 @@ export default combineReducers({
   getCompany,
   getPostList,
   setInfo,
+  setNoti,
   analyzePost,
   analyzeSkill,
   analyzeUser,
@@ -105,4 +110,5 @@ export default combineReducers({
   updatePass,
   updatePost,
   completePost,
+  response
 });

@@ -9,11 +9,19 @@ import {
 import CIcon from "@coreui/icons-react";
 
 const TheHeaderDropdownNotif = () => {
-  const itemsCount = null;
+  const itemsCount = 5;
   return itemsCount ? (
-    <CDropdown inNav className="c-header-nav-item mx-2">
-      <CDropdownToggle className="c-header-nav-link" caret={false}>
-        <CIcon name="cil-bell" />
+    <CDropdown
+      inNav
+      className="c-header-nav-item mx-2"
+      style={{ marginRight: " 16px !important" }}
+    >
+      <CDropdownToggle
+        className="c-header-nav-link"
+        caret={false}
+        style={{ marginRight: " 16px !important" }}
+      >
+        <CIcon name="cil-bell" style={{ color: "white" }} />
         <CBadge shape="pill" color="danger">
           {itemsCount}
         </CBadge>
@@ -38,4 +46,4 @@ const TheHeaderDropdownNotif = () => {
   );
 };
 
-export default TheHeaderDropdownNotif
+export default TheHeaderDropdownNotif;

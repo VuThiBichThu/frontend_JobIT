@@ -2,10 +2,11 @@ import React from "react";
 import { TheSidebar, TheFooter, TheHeader, TheHeaderUser } from "./index";
 import { getAuth } from "../utils/helpers";
 import { CContainer, CFade } from "@coreui/react";
+import { setNoti } from "src/redux/actions/setNoti";
 
 const TheLayout = (Component) => (props) => {
   const auth = getAuth();
-
+  setNoti();
   return auth &&
     auth.token &&
     (auth.role === "admin" || auth.role === "moderator") ? (
@@ -30,7 +31,7 @@ const TheLayout = (Component) => (props) => {
       <div className="c-wrapper">
         <TheHeaderUser />
         <div className="c-body">
-          <main className="c-main"  style={{ paddingTop: "0" }}>
+          <main className="c-main" style={{ paddingTop: "0" }}>
             <CContainer fluid>
               <CFade>
                 <Component {...props} />
