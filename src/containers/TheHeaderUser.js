@@ -49,6 +49,7 @@ const TheHeaderUser = () => {
       </CHeaderNav>
       {getAuth().role ? (
         <CHeaderNav className="px-3">
+           <TheHeaderDropdownNotif />
           <p>{getAuth().name}</p>
           <TheHeaderDropdown />
         </CHeaderNav>

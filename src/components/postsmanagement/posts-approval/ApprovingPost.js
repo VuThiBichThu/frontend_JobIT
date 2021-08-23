@@ -117,10 +117,12 @@ const ApprovingPost = () => {
     approveMultiPosts(selectedPosts, (data) => {
       if (data.status === 200) {
         setSuccess(success + 1);
+        posts.forEach(
+          (item) => (document.getElementById(item._id).checked = false)
+        );
         toast.success("Approve selected posts successfully !", {
           position: toast.POSITION.BOTTOM_LEFT,
         });
-        // window.location.reload();
       } else {
         toast.error("Fail to approve ! " + data.msg, {
           position: toast.POSITION.BOTTOM_LEFT,
