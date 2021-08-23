@@ -105,7 +105,11 @@ const TheHeaderDropdownNotif = () => {
                 cursor: item.title === "New job" ? "pointer" : "default",
                 pointerEvents: item.title === "New job" ? "pointer" : "none",
               }}
-              onClick={() => history.push(`/posts/${item.postId}`)}
+              onClick={() => {
+                // history.push(`/posts/${item.postId}`);
+                const win = window.open(`#/posts/${item.postId}`, "_blank");
+                win.focus();
+              }}
             >
               <img
                 src={item.image}
