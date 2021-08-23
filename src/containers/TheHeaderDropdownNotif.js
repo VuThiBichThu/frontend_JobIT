@@ -69,7 +69,6 @@ const TheHeaderDropdownNotif = () => {
       }
     });
   };
-  console.log(isLoading);
   return (
     <CDropdown
       inNav

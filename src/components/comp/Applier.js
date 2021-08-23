@@ -68,6 +68,8 @@ const Applier = ({ match }) => {
   const loading = useSelector((store) => store.getAppliers.loading);
   const loadingCV = useSelector((store) => store.getCV.loading);
 
+  const loadingResponse = useSelector((store) => store.response.loading);
+
   const id = match.params.id;
   const [success, setSuccess] = useState(0);
 
@@ -101,7 +103,11 @@ const Applier = ({ match }) => {
   const softSkill = cv.softSkill ? cv.softSkill.split(",") : [];
 
   const isResponse = () => {
-    return (statusList.findIndex((item) => item.status === "agreed" || item.status === "rejected") + 1);
+    return (
+      statusList.findIndex(
+        (item) => item.status === "agreed" || item.status === "rejected"
+      ) + 1
+    );
   };
 
   const changePermissions = (event) => {
@@ -410,7 +416,7 @@ const Applier = ({ match }) => {
                 color="primary"
                 className="mr-1 right-btn"
                 onClick={updateUserPermissionsHandler}
-                disabled={isResponse()}
+                disabled={isResponse() || loadingResponse}
               >
                 Save
               </CButton>

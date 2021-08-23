@@ -54,6 +54,7 @@ import updatePass from "./updatePass";
 import updatePost from "./updatePost";
 import completePost from "./completePost";
 import response from "./response";
+import getPostDetail from "./getPostDetail";
 
 export default combineReducers({
   loginAdmin,
@@ -110,5 +111,6 @@ export default combineReducers({
   updatePass,
   updatePost,
   completePost,
-  response
+  response,
+  getPostDetail
 });

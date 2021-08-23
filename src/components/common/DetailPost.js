@@ -19,6 +19,7 @@ import {
   CButton,
   CContainer,
 } from "@coreui/react";
+import { useSelector } from "react-redux";
 
 const StyledCV = styled.div`
   .layout-cv {
@@ -74,17 +75,26 @@ function DetailPost() {
   const [company, setCompany] = useState({});
   const [skill, setSkill] = useState([]);
 
+  const [success, setSuccess] = useState(0);
+  const [isApplied, setIsApplied] = useState(false);
+
   const { id } = useParams();
   const history = useHistory();
+
+  const loading = useSelector((store) => store.apply.loading);
 
   useEffect(() => {
     getPostDetail(id, (item) => {
       setPost(item.post);
       setCompany(item.post.company[0]);
       setSkill(item.post.skill);
+      setIsApplied(
+        item.post.apply.findIndex((item) => item.iterId === getAuth().userId) +
+          1
+      );
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
+  }, [id, success]);
 
   return (
     <StyledCV>
@@ -102,35 +112,44 @@ function DetailPost() {
                         style={{ width: "100%" }}
                       >
                         {post.title}
-                        <CButton
-                          color="danger"
-                          className="btn-apply"
-                          onClick={() => {
-                            if (!getAuth().token) {
-                              history.push("/login");
-                            } else {
-                              if (getAuth().role === "iter") {
-                                apply(post._id, (data) => {
-                                  if (data.status === 200) {
-                                    toast.success("Apply successfully !", {
-                                      position: toast.POSITION.BOTTOM_LEFT,
-                                    });
-                                  } else {
-                                    toast.error("Fail to apply! " + data.msg, {
-                                      position: toast.POSITION.BOTTOM_LEFT,
-                                    });
-                                  }
-                                });
+                        {isApplied ? (
+                          <></>
+                        ) : (
+                          <CButton
+                            color="danger"
+                            className="btn-apply"
+                            disabled={loading}
+                            onClick={() => {
+                              if (!getAuth().token) {
+                                history.push("/login");
                               } else {
-                                toast.warn("Only ITer can apply job! ", {
-                                  position: toast.POSITION.BOTTOM_LEFT,
-                                });
+                                if (getAuth().role === "iter") {
+                                  apply(post._id, (data) => {
+                                    if (data.status === 200) {
+                                      setSuccess(success + 1);
+                                      toast.success("Apply successfully !", {
+                                        position: toast.POSITION.BOTTOM_LEFT,
+                                      });
+                                    } else {
+                                      toast.error(
+                                        "Fail to apply! " + data.msg,
+                                        {
+                                          position: toast.POSITION.BOTTOM_LEFT,
+                                        }
+                                      );
+                                    }
+                                  });
+                                } else {
+                                  toast.warn("Only ITer can apply job! ", {
+                                    position: toast.POSITION.BOTTOM_LEFT,
+                                  });
+                                }
                               }
-                            }
-                          }}
-                        >
-                          Apply Now
-                        </CButton>{" "}
+                            }}
+                          >
+                            Apply Now
+                          </CButton>
+                        )}
                       </div>
                     </CRow>
                     <CRow xs="12" md="12" className="cv-header">
