@@ -202,7 +202,7 @@ const CV = () => {
         }
       )
       .then((response) => {
-        setImage(response.data.url);
+        setImage(response.data.secure_url);
       });
   }, [object, file]);
 
