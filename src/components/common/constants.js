@@ -1,10 +1,8 @@
 export const technicalSkill = [
-  { label: "Android", value: "Android" },
   { label: "C", value: "C" },
   { label: "C++", value: "C++" },
   { label: "C#", value: "C#" },
   { label: "CSS", value: "CSS" },
-  { label: "Database", value: "Database" },
   { label: "Java", value: "Java" },
   { label: "Javascript", value: "Javascript" },
   { label: "Python", value: "Python" },
@@ -16,11 +14,4 @@ export const technicalSkill = [
   { label: "Swift", value: "Swift" },
   { label: "Go", value: "Go" },
   { label: "R", value: "R" },
-  { label: "React", value: "React" },
-  { label: "Angular", value: "Angular" },
-  { label: "Vue", value: "Vue" },
-  { label: ".NET", value: ".NET" },
-  { label: "NodeJS", value: "NodeJS" },
-  { label: "SQL", value: "SQL" },
-  { label: "Testing", value: "Testing" },
 ];
